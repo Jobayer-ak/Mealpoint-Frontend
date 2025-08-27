@@ -1,26 +1,40 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --bg-image: url('/assets/bg.jpg.webp');
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-body: var(--font-josefin-sans);
+  --font-heading: var(--font-josefin-slab);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Josefin font hierarchy - same as TastyCS template */
+:root {
+  --font-primary: var(--font-josefin-sans); /* Body text, navigation, buttons */
+  --font-heading: var(--font-josefin-slab); /* Main headings, titles */
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  @apply min-h-screen bg-fixed bg-cover bg-center;
+  background-image: var(--bg-image);
+  font-family: var(--font-josefin-sans);
 }
+
+body {
+  /* color: #1a2f33;
+  font-size: 18px; */
+  /* font-weight: 400; */
+  background-size: 100%;
+  background-attachment: fixed;
+  box-sizing: border-box;
+}
+
+/* .slider-container,
+.swiper,
+.swiper-wrapper,
+.swiper-slide {
+  margin: 0;
+  padding: 0;
+} */

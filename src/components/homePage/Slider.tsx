@@ -146,15 +146,6 @@ const Slider = ({ slides }: SliderProps) => {
           {/* Choose one of these overlay styles */}
           {/* Option 1: Restaurant warm overlay */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#0f2025]/80 via-[#0f2025]/50 to-[#0f2025]/10"></div>
-
-          {/* Option 2: Warmer brown-black overlay */}
-          {/* <div className="absolute inset-0 bg-gradient-to-r from-amber-900/70 via-black/60 to-transparent"></div> */}
-
-          {/* Option 3: Deep restaurant overlay */}
-          {/* <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-black/60 to-amber-900/40"></div> */}
-
-          {/* Option 4: Classic restaurant overlay */}
-          {/* <div className="absolute inset-0 bg-black/60"></div> */}
         </div>
 
         {/* Animated Image Layer */}
@@ -253,7 +244,7 @@ const Slider = ({ slides }: SliderProps) => {
                   </motion.div>
                   {slide.title && (
                     <motion.h1
-                      className="text-6xl w-1/2 sm:text-5xl lg:text-6xl xl:text-7xl font-weight-700 mb-4 tracking-tight"
+                      className="text-6xl w-1/2 sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-4 tracking-tight"
                       initial={{ opacity: 0, y: 30, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       transition={{
@@ -267,7 +258,7 @@ const Slider = ({ slides }: SliderProps) => {
                   )}
                   {slide.subtitle && (
                     <motion.p
-                      className="mt-2 font-bold w-1/3 drop-shadow-lg max-w-4xl leading-relaxed"
+                      className="mt-2 text-[#9eacb0] font-bold w-1/3 drop-shadow-lg max-w-4xl leading-relaxed"
                       initial={{ opacity: 0, y: 25, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       transition={{

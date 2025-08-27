@@ -25,7 +25,7 @@ const Features = () => {
       </div>
 
       {/* features icons */}
-      <div className="flex justify-between gap-10 mt-20 px-10 mb-20">
+      <div className="flex justify-between gap-10 mt-20 mb-20">
         <div>
           <Icon src="/assets/Features/icon-1.png" alt="icon-1" />
           <SecMainHeader

@@ -92,7 +92,7 @@ const AboutSection = () => {
 
   return (
     <div className="relative bg-white w-full px-10 py-4 rounded-md">
-      <div className="flex justify-between">
+      <div className="flex gap-10 justify-between">
         {/* box shadow of component */}
         <div
           className="absolute top-[-25px]  w-full left-[9px] bg-white/15 rounded-sm z-21"
@@ -239,15 +239,15 @@ const AboutSection = () => {
         <div className="w-1/2 p-8 mt-18">
           <SecHeader
             header={'ABOUT US'}
-            className={'flex gap-3 items-center'}
+            className={'flex gap-3 font-bold items-center text-[#19302d]'}
           />
           <SecMainHeader
             className={
-              'className="text-6xl sm:text-6xl font-bold tracking-tight mt-8 mb-6 leading-none'
+              'className="text-5xl sm:text-5xl text-[#19302d] font-extrabold tracking-wildest mt-8 mb-6'
             }
             content={'We invite you to visit our restaurant'}
           />
-          <SecDescription content={content} className={'mb-6'} />
+          <SecDescription content={content} className={'mb-6 text-[#19302d]'} />
 
           {/* Buttons */}
           <div className="flex gap-8 items-center">
@@ -359,10 +359,9 @@ const AboutSection = () => {
       </AnimatePresence>
 
       {/* Features  Section*/}
-      <div>
-        <div className="mt-20 flex justify-center">
-          <Features />
-        </div>
+
+      <div className="my-20">
+        <Features />
       </div>
     </div>
   );

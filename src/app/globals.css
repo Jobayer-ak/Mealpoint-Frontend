@@ -3,23 +3,34 @@
 
 @theme {
   --bg-image: url('/assets/bg.jpg.webp');
+  --font-family-sans: var(--font-josefin-sans);
+  --font-family-heading: var(--font-playfair-display);
+  --font-family-playfair: var(--font-playfair-display);
 }
 
-@theme inline {
-  --font-body: var(--font-josefin-sans);
-  --font-heading: var(--font-josefin-slab);
-}
-
-/* Josefin font hierarchy - same as TastyCS template */
+/* Font hierarchy with PlayfairDisplay for headings */
 :root {
   --font-primary: var(--font-josefin-sans); /* Body text, navigation, buttons */
-  --font-heading: var(--font-josefin-slab); /* Main headings, titles */
+  --font-heading: var(--font-playfair-display); /* Main headings, titles */
+}
+
+/* Heading styles with PlayfairDisplay */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-playfair-display) !important;
+}
+
+.font-heading {
+  font-family: var(--font-playfair-display) !important;
+}
+
+.font-playfair {
+  font-family: var(--font-playfair-display) !important;
 }
 
 body {
   @apply min-h-screen bg-fixed bg-cover bg-center;
   background-image: var(--bg-image);
-  font-family: var(--font-josefin-sans);
+  /* font-family: var(--font-josefin-sans); */
 }
 
 body {

@@ -7,6 +7,7 @@ import SecDescription from '../Shared/SecDescription';
 import SecHeader from '../Shared/SecHeader';
 import SecMainHeader from '../Shared/SecMainHeader';
 import SocialMediaGroup from '../ui/SocialMediaGroup';
+import Features from './Features';
 
 const AboutSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -90,8 +91,8 @@ const AboutSection = () => {
   };
 
   return (
-    <div className="relative ">
-      <div className=" bg-white w-full px-10 py-4 flex justify-between rounded-md">
+    <div className="relative bg-white w-full px-10 py-4 rounded-md">
+      <div className="flex justify-between">
         {/* box shadow of component */}
         <div
           className="absolute top-[-25px]  w-full left-[9px] bg-white/15 rounded-sm z-21"
@@ -356,6 +357,13 @@ const AboutSection = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Features  Section*/}
+      <div>
+        <div className="mt-20 flex justify-center">
+          <Features />
+        </div>
+      </div>
     </div>
   );
 };

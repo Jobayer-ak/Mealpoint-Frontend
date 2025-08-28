@@ -1,3 +1,4 @@
+import BackgroundLayout from '@/components/layouts/BackgroundLayout';
 import type { Metadata } from 'next';
 import { Josefin_Sans, Josefin_Slab, Playfair_Display } from 'next/font/google';
 import Container from '../components/container/Container';
@@ -35,22 +36,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html 
-      lang="en" 
+    <html
+      lang="en"
       className={`${josefinSans.variable} ${josefinSlab.variable} ${playfairDisplay.variable}`}
     >
       <body className={`${josefinSans.className} antialiased`}>
-        <Container>
-          <div className="relative">
-            <nav className="absolute top-0 z-50 w-full">
-              <Navbar />
-            </nav>
-          </div>
-        </Container>
-        {children}
-        <Container>
-          <h2 className={`${playfairDisplay.className} text-4xl font-bold`}>Footer</h2>
-        </Container>
+        <BackgroundLayout>
+          <Container>
+            <div className="relative">
+              <nav className="absolute top-0 z-50 w-full">
+                <Navbar />
+              </nav>
+            </div>
+          </Container>
+          {children}
+          <Container>
+            <h2 className={`${playfairDisplay.className} text-4xl font-bold`}>
+              Footer
+            </h2>
+          </Container>
+        </BackgroundLayout>
       </body>
     </html>
   );

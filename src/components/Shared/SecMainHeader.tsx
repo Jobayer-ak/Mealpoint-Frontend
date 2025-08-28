@@ -1,6 +1,6 @@
 interface IHeader {
   className: string;
-  content: string;
+  content: React.ReactNode;
 }
 
 const SecMainHeader = ({ className, content }: IHeader) => {

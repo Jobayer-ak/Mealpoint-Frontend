@@ -1,5 +1,6 @@
 import Container from '../container/Container';
 import AboutSection from './AboutSection';
+import MobileAppSection from './MobileAppSection';
 import Slider from './Slider';
 
 const slides = [
@@ -36,6 +37,9 @@ const HomePage = () => {
 
       <Container>
         <AboutSection />
+      </Container>
+      <Container fullWidth>
+        <MobileAppSection />
       </Container>
     </main>
   );

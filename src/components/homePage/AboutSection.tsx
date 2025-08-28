@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Maximize, Play, X } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import ButtonComp from '../Shared/Button';
+import Counters from '../Shared/counters/Counters';
 import SecDescription from '../Shared/SecDescription';
 import SecHeader from '../Shared/SecHeader';
 import SecMainHeader from '../Shared/SecMainHeader';
@@ -367,6 +368,9 @@ const AboutSection = () => {
 
       {/* Working Hours Section */}
       <WorkingHours />
+
+      {/* Coutners */}
+      <Counters />
     </div>
   );
 };

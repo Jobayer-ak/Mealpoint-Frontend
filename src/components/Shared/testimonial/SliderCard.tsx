@@ -1,3 +1,4 @@
+import { RxQuote } from 'react-icons/rx';
 import UserInfo from './UserInfo';
 
 interface SlideCardProps {
@@ -18,27 +19,35 @@ const SlideCard = ({
   border = true,
 }: SlideCardProps) => {
   return (
-    <div
-      className={`w-auto h-[460px] px-10 py-6 rounded-md shadow text-center`}
-      style={{
-        border: border ? '2px dotted rgba(26, 47, 51, 0.2)' : 'none',
-      }}
-    >
-      <h3 className="text-black text-2xl text-left font-extrabold mb-8">
-        {title}
-      </h3>
-
-      <p className="text-pretty text-left mb-4 leading-7">{description}</p>
-
+    <div className="pt-8">
       <div
-        className="mt-4"
+        className="w-auto h-[480px] px-10 pt-10 pb-6 rounded-md shadow text-left relative overflow-visible"
         style={{
-          borderBottom: '2px dotted rgba(26, 47, 51, 0.2)',
-          width: '100%',
+          border: border ? '2px dotted rgba(26, 47, 51, 0.2)' : 'none',
         }}
-      ></div>
+      >
+        {!border && (
+          <RxQuote className="absolute -top-8 right-4 text-[#f29e38] text-6xl" />
+        )}
+        <h3 className="text-black text-2xl font-extrabold mb-8">{title}</h3>
 
-      <UserInfo imageSrc={imageSrc} name={name} date={date} className="mt-4" />
+        <p className="text-pretty mb-4 leading-7">{description}</p>
+
+        <div
+          className="mt-4"
+          style={{
+            borderBottom: '2px dotted rgba(26, 47, 51, 0.2)',
+            width: '100%',
+          }}
+        ></div>
+
+        <UserInfo
+          imageSrc={imageSrc}
+          name={name}
+          date={date}
+          className="mt-4"
+        />
+      </div>
     </div>
   );
 };

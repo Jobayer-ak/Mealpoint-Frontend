@@ -277,7 +277,7 @@ const Testimonials = () => {
           </div>
 
           {/* testimonial slider */}
-          <div className="mt-10">
+          <div className="mt-3">
             <TestimonialSlider />
           </div>
         </div>

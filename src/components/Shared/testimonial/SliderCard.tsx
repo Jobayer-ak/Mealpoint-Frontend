@@ -21,9 +21,10 @@ const SlideCard = ({
   return (
     <div className="pt-8">
       <div
-        className="w-auto h-[480px] px-10 pt-10 pb-6 rounded-md shadow text-left relative overflow-visible"
+        className="h-[480px] px-10 pt-10 pb-6 rounded-md shadow text-left relative overflow-visible"
         style={{
           border: border ? '2px dotted rgba(26, 47, 51, 0.2)' : 'none',
+          boxShadow: border ? 'none' : ' 0 0 10px 10px rgba(0, 128, 0, 0.1)',
         }}
       >
         {!border && (

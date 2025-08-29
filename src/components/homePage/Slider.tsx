@@ -2,9 +2,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import { AnimatePresence, cubicBezier, motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { FaArrowLeftLong, FaArrowRightLong } from 'react-icons/fa6';
 import ButtonComp from '../Shared/Button';
 import SecHeader from '../Shared/SecHeader';
 
@@ -336,7 +336,7 @@ const Slider = ({ slides }: SliderProps) => {
             whileTap={{ scale: 0.9 }}
             transition={{ duration: 0.2 }}
           >
-            <ArrowLeft className="w-8 h-8" strokeWidth={3} />
+            <FaArrowLeftLong size={22} />
           </motion.button>
           <motion.button
             onClick={goToNext}
@@ -347,7 +347,7 @@ const Slider = ({ slides }: SliderProps) => {
             whileTap={{ scale: 0.9 }}
             transition={{ duration: 0.2 }}
           >
-            <ArrowRight className="w-8 h-8" strokeWidth={3} />
+            <FaArrowRightLong size={22} />
           </motion.button>
         </div>
       </div>

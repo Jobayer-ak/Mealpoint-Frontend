@@ -1,8 +1,11 @@
 'use client';
 
-import { Facebook, Instagram, Linkedin } from 'lucide-react';
+import { RiTwitterXLine } from 'react-icons/ri';
+import { RxInstagramLogo } from 'react-icons/rx';
+import { SlSocialLinkedin } from 'react-icons/sl';
+import { TbBrandFacebook } from 'react-icons/tb';
+
 import SocialMediaIcon, { SocialPlatform } from './SocialMediaIcon';
-import XSocialIcon from '../icons/XSocialIcon';
 
 export interface SocialLink {
   platform: SocialPlatform;
@@ -21,17 +24,17 @@ interface SocialMediaGroupProps {
 const gapConfig = {
   sm: 'gap-2',
   md: 'gap-3',
-  lg: 'gap-4'
+  lg: 'gap-4',
 };
 
 const iconMap = {
-  facebook: <Facebook />,
-  instagram: <Instagram />,
-  linkedin: <Linkedin />,
-  twitter: <XSocialIcon />,
+  facebook: <TbBrandFacebook />,
+  instagram: <RxInstagramLogo />,
+  linkedin: <SlSocialLinkedin />,
+  twitter: <RiTwitterXLine />,
   youtube: null, // You can add YouTube icon here
-  tiktok: null,  // You can add TikTok icon here
-  pinterest: null // You can add Pinterest icon here
+  tiktok: null, // You can add TikTok icon here
+  pinterest: null, // You can add Pinterest icon here
 };
 
 const SocialMediaGroup: React.FC<SocialMediaGroupProps> = ({
@@ -39,7 +42,7 @@ const SocialMediaGroup: React.FC<SocialMediaGroupProps> = ({
   size = 'md',
   variant = 'default',
   className = '',
-  gap = 'md'
+  gap = 'md',
 }) => {
   const gapClass = gapConfig[gap];
 
@@ -47,7 +50,7 @@ const SocialMediaGroup: React.FC<SocialMediaGroupProps> = ({
     <div className={`flex items-center ${gapClass} ${className}`}>
       {links.map(({ platform, href, onClick }) => {
         const icon = iconMap[platform];
-        
+
         if (!icon) {
           console.warn(`Icon for platform "${platform}" is not available`);
           return null;

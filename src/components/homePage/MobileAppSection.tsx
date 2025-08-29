@@ -1,6 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
-import AppleIcon from '../icons/AppleIcon';
+import { FaApple, FaGoogle } from 'react-icons/fa';
 import ButtonComp from '../Shared/Button';
 import DarkOverlay from '../Shared/DarkOverlay';
 import SecDescription from '../Shared/SecDescription';
@@ -8,18 +8,6 @@ import SecHeader from '../Shared/SecHeader';
 import SecMainHeader from '../Shared/SecMainHeader';
 
 const MobileAppSection = () => {
-  const google = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 48 48"
-      className="w-6 h-6 mr-2"
-    >
-      <path fill="#FBBC05" d="M0 37V11l17 13z" />
-      <path fill="#EA4335" d="M0 11l17 13 7-6.1L48 14V0H0z" />
-      <path fill="#34A853" d="M0 37l30-23 7.9 1L48 0v48H0z" />
-      <path fill="#4285F4" d="M48 48L17 24l-4-3 35-10z" />
-    </svg>
-  );
   return (
     <div className="relative w-full">
       {/* Background image wrapper */}
@@ -75,7 +63,6 @@ const MobileAppSection = () => {
               <div className="relative z-10">
                 <ButtonComp
                   content="APP STORE"
-                  icon={<AppleIcon className="mr-2 text-white" size={24} />}
                   // icon={
                   //   <div
                   //     style={{
@@ -91,7 +78,12 @@ const MobileAppSection = () => {
                   //     // fill="currentColor"
                   //   ></div>
                   // }
-                  className="text-[#112029] tracking-[2px] font-semibold bg-[#f29e38] py-8 px-10 mt-8 cursor-pointer transition-all duration-200 hover:-translate-y-1 active:translate-y-1"
+                  className="text-[#112029] tracking-[2px] font-semibold bg-[#f29e38] py-8 px-14 mt-8 cursor-pointer transition-all duration-200 hover:-translate-y-1 active:translate-y-1"
+                />
+
+                <FaApple
+                  size={21}
+                  className="absolute bottom-[26px] left-7 text-[#0e2028]"
                 />
               </div>
 
@@ -116,8 +108,11 @@ const MobileAppSection = () => {
               <div className="relative z-10">
                 <ButtonComp
                   content={'PLAY MARKET'}
-                  icon={google}
-                  className="text-[#112029] font-semibold tracking-[2px] bg-[#f29e38] py-8 px-10 mt-8 cursor-pointer transition-all duration-200 hover:translate-y-[-1px] active:translate-y-[1px]"
+                  className="text-[#112029] font-semibold tracking-[2px] bg-[#f29e38] py-8 px-14 mt-8 cursor-pointer transition-all duration-200 hover:translate-y-[-1px] active:translate-y-[1px]"
+                />
+                <FaGoogle
+                  size={19}
+                  className="absolute bottom-[24px] left-7 text-[#0e2028]"
                 />
               </div>
 

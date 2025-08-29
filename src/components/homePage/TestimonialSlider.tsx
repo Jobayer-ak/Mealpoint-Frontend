@@ -1,4 +1,5 @@
 'use client';
+import { useEffect, useState } from 'react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -8,6 +9,13 @@ import ButtonComp from '../Shared/Button';
 import SlideCard from '../Shared/testimonial/SliderCard';
 
 const TestimonialSlider = ({}) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null; // Prevent SSR render
   const items = [
     {
       title: 'Heading for all',
@@ -66,6 +74,8 @@ const TestimonialSlider = ({}) => {
         spaceBetween={30}
         loop={true}
         centeredSlides
+        observer={true}
+        observeParents={true}
         pagination={{ clickable: true }}
         navigation={false}
         autoplay={

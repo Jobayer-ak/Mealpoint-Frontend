@@ -1,6 +1,7 @@
 import Container from '../container/Container';
 import AboutSection from './AboutSection';
 import MobileAppSection from './MobileAppSection';
+import NewsLetter from './NewsLetter';
 import Slider from './Slider';
 import Testimonials from './Testimonials';
 
@@ -44,6 +45,7 @@ const HomePage = () => {
       </Container>
       <Container>
         <Testimonials />
+        <NewsLetter />
       </Container>
     </main>
   );

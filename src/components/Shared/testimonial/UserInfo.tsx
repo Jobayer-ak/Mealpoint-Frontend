@@ -17,7 +17,7 @@ const UserInfo: React.FC<UserInfoProps> = ({
 }) => {
   return (
     <div
-      className={`flex items-center gap-4 p-4 transition-shadow duration-300 ${
+      className={`flex items-center gap-4 py-4 px-2 transition-shadow duration-300 ${
         active ? 'shadow-xl rounded-2xl' : ''
       } ${className}`}
     >
@@ -31,7 +31,7 @@ const UserInfo: React.FC<UserInfoProps> = ({
         />
       </div>
       <h4 className="font-semibold">{name}</h4>
-      <p className="text-gray-500 text-sm bg-[#e5e7e8] rounded-4xl px-3 pt-1 ">
+      <p className="text-gray-500 text-sm font-extralight bg-[#e5e7e8] rounded-4xl px-3 pt-1 ms-3">
         {date}
       </p>
     </div>

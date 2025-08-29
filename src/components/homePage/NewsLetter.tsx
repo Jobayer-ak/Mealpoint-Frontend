@@ -4,6 +4,7 @@ import HorizontalLine from '../Shared/featuresIcons/HorizontalLine';
 import SecDescription from '../Shared/SecDescription';
 import SecHeader from '../Shared/SecHeader';
 import SecMainHeader from '../Shared/SecMainHeader';
+import NewsLetterBanner from './NewsLetterBanner';
 
 const NewsLetter = () => {
   const description =
@@ -17,7 +18,7 @@ const NewsLetter = () => {
             header={'NEWS LETTER'}
             className={'items-center'}
             headerClass={'mt-4 font-bold tracking-[4px] text-[#19302d]'}
-            spanClass="ms-12"
+            spanClass="ms-14"
           />
           <SecMainHeader
             className="text-5xl text-[#19302d] font-extrabold mt-8"
@@ -37,14 +38,20 @@ const NewsLetter = () => {
           <BlogCard
             src="/assets/news-letter-images/blog-4.jpg"
             alt="blog-image"
+            heading="Business Breakfast"
+            desc="Consectetur adipisicing elit. Soluta, impedit, saepe. Unde minima distinctio officiis amet temporibus, consequuntur dolorem dicta"
           />
           <BlogCard
             src="/assets/news-letter-images/blog-5.jpg"
             alt="blog-image"
+            heading="Pancakes in Chocolate"
+            desc="Consectetur adipisicing elit. Soluta, impedit, saepe. Unde minima distinctio officiis amet temporibus, consequuntur dolorem dicta"
           />
           <BlogCard
             src="/assets/news-letter-images/blog-6.jpg"
             alt="blog-image"
+            heading="Tuna & Tomatoes"
+            desc="Consectetur adipisicing elit. Soluta, impedit, saepe. Unde minima distinctio officiis amet temporibus, consequuntur dolorem dicta"
           />
         </div>
       </div>
@@ -63,6 +70,9 @@ const NewsLetter = () => {
 
       {/* Horizontal line */}
       <HorizontalLine />
+
+      {/* News Letter Banner */}
+      <NewsLetterBanner />
 
       {/* shadow bottom of component */}
       <div

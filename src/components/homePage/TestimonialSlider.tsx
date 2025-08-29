@@ -1,68 +1,324 @@
 'use client';
-import React from 'react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import ButtonComp from '../Shared/Button';
+import SlideCard from '../Shared/testimonial/SliderCard';
 
-type CarouselProps = {
-  items: React.ReactNode[];
-  slidesPerView?: number;
-  spaceBetween?: number;
-  loop?: boolean;
-  autoplay?: boolean;
-  pagination?: boolean;
-  navigation?: boolean;
-  className?: string;
-};
+const TestimonialSlider = ({}) => {
+  // const items = [
+  //   <div
+  //     className="w-auto h-[460px] px-10  py-6   rounded-md shadow text-center bor"
+  //     style={{
+  //       border: '2px dotted rgba(26, 47, 51, 0.2)',
+  //     }}
+  //   >
+  //     <h3 className="text-black text-2xl text-left font-extrabold mb-8">
+  //       Heading for all
+  //     </h3>
+  //     <p className="text-pretty text-left mb-4 leading-7">
+  //       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia
+  //       odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Sed
+  //       ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+  //       doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
+  //     </p>
 
-const TestimonialSlider: React.FC<CarouselProps> = ({
-  items,
-  slidesPerView = 3,
-  spaceBetween = 30,
-  loop = false,
-  autoplay = false,
-  pagination = true,
-  navigation = false,
-  className = '',
-}) => {
+  //     {/* <HorizontalLine /> */}
+  //     <div
+  //       className="mt-4"
+  //       style={{
+  //         borderBottom: '2px dotted rgba(26, 47, 51, 0.2)',
+  //         width: '100%',
+  //       }}
+  //     ></div>
+
+  //     {/* user info */}
+  //     <UserInfo
+  //       imageSrc="/assets/Testimonial-slider-images/face-1.jpg"
+  //       name="John Doe"
+  //       date="29.08.2025"
+  //       className="mt-4"
+  //     />
+  //   </div>,
+  //   <div
+  //     className="w-auto h-[460px] px-10  py-6 rounded-md shadow text-center bor"
+  //     style={{
+  //       border: '2px dotted rgba(26, 47, 51, 0.2)',
+  //     }}
+  //   >
+  //     <h3 className="text-black text-2xl text-left font-extrabold mb-8">
+  //       Heading for all
+  //     </h3>
+  //     <p className="text-pretty text-left mb-4 leading-7">
+  //       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia
+  //       odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Sed
+  //       ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+  //       doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
+  //     </p>
+
+  //     {/* <HorizontalLine /> */}
+  //     <div
+  //       className="mt-4"
+  //       style={{
+  //         borderBottom: '2px dotted rgba(26, 47, 51, 0.2)',
+  //         width: '100%',
+  //       }}
+  //     ></div>
+
+  //     {/* user info */}
+  //     <UserInfo
+  //       imageSrc="/assets/Testimonial-slider-images/face-1.jpg"
+  //       name="John Doe"
+  //       date="29.08.2025"
+  //       className="mt-4"
+  //     />
+  //   </div>,
+  //   <div
+  //     className="w-auto h-[460px] px-10  py-6   rounded-md shadow text-center bor"
+  //     style={{
+  //       border: '2px dotted rgba(26, 47, 51, 0.2)',
+  //     }}
+  //   >
+  //     <h3 className="text-black text-2xl text-left font-extrabold mb-8">
+  //       Heading for all
+  //     </h3>
+  //     <p className="text-pretty text-left mb-4 leading-7">
+  //       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia
+  //       odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Sed
+  //       ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+  //       doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
+  //     </p>
+
+  //     {/* <HorizontalLine /> */}
+  //     <div
+  //       className="mt-4"
+  //       style={{
+  //         borderBottom: '2px dotted rgba(26, 47, 51, 0.2)',
+  //         width: '100%',
+  //       }}
+  //     ></div>
+
+  //     {/* user info */}
+  //     <UserInfo
+  //       imageSrc="/assets/Testimonial-slider-images/face-1.jpg"
+  //       name="John Doe"
+  //       date="29.08.2025"
+  //       className="mt-4"
+  //     />
+  //   </div>,
+
+  //   <div
+  //     className="w-auto h-[460px] px-10  py-6   rounded-md shadow text-center bor"
+  //     style={{
+  //       border: '2px dotted rgba(26, 47, 51, 0.2)',
+  //     }}
+  //   >
+  //     <h3 className="text-black text-2xl text-left font-extrabold mb-8">
+  //       Heading for all
+  //     </h3>
+  //     <p className="text-pretty text-left mb-4 leading-7">
+  //       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia
+  //       odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Sed
+  //       ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+  //       doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
+  //     </p>
+
+  //     {/* <HorizontalLine /> */}
+  //     <div
+  //       className="mt-4"
+  //       style={{
+  //         borderBottom: '2px dotted rgba(26, 47, 51, 0.2)',
+  //         width: '100%',
+  //       }}
+  //     ></div>
+
+  //     {/* user info */}
+  //     <UserInfo
+  //       imageSrc="/assets/Testimonial-slider-images/face-1.jpg"
+  //       name="John Doe"
+  //       date="29.08.2025"
+  //       className="mt-4"
+  //     />
+  //   </div>,
+  //   <div
+  //     className="w-auto h-[460px] px-10  py-6   rounded-md shadow text-center bor"
+  //     style={{
+  //       border: '2px dotted rgba(26, 47, 51, 0.2)',
+  //     }}
+  //   >
+  //     <h3 className="text-black text-2xl text-left font-extrabold mb-8">
+  //       Heading for all
+  //     </h3>
+  //     <p className="text-pretty text-left mb-4 leading-7">
+  //       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia
+  //       odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Sed
+  //       ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+  //       doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
+  //     </p>
+
+  //     {/* <HorizontalLine /> */}
+  //     <div
+  //       className="mt-4"
+  //       style={{
+  //         borderBottom: '2px dotted rgba(26, 47, 51, 0.2)',
+  //         width: '100%',
+  //       }}
+  //     ></div>
+
+  //     {/* user info */}
+  //     <UserInfo
+  //       imageSrc="/assets/Testimonial-slider-images/face-1.jpg"
+  //       name="John Doe"
+  //       date="29.08.2025"
+  //       className="mt-4"
+  //     />
+  //   </div>,
+  //   <div
+  //     className="w-auto h-[460px] px-10  py-6   rounded-md shadow text-center bor"
+  //     style={{
+  //       border: '2px dotted rgba(26, 47, 51, 0.2)',
+  //     }}
+  //   >
+  //     <h3 className="text-black text-2xl text-left font-extrabold mb-8">
+  //       Heading for all
+  //     </h3>
+  //     <p className="text-pretty text-left mb-4 leading-7">
+  //       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia
+  //       odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Sed
+  //       ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+  //       doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
+  //     </p>
+
+  //     {/* <HorizontalLine /> */}
+  //     <div
+  //       className="mt-4"
+  //       style={{
+  //         borderBottom: '2px dotted rgba(26, 47, 51, 0.2)',
+  //         width: '100%',
+  //       }}
+  //     ></div>
+
+  //     {/* user info */}
+  //     <UserInfo
+  //       imageSrc="/assets/Testimonial-slider-images/face-1.jpg"
+  //       name="John Doe"
+  //       date="29.08.2025"
+  //       className="mt-4"
+  //     />
+  //   </div>,
+  // ];
+
+  // items.ts
+  const items = [
+    {
+      title: 'Heading for all',
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo',
+      imageSrc: '/assets/Testimonial-slider-images/face-1.jpg',
+      name: 'John Doe',
+      date: '29.08.2025',
+    },
+    {
+      title: 'Heading for all',
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo',
+      imageSrc: '/assets/Testimonial-slider-images/face-1.jpg',
+      name: 'John Doe',
+      date: '29.08.2025',
+    },
+    {
+      title: 'Heading for all',
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo',
+      imageSrc: '/assets/Testimonial-slider-images/face-1.jpg',
+      name: 'John Doe',
+      date: '29.08.2025',
+    },
+    {
+      title: 'Heading for all',
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo',
+      imageSrc: '/assets/Testimonial-slider-images/face-1.jpg',
+      name: 'John Doe',
+      date: '29.08.2025',
+    },
+    {
+      title: 'Heading for all',
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo',
+      imageSrc: '/assets/Testimonial-slider-images/face-1.jpg',
+      name: 'John Doe',
+      date: '29.08.2025',
+    },
+    {
+      title: 'Heading for all',
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo',
+      imageSrc: '/assets/Testimonial-slider-images/face-1.jpg',
+      name: 'John Doe',
+      date: '29.08.2025',
+    },
+  ];
+
   return (
     <div className="relative pb-3">
-      {' '}
-      {/* ✅ Add padding-bottom to container */}
-      <Swiper
-        slidesPerView={slidesPerView}
-        spaceBetween={spaceBetween}
-        loop={loop}
+      {/* <Swiper
+        slidesPerView={3}
+        spaceBetween={30}
+        loop={false}
         centeredSlides={true}
-        pagination={pagination ? { clickable: true } : false}
-        navigation={navigation}
+        pagination={true ? { clickable: true } : false}
+        navigation={false}
         autoplay={
-          autoplay ? { delay: 3000, disableOnInteraction: false } : undefined
+          false ? { delay: 3000, disableOnInteraction: false } : undefined
         }
         modules={[Pagination, Navigation, Autoplay]}
-        className={`${className} relative`}
+        className="h-[580px] relative"
       >
         {items.map((item, index) => (
           <SwiperSlide key={index}>
             {({ isActive }) => (
               <div
                 className={`transition-transform duration-300 min-h-[460px] b-10 flex flex-col justify-between
-                  ${
-                    isActive
-                      ? 'shadow-xl rounded-2xl border-0'
-                      : 'opacity-70 border-0'
-                  }
+                  ${isActive ? 'shadow-xl rounded-2xl' : 'opacity-70'}
                 `}
               >
-                {item}
+                {<>{item}</>}
               </div>
             )}
           </SwiperSlide>
         ))}
+      </Swiper> */}
+      <Swiper
+        slidesPerView={3}
+        spaceBetween={30}
+        centeredSlides
+        pagination={{ clickable: true }}
+        navigation={false}
+        autoplay={
+          false ? { delay: 3000, disableOnInteraction: false } : undefined
+        }
+        modules={[Pagination, Navigation, Autoplay]}
+        className="h-[580px] relative"
+      >
+        {items.map((item, index) => (
+          <SwiperSlide key={index}>
+            {({ isActive }) => (
+              <SlideCard
+                title={item.title}
+                description={item.description}
+                imageSrc="/assets/Testimonial-slider-images/face-1.jpg"
+                name="John Doe"
+                date="29.08.2025"
+                border={!isActive} // 🔑 remove border when active
+              />
+            )}
+          </SwiperSlide>
+        ))}
       </Swiper>
+
       {/* Pagination wrapper - absolutely inside container */}
       <div className="absolute top-7 w-full flex justify-center z-50 pointer-events-none">
         <style jsx global>{`

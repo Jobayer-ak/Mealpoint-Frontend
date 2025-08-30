@@ -93,7 +93,7 @@ const TestimonialSlider = ({}) => {
                 imageSrc="/assets/Testimonial-slider-images/face-1.jpg"
                 name="John Doe"
                 date="29.08.2025"
-                border={!isActive} // 🔑 remove border when active
+                border={!isActive} //  remove border when active
               />
             )}
           </SwiperSlide>

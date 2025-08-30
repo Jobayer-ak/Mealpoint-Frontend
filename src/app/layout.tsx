@@ -2,6 +2,7 @@ import BackgroundLayout from '@/components/layouts/BackgroundLayout';
 import type { Metadata } from 'next';
 import { Josefin_Sans, Josefin_Slab, Playfair_Display } from 'next/font/google';
 import Container from '../components/container/Container';
+import Footer from '../components/footer/Footer';
 import Navbar from '../components/navigationMenu/Navbar';
 import './globals.css';
 
@@ -51,9 +52,7 @@ export default function RootLayout({
           </Container>
           {children}
           <Container>
-            <h2 className={`${playfairDisplay.className} text-4xl font-bold`}>
-              Footer
-            </h2>
+            <Footer />
           </Container>
         </BackgroundLayout>
       </body>

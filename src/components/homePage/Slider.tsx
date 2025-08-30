@@ -258,7 +258,7 @@ const Slider = ({ slides }: SliderProps) => {
                   )}
                   {slide.subtitle && (
                     <motion.p
-                      className="mt-2 text-[#9eacb0] font-bold w-1/3 drop-shadow-lg max-w-4xl leading-relaxed"
+                      className="mt-2 text-[#9eacb0] font-semibold w-1/3 drop-shadow-lg max-w-4xl leading-relaxed"
                       initial={{ opacity: 0, y: 25, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       transition={{

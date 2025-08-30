@@ -1,8 +1,10 @@
 /* eslint-disable react/jsx-key */
 'use client';
-import { Menu, ShoppingCart, X } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
+import { CiMenuFries } from 'react-icons/ci';
+import { MdOutlineShoppingCart } from 'react-icons/md';
+import { RxCross1 } from 'react-icons/rx';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -48,13 +50,13 @@ const Navbar = () => {
               Reservation
             </button>
             <button className="text-gray-600 hover:text-yellow-500">
-              <ShoppingCart size={24} />
+              <MdOutlineShoppingCart size={24} />
             </button>
             <button
               className="lg:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {isMenuOpen ? <RxCross1 size={24} /> : <CiMenuFries size={24} />}
             </button>
           </div>
         </div>

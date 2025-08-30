@@ -1,6 +1,6 @@
 const DarkOverlay = () => {
   return (
-    <div className="absolute inset-0 bg-gradient-to-r from-[#0f2025]/50 via-[#0f2025]/40 to-[#0f2025]/10" />
+    <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#0f2025]/50 via-[#0f2025]/40 to-[#0f2025]/10" />
   );
 };
 

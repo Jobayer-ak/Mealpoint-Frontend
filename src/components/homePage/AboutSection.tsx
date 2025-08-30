@@ -1,7 +1,9 @@
 'use client';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Maximize, Play, X } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
+import { FaPlay } from 'react-icons/fa';
+import { FiMaximize } from 'react-icons/fi';
+import { RxCross1 } from 'react-icons/rx';
 import ButtonComp from '../Shared/Button';
 import Counters from '../Shared/counters/Counters';
 import SecDescription from '../Shared/SecDescription';
@@ -178,7 +180,7 @@ const AboutSection = () => {
                         '0 0 0 3px rgba(255,255,255,0.3), 0 0 20px rgba(255,255,255,0.4)',
                     }}
                   >
-                    <Play
+                    <FaPlay
                       className="w-6 h-6 text-black ml-0.5 transition-colors duration-300"
                       fill="currentColor"
                     />
@@ -233,7 +235,7 @@ const AboutSection = () => {
               whileTap={{ scale: 0.9 }}
               aria-label="Open video in fullscreen"
             >
-              <Maximize className="w-4 h-4 text-white group-hover/expand:text-amber-400 transition-colors duration-300" />
+              <FiMaximize className="w-4 h-4 text-white group-hover/expand:text-amber-400 transition-colors duration-300" />
             </motion.button>
           </div>
         </div>
@@ -252,7 +254,7 @@ const AboutSection = () => {
           <SecDescription content={content} className={'mb-6 text-[#19302d]'} />
 
           {/* Buttons */}
-          <div className="flex gap-8 items-center">
+          <div className="flex justify-between items-center">
             <ButtonComp
               content={'READ MORE'}
               className={
@@ -340,7 +342,7 @@ const AboutSection = () => {
                 transition={{ delay: 0.2 }}
                 style={{ pointerEvents: 'auto' }}
               >
-                <X className="w-6 h-6 text-white group-hover/close:text-red-400 transition-colors duration-300" />
+                <RxCross1 className="w-6 h-6 text-white group-hover/close:text-red-400 transition-colors duration-300" />
               </motion.button>
             </motion.div>
 

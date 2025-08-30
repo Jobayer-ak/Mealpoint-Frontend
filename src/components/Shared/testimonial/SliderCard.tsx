@@ -32,7 +32,9 @@ const SlideCard = ({
         )}
         <h3 className="text-black text-2xl font-extrabold mb-8">{title}</h3>
 
-        <p className="text-pretty mb-4 leading-7">{description}</p>
+        <p className="text-pretty text-md font-light mb-4 leading-7">
+          {description}
+        </p>
 
         <div
           className="mt-4"

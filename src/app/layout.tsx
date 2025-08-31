@@ -44,7 +44,7 @@ export default function RootLayout({
       <body className={`${josefinSans.className} antialiased`}>
         <BackgroundLayout>
           {/* Navbar fixed at top */}
-          <header className="fixed top-0 left-0 z-50 w-full bg-transparent">
+          <header className="fixed top-0 left-0 z-40 w-full bg-transparent">
             <Container>
               <Navbar />
             </Container>

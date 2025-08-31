@@ -6,7 +6,7 @@ import Footer from '../components/footer/Footer';
 import Navbar from '../components/navigationMenu/Navbar';
 import './globals.css';
 
-// Josefin fonts - same as TastyCS template
+// Josefin fonts
 const josefinSans = Josefin_Sans({
   subsets: ['latin'],
   display: 'swap',
@@ -19,7 +19,7 @@ const josefinSlab = Josefin_Slab({
   variable: '--font-josefin-slab',
 });
 
-// PlayfairDisplay for headings
+// Playfair Display for headings
 const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
   display: 'swap',
@@ -33,9 +33,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html
       lang="en"
@@ -43,17 +43,22 @@ export default function RootLayout({
     >
       <body className={`${josefinSans.className} antialiased`}>
         <BackgroundLayout>
-          <Container>
-            <div className="relative">
-              <nav className="absolute top-0 z-50 w-full">
-                <Navbar />
-              </nav>
-            </div>
-          </Container>
-          {children}
-          <Container>
-            <Footer />
-          </Container>
+          {/* Navbar fixed at top */}
+          <header className="fixed top-0 left-0 z-50 w-full bg-transparent">
+            <Container>
+              <Navbar />
+            </Container>
+          </header>
+
+          {/* Main Content */}
+          <main className="pt-20">{children}</main>
+
+          {/* Footer */}
+          <footer>
+            <Container>
+              <Footer />
+            </Container>
+          </footer>
         </BackgroundLayout>
       </body>
     </html>

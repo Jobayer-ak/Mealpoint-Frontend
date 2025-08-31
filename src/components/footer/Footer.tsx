@@ -150,7 +150,7 @@ const Footer = () => {
           <p className="text-[#758589] text-right text-md font-light">
             <span className="text-2xl align-middle">&copy;</span> Meal Point
             2025 . All rights reserved. Design by
-            <span className="text-[#f29e38]">Md. Jobayer Akanda</span>
+            <span className="text-[#f29e38]"> Md. Jobayer Akanda</span>
           </p>
 
           <ButtonComp

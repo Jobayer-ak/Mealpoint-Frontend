@@ -15,7 +15,12 @@
 }
 
 /* Heading styles with PlayfairDisplay */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-playfair-display) !important;
 }
 
@@ -41,6 +46,8 @@ body {
   background-attachment: fixed;
   box-sizing: border-box;
 }
+
+/* Add to your global CSS */
 
 /* .slider-container,
 .swiper,

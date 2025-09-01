@@ -4,11 +4,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { FaPlay } from 'react-icons/fa';
 import { FiMaximize } from 'react-icons/fi';
 import { RxCross1 } from 'react-icons/rx';
+import BottomShadow from '../Shared/BottomShadow';
 import ButtonComp from '../Shared/Button';
 import Counters from '../Shared/counters/Counters';
 import SecDescription from '../Shared/SecDescription';
 import SecHeader from '../Shared/SecHeader';
 import SecMainHeader from '../Shared/SecMainHeader';
+import TopShadow from '../Shared/TopShadow';
 import WorkingHours from '../Shared/workingHours/WorkingHours';
 import SocialMediaGroup from '../ui/SocialMediaGroup';
 import Features from './Features';
@@ -98,14 +100,8 @@ const AboutSection = () => {
     <div className="relative bg-white w-full px-22 py-4 rounded-md">
       <div className="flex gap-10 justify-between">
         {/* box shadow of component */}
-        <div
-          className="absolute top-[-25px]  w-full left-[9px] bg-white/15 rounded-sm z-21"
-          style={{
-            width: 'calc(100% - 20px)',
-            height: '15px',
-            transform: 'translateY(15px)',
-          }}
-        ></div>
+        <TopShadow />
+
         {/* Shadow for next section */}
         <div className="absolute bg-white w-[80px] h-[90px] rounded-full z-22 top-[-42px] left-1/2 transform -translate-x-1/2">
           <div className="w-[20px] h-[35px] bg-white/10 rounded-xl border-2 border-[#54575a] flex m-auto mt-[14px] relative overflow-hidden">
@@ -118,7 +114,7 @@ const AboutSection = () => {
                 duration: 1.2,
                 repeat: Infinity,
                 ease: 'easeInOut',
-                repeatDelay: 0,
+                repeatDelay: 0.5,
               }}
             />
           </div>
@@ -375,14 +371,7 @@ const AboutSection = () => {
       <Counters />
 
       {/* Bottom shadow - same as top shadow */}
-      <div
-        className="absolute bottom-[-25px] w-full left-[9px] bg-white/15 rounded-md z-21"
-        style={{
-          width: 'calc(100% - 20px)',
-          height: '15px',
-          transform: 'translateY(-15px)',
-        }}
-      ></div>
+      <BottomShadow />
     </div>
   );
 };

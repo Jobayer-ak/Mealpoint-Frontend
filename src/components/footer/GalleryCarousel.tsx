@@ -28,17 +28,16 @@ const GalleryCarousel: React.FC<GalleryCarouselProps> = ({
 }) => {
   const [apiInstance, setApiInstance] = useState<CarouselApi>();
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
-  const total = images.length;
   const carouselRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  // const res = zoom ? 1 : 0;
+
   const [zoomLevel, setZoomLevel] = useState(1);
 
-  // Wrap-around navigation
+  // Smooth next/prev navigation
   const handleNext = () => {
     if (!apiInstance) return;
-    if (currentIndex === total - 1) {
-      apiInstance.scrollTo(0, true); // go to first slide
+    if (currentIndex === images.length - 1) {
+      apiInstance.scrollTo(0, true);
       setCurrentIndex(0);
       onSelect && onSelect(0);
     } else {
@@ -49,76 +48,69 @@ const GalleryCarousel: React.FC<GalleryCarouselProps> = ({
   const handlePrev = () => {
     if (!apiInstance) return;
     if (currentIndex === 0) {
-      apiInstance.scrollTo(total - 1, true); // go to last slide
-      setCurrentIndex(total - 1);
-      onSelect && onSelect(total - 1);
+      apiInstance.scrollTo(images.length - 1, true);
+      setCurrentIndex(images.length - 1);
+      onSelect && onSelect(images.length - 1);
     } else {
       apiInstance.scrollPrev();
     }
   };
 
-  // ✅ Toggle Fullscreen
-  const toggleFullscreen = () => {
-    if (!carouselRef.current) return;
-    if (!document.fullscreenElement) {
-      carouselRef.current.requestFullscreen();
-    } else {
-      document.exitFullscreen();
-    }
-  };
-
-  // ✅ Toggle Zoom
-  const toggleZoom = () => {
-    setZoomLevel((prev) => (prev === 1 ? 1.5 : 1)); // switch between normal and zoomed
-  };
-
+  // Reset zoom when slide changes
   useEffect(() => {
     if (!apiInstance) return;
 
-    // scroll to initialIndex
     apiInstance.scrollTo(initialIndex, true);
 
-    // sync index on select
     apiInstance.on('select', () => {
       const index = apiInstance.selectedScrollSnap();
       setCurrentIndex(index);
       onSelect && onSelect(index);
-      setZoomLevel(1); // reset zoom when changing slide
+      setZoomLevel(1);
     });
 
     setApi && setApi(apiInstance);
-
-    // Listen for fullscreen change
-    const handleFullScreenChange = () => {
-      setIsFullscreen(Boolean(document.fullscreenElement));
-    };
-    document.addEventListener('fullscreenchange', handleFullScreenChange);
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFullScreenChange);
-    };
   }, [apiInstance, initialIndex, onSelect, setApi]);
 
   return (
     <div
       ref={carouselRef}
-      className="w-full max-w-5xl flex justify-center items-center relative"
+      className="w-full max-w-5xl flex justify-center items-center relative overflow-hidden"
+      style={
+        {
+          // scrollBehavior: 'smooth', // makes programmatic scrolling smooth
+        }
+      }
     >
-      <Carousel setApi={setApiInstance} opts={{ align: 'center', loop: false }}>
+      <Carousel
+        setApi={setApiInstance}
+        opts={{
+          align: 'center',
+          loop: true,
+        }}
+        className="w-full"
+      >
         <CarouselContent>
           {images.map((src, idx) => (
             <CarouselItem
               key={`carousel-item-${idx}`}
-              className="flex justify-center items-center w-full h-[70vh]"
+              className={`flex justify-center items-center w-full h-[70vh] transition-transform duration-300 ease-in-out`}
             >
-              <div className="relative w-full h-full flex justify-center items-center overflow-hidden">
+              <div
+                className={`relative w-full h-full flex justify-center items-center overflow-hidden ${
+                  zoom
+                    ? 'fixed top-0 left-0 z-[9999] w-screen h-screen bg-black'
+                    : ''
+                }`}
+              >
                 <Image
                   src={src}
                   alt={`gallery-${idx}`}
-                  width={1000}
-                  height={800}
-                  className={`h-[80vh] w-auto object-contain transition-transform duration-500 ease-in-out`}
+                  fill
+                  className={`object-contain`}
                   style={{
-                    transform: zoom ? 'scale(1.5)' : 'scale(1)',
+                    transform:
+                      zoom && idx === currentIndex ? 'scale(1.5)' : 'scale(1)',
                   }}
                 />
               </div>
@@ -127,18 +119,18 @@ const GalleryCarousel: React.FC<GalleryCarouselProps> = ({
         </CarouselContent>
 
         {/* Prev/Next buttons */}
-        {/* <button
+        <button
           onClick={handlePrev}
-          className="absolute left-4 top-1/2 cursor-pointer -translate-y-1/2 transition-all duration-300 text-white hover:bg-[#f29e38] px-3 py-2 rounded"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-50 text-white hover:bg-[#f29e38] px-3 py-2 rounded transition-all duration-300"
         >
-          <IoArrowBackOutline />
+          &#8592;
         </button>
         <button
           onClick={handleNext}
-          className="absolute cursor-pointer right-4 top-1/2 -translate-y-1/2 text-white transition-all duration-300 hover:bg-[#f29e38] px-3 py-2 rounded"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-50 text-white hover:bg-[#f29e38] px-3 py-2 rounded transition-all duration-300"
         >
-          <IoArrowForwardOutline />
-        </button> */}
+          &#8594;
+        </button>
       </Carousel>
     </div>
   );

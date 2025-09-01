@@ -2,6 +2,7 @@ import HorizontalLine from '../Shared/featuresIcons/HorizontalLine';
 import SecDescription from '../Shared/SecDescription';
 import SecHeader from '../Shared/SecHeader';
 import SecMainHeader from '../Shared/SecMainHeader';
+import TopShadow from '../Shared/TopShadow';
 import TestimonialSlider from './TestimonialSlider';
 
 const Testimonials = () => {
@@ -247,14 +248,7 @@ const Testimonials = () => {
   return (
     <div className="relative bg-white px-18 py-15 rounded-t-md w-full min-h-screen">
       {/* box shadow top of component */}
-      <div
-        className="absolute top-[-25px]  w-full left-[9px] bg-white/15 rounded-sm z-21"
-        style={{
-          width: 'calc(100% - 20px)',
-          height: '15px',
-          transform: 'translateY(15px)',
-        }}
-      ></div>
+      <TopShadow />
 
       <div className="">
         <div className="mb-14">

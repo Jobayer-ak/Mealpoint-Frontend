@@ -12,7 +12,7 @@ export default function Container({
   fullWidth = false,
 }: ContainerProps) {
   if (fullWidth) {
-    return <div className={`w-full ${className}`}>{children}</div>;
+    return <div className={`w-full pt-0 ${className}`}>{children}</div>;
   }
 
   return (

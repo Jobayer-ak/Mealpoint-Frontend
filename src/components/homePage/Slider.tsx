@@ -5,7 +5,7 @@ import { AnimatePresence, cubicBezier, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { FaArrowLeftLong, FaArrowRightLong } from 'react-icons/fa6';
-import ButtonComp from '../Shared/Button';
+import ButtonComp from '../Shared/ButtonComp';
 import SecHeader from '../Shared/SecHeader';
 
 interface Slide {

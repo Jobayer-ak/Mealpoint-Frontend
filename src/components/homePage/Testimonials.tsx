@@ -266,7 +266,7 @@ const Testimonials = () => {
             />
             <SecDescription
               content={description}
-              className="mt-8 text-[#19302d] w-1/3 mx-auto text-center"
+              className="mt-8 text-[#19302d] w-1/3 text-center"
             />
           </div>
 

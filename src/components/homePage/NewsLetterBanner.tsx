@@ -1,4 +1,4 @@
-import ButtonComp from '../Shared/Button';
+import ButtonComp from '../Shared/ButtonComp';
 import SecDescription from '../Shared/SecDescription';
 import SecHeader from '../Shared/SecHeader';
 import SecMainHeader from '../Shared/SecMainHeader';

@@ -5,7 +5,7 @@ import { FaPlay } from 'react-icons/fa';
 import { FiMaximize } from 'react-icons/fi';
 import { RxCross1 } from 'react-icons/rx';
 import BottomShadow from '../Shared/BottomShadow';
-import ButtonComp from '../Shared/Button';
+import ButtonComp from '../Shared/ButtonComp';
 import Counters from '../Shared/counters/Counters';
 import SecDescription from '../Shared/SecDescription';
 import SecHeader from '../Shared/SecHeader';

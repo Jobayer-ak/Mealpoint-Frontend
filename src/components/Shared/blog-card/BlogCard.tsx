@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import ButtonComp from '../Button';
+import ButtonComp from '../ButtonComp';
 import UserInfo from '../testimonial/UserInfo';
 
 interface ICard {

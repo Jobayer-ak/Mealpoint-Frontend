@@ -51,7 +51,7 @@ export default function RootLayout({
           </header>
 
           {/* Main Content */}
-          <main className="pt-20">{children}</main>
+          <main className="">{children}</main>
 
           {/* Footer */}
           <footer>

@@ -1,4 +1,4 @@
-import ButtonComp from '../Shared/Button';
+import ButtonComp from '../Shared/ButtonComp';
 import DarkOverlay from '../Shared/DarkOverlay';
 import SecDescription from '../Shared/SecDescription';
 import SecMainHeader from '../Shared/SecMainHeader';

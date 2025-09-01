@@ -1,4 +1,4 @@
-import ButtonComp from '../Button';
+import ButtonComp from '../ButtonComp';
 import HorizontalLine from '../featuresIcons/HorizontalLine';
 import SecDescription from '../SecDescription';
 import SecHeader from '../SecHeader';

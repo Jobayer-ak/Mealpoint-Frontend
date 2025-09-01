@@ -1,7 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import { FaApple, FaGoogle } from 'react-icons/fa';
-import ButtonComp from '../Shared/Button';
+import ButtonComp from '../Shared/ButtonComp';
 import DarkOverlay from '../Shared/DarkOverlay';
 import SecDescription from '../Shared/SecDescription';
 import SecHeader from '../Shared/SecHeader';

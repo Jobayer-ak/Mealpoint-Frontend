@@ -1,5 +1,11 @@
+import AboutBanner from './AboutBanner';
+
 const AboutPage = () => {
-  return <div></div>;
+  return (
+    <div className="">
+      <AboutBanner />
+    </div>
+  );
 };
 
 export default AboutPage;

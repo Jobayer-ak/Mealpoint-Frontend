@@ -1,6 +1,6 @@
 import AboutPage from '../../components/aboutPage/AboutPage';
 
-const About = () => {
+const AboutUs = () => {
   return (
     <div>
       <AboutPage />
@@ -8,4 +8,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default AboutUs;

@@ -6,7 +6,7 @@ interface IContent {
 const SecDescription = ({ content, className }: IContent) => {
   return (
     <div className={className}>
-      <p>{content}</p>
+      <p className="">{content}</p>
     </div>
   );
 };

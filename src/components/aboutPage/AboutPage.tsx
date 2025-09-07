@@ -1,15 +1,22 @@
 'use client';
 import { motion } from 'framer-motion';
+import Features from '../homePage/Features';
+import NewsLetter from '../homePage/NewsLetter';
+import Testimonials from '../homePage/Testimonials';
 import BottomShadow from '../Shared/BottomShadow';
+import Counters from '../Shared/Counters';
 import TopShadow from '../Shared/TopShadow';
+import WorkingHours from '../Shared/workingHours/WorkingHours';
 import AboutBanner from './AboutBanner';
 import AboutVideo from './AboutVideo';
+import ReservationSection from './ReservationSection';
+import Team from './Team';
 
 const AboutPage = () => {
   return (
     <div className="">
       <AboutBanner />
-      <div className="mx-18 mt-15 bg-white rounded-md py-15 relative">
+      <div className="mx-8 px-18 mt-15 bg-white rounded-md pt-15 relative">
         {/* Top shadow */}
         <TopShadow />
 
@@ -40,9 +47,39 @@ const AboutPage = () => {
           }}
         ></div>
 
+        {/* video */}
         <AboutVideo />
 
+        {/* Features section */}
+        <Features />
+
+        {/* Team */}
+        <Team />
+
+        {/* Working hours */}
+        <WorkingHours />
+
+        {/* Counters */}
+        <Counters />
+
         {/* bootm shadow */}
+        <BottomShadow />
+      </div>
+
+      {/* Reservation */}
+      <ReservationSection />
+
+      <div className="mx-8 bg-white rounded-md pb-15 relative">
+        {/* Top Shadow of section */}
+        <TopShadow />
+
+        {/* Testimonials */}
+        <Testimonials />
+
+        {/* News Letter */}
+        <NewsLetter />
+
+        {/* Bottom shadow */}
         <BottomShadow />
       </div>
     </div>

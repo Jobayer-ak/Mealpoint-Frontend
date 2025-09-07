@@ -35,7 +35,7 @@ const AboutVideo = () => {
   ];
 
   return (
-    <div className="px-8 rounded-md">
+    <div className="rounded-md relative">
       {/* text conent */}
       <div className="justify-items-center">
         <SecHeader

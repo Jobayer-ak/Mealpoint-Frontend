@@ -6,7 +6,7 @@ import { FiMaximize } from 'react-icons/fi';
 import { RxCross1 } from 'react-icons/rx';
 import BottomShadow from '../Shared/BottomShadow';
 import ButtonComp from '../Shared/ButtonComp';
-import Counters from '../Shared/counters/Counters';
+import Counters from '../Shared/Counters';
 import SecDescription from '../Shared/SecDescription';
 import SecHeader from '../Shared/SecHeader';
 import SecMainHeader from '../Shared/SecMainHeader';

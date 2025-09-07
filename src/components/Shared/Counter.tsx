@@ -1,11 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 
 interface CounterProps {
-  number: number;
-  headingContent: string;
+  end: number;
+  headingContent?: string; // optional to prevent undefined errors
+  suffix?: string;
+  prefix?: string;
 }
 
-const Counter = ({ number, headingContent }: CounterProps) => {
+const Counter = ({
+  end,
+  headingContent = '',
+  suffix,
+  prefix,
+}: CounterProps) => {
   const [count, setCount] = useState(0);
   const counterRef = useRef<HTMLDivElement>(null);
   const [hasStarted, setHasStarted] = useState(false);
@@ -27,15 +34,15 @@ const Counter = ({ number, headingContent }: CounterProps) => {
 
             // Easing function
             const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-            const currentCount = Math.floor(easeOutQuart * number);
+            const currentCount = Math.floor(easeOutQuart * end);
 
             setCount(currentCount);
 
             if (progress >= 1) {
-              setCount(number);
+              setCount(end);
               clearInterval(timer);
             }
-          }, 16); // 60 FPS
+          }, 16);
 
           return () => clearInterval(timer);
         }
@@ -43,21 +50,18 @@ const Counter = ({ number, headingContent }: CounterProps) => {
       { threshold: 0.5 }
     );
 
-    if (node) {
-      observer.observe(node);
-    }
+    if (node) observer.observe(node);
 
     return () => {
-      if (node) {
-        observer.unobserve(node);
-      }
+      if (node) observer.unobserve(node);
     };
-  }, [number, hasStarted]);
+  }, [end, hasStarted]);
 
   return (
     <div className="text-center">
-      {/* Number with counting animation only */}
       <div ref={counterRef} className="flex justify-center items-baseline">
+        {prefix && <span className="text-[#f29e38] me-2">{prefix}</span>}
+
         <h2 className="text-5xl text-[#19302d] font-extrabold">
           {count.toLocaleString()}
         </h2>
@@ -66,14 +70,13 @@ const Counter = ({ number, headingContent }: CounterProps) => {
           className={`text-[#f29e38] ms-2 ${
             headingContent.toLowerCase().includes('feedback')
               ? 'text-4xl'
-              : 'text-5xl' // Make + symbol bigger to match % visually
+              : 'text-5xl'
           }`}
         >
-          {headingContent.toLowerCase().includes('feedback') ? '%' : '+'}
+          {suffix}
         </span>
       </div>
 
-      {/* Static Heading */}
       <p className="mt-5 uppercase text-md font-semibold text-[#19302d] opacity-80 tracking-wide">
         {headingContent}
       </p>

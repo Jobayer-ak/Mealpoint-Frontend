@@ -55,9 +55,7 @@ export default function RootLayout({
 
           {/* Footer */}
           <footer>
-            <Container>
-              <Footer />
-            </Container>
+            <Footer />
           </footer>
         </BackgroundLayout>
       </body>

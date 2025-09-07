@@ -19,8 +19,8 @@ const Iframe = () => {
   }, []);
 
   return (
-    <div>
-      <div className="w-full px-8 relative group">
+    <div className="mb-12">
+      <div className="w-full relative group">
         <div className="relative h-[550px] bg-gray-900 rounded-md overflow-hidden shadow-2xl mt-12">
           {/* Thumbnail */}
           <div

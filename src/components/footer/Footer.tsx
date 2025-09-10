@@ -7,14 +7,14 @@ import FooterSlider from './FooterSlider';
 
 const Footer = () => {
   return (
-    <div className="relative w-full px-18 pt-15">
+    <div className="relative w-full px-3 xl:px-18 pt-15">
       {/* Dark overlay */}
       <DarkOverlay />
 
       {/* Main content of Footer */}
       <div>
         {/* social media icos and logo */}
-        <div className="mb-16 flex justify-between items-center">
+        <div className="mb-9 md:mb-16 flex justify-between items-center">
           {/* Logo */}
           <div>
             <h2 className="text-white font-extrabold text-4xl">Meal Point</h2>
@@ -59,9 +59,9 @@ const Footer = () => {
         ></div>
 
         {/* ########################################################### */}
-        <div className="flex justify-between gap-8 justify-items-center py-18">
+        <div className="flex flex-col gap-8 md:flex-row md:justify-between md:gap-8 md:justify-items-center py-9 md:py-18">
           {/* left side of content */}
-          <div className="w-1/3">
+          <div className="w-full md:w-1/3">
             <SecMainHeader
               content="About Us"
               className="text-white text-2xl font-extrabold"
@@ -73,12 +73,12 @@ const Footer = () => {
 
             <ButtonComp
               content="Read More"
-              className="text-[#f29e38] uppercase text-md ps-0 cursor-pointer mt-16 "
+              className="text-[#f29e38] uppercase text-md ps-0 cursor-pointer mt-4 md:mt-16 "
             />
           </div>
 
           {/* Middle content */}
-          <div className="w-1/3">
+          <div className="w-full md:w-1/3">
             <SecMainHeader
               content="Contact Info"
               className="text-white text-2xl font-extrabold"
@@ -113,12 +113,12 @@ const Footer = () => {
 
             <ButtonComp
               content="contact us"
-              className="text-[#f29e38] uppercase text-md cursor-pointer mt-11 ps-0"
+              className="text-[#f29e38] uppercase text-md cursor-pointer mt-4 md:mt-11 ps-0"
             />
           </div>
 
           {/* Right content */}
-          <div className="w-1/3">
+          <div className="w-full md:w-1/3">
             <SecMainHeader
               content="Gallery"
               className="text-white text-2xl font-extrabold mb-7"
@@ -146,16 +146,19 @@ const Footer = () => {
         ></div>
 
         {/* copy right */}
-        <div className="flex justify-between items-center my-12">
-          <p className="text-[#758589] text-right text-md font-light">
+        <div className="flex flex-col md:flex-row justify-between my-10 md:my-12">
+          <p className="text-[#758589] ms-0 p-0 text-left md:text-right text-md font-light">
             <span className="text-2xl align-middle">&copy;</span> Meal Point
             2025 . All rights reserved. Design by
-            <span className="text-[#f29e38]"> Md. Jobayer Akanda</span>
+            <span className="text-[#f29e38] ms-3 md:ms-0">
+              {' '}
+              Md. Jobayer Akanda
+            </span>
           </p>
 
           <ButtonComp
             content="Back To Top"
-            className="text-[#f29e38] uppercase text-md pr-0 cursor-pointer"
+            className="text-[#f29e38] uppercase text-md pr-0 cursor-pointer flex justify-end md: flex-none"
           />
         </div>
         <div></div>

@@ -11,7 +11,7 @@ const NewsLetter = () => {
   const description =
     'Porro eveniet, autem ipsam corrupti consectetur cum. Repudiandae dignissimos fugiat sit nam';
   return (
-    <div className="relative w-full min-h-screen px-18 py-10 rounded-b-md bg-white mt-8 ">
+    <div className="relative w-full min-h-screen px-19 py-10 rounded-b-md bg-white mt-8 ">
       {/* text contents */}
       <div>
         <div className="justify-items-center">

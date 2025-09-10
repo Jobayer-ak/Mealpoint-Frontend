@@ -97,7 +97,7 @@ const AboutSection = () => {
   };
 
   return (
-    <div className="relative bg-white w-full px-22 py-4 rounded-md">
+    <div className="relative bg-white w-full px-20 py-4 rounded-md">
       <div className="flex gap-10 justify-between">
         {/* box shadow of component */}
         <TopShadow />

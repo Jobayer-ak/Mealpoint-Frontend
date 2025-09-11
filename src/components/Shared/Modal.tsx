@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import * as Dialog from '@radix-ui/react-dialog';
 import Image from 'next/image';
-import { SetStateAction, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { BiSolidZoomIn, BiSolidZoomOut } from 'react-icons/bi';
 import { IoClose } from 'react-icons/io5';
 import { MdFullscreen, MdOutlineShare } from 'react-icons/md';
-import GalleryCarousel from '../footer/GalleryCarousel';
+import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 
 interface GalleryModalProps {
   images: string[];
@@ -23,6 +25,7 @@ const Modal: React.FC<GalleryModalProps> = ({
   const [zoom, setZoom] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const modalRef = useRef<HTMLDivElement>(null);
+  const transformRef = useRef<any>(null);
 
   // Fullscreen toggle
   const toggleFullscreen = () => {
@@ -31,76 +34,102 @@ const Modal: React.FC<GalleryModalProps> = ({
     else modalRef.current.requestFullscreen();
   };
 
+  // Toggle zoom from top-right button
+  const toggleZoom = () => {
+    if (!transformRef.current) return;
+    if (zoom) {
+      transformRef.current.resetTransform();
+      setZoom(false);
+    } else {
+      transformRef.current.zoomIn(2); // zoom to 2x
+      setZoom(true);
+    }
+  };
+
+  // Handle image click (Google Photos / Instagram style)
+  const handleImageClick = () => {
+    if (!transformRef.current) return;
+    if (zoom) {
+      transformRef.current.resetTransform();
+      setZoom(false);
+    } else {
+      transformRef.current.zoomIn(2);
+      setZoom(true);
+    }
+  };
+
   return (
-    <div className="w-full min-h-screen">
-      <Dialog.Root open={open} onOpenChange={setOpen}>
-        <Dialog.Trigger asChild>{triggerElement}</Dialog.Trigger>
-        <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 bg-black/80 z-40" />
-          <Dialog.Content
-            ref={modalRef}
-            className="fixed inset-0 flex items-center justify-center z-50"
-          >
-            {/* Top-right controls - always visible */}
-            <div className="absolute top-4 right-6 flex gap-4 text-white text-2xl z-[1000]">
-              <Dialog.Close asChild>
-                <button className="cursor-pointer hover:text-gray-300 ">
-                  <IoClose />
-                </button>
-              </Dialog.Close>
+    <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Trigger asChild>{triggerElement}</Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 bg-black/80 z-40" />
+        <Dialog.Content
+          ref={modalRef}
+          className="fixed inset-0 flex items-center justify-center z-50"
+        >
+          {/* Top-right controls */}
+          <div className="absolute top-4 right-6 flex gap-4 text-white text-2xl z-[1000]">
+            <Dialog.Close asChild>
               <button className="cursor-pointer hover:text-gray-300">
-                <MdOutlineShare />
+                <IoClose />
               </button>
-              <button
-                onClick={() => setZoom((z) => !z)}
-                className="cursor-pointer hover:text-gray-300"
-              >
-                {zoom ? <BiSolidZoomOut /> : <BiSolidZoomIn />}
-              </button>
-              <button
-                onClick={toggleFullscreen}
-                className="cursor-pointer hover:text-gray-300"
-              >
-                <MdFullscreen />
-              </button>
+            </Dialog.Close>
+            <button className="cursor-pointer hover:text-gray-300">
+              <MdOutlineShare />
+            </button>
+            <button
+              onClick={toggleZoom}
+              className="cursor-pointer hover:text-gray-300"
+            >
+              {zoom ? <BiSolidZoomOut /> : <BiSolidZoomIn />}
+            </button>
+            <button
+              onClick={toggleFullscreen}
+              className="cursor-pointer hover:text-gray-300"
+            >
+              <MdFullscreen />
+            </button>
+          </div>
+
+          {/* Top-left counter */}
+          {!zoom && (
+            <div className="absolute top-4 left-6 text-white text-lg font-semibold z-50">
+              {currentIndex + 1}/{images.length}
             </div>
+          )}
 
-            {/* Top-left counter - only when not zoomed */}
-            {!zoom && (
-              <div className="absolute top-4 left-6 text-white text-lg font-semibold z-50">
-                {currentIndex + 1}/{images.length}
+          {/* Zoomable Image */}
+          <TransformWrapper
+            ref={transformRef}
+            minScale={1}
+            maxScale={4}
+            centerOnInit
+            limitToBounds
+            wheel={{ step: 0.1 }}
+            doubleClick={{ disabled: true }}
+            pinch={{ disabled: false }}
+            panning={{ disabled: false }}
+          >
+            <TransformComponent>
+              <div className="flex items-center justify-center w-full h-full">
+                <Image
+                  src={images[currentIndex]}
+                  alt={`zoomed-${currentIndex}`}
+                  width={1200}
+                  height={800}
+                  // 👇 Dynamic height depending on zoom state
+                  className={`object-contain max-w-full select-none cursor-zoom-in transition-all duration-300 ${
+                    zoom ? 'max-h-screen' : 'max-h-[70vh]'
+                  }`}
+                  priority
+                  onClick={handleImageClick}
+                />
               </div>
-            )}
-
-            {/* Fullscreen Zoom Overlay with Next.js Image */}
-            {zoom && (
-              <div className="fixed inset-0 z-[999] bg-black flex items-center justify-center">
-                <div className="relative w-full h-full flex items-center justify-center">
-                  <Image
-                    src={images[currentIndex]}
-                    alt={`zoomed-${currentIndex}`}
-                    fill
-                    style={{ objectFit: 'contain' }}
-                    sizes="100vw"
-                    priority
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* Normal Carousel */}
-            {!zoom && (
-              <GalleryCarousel
-                images={images}
-                initialIndex={currentIndex}
-                zoom={false} // no zoom inside carousel
-                onSelect={(idx: SetStateAction<number>) => setCurrentIndex(idx)}
-              />
-            )}
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog.Root>
-    </div>
+            </TransformComponent>
+          </TransformWrapper>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 };
 

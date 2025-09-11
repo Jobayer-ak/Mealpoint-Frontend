@@ -47,13 +47,13 @@ const HomePage = () => {
 
       {/* <Container>
         <AboutSection />
-      </Container>
-      <Container fullWidth>
+      </Container> */}
+      {/* <Container fullWidth>
         <MobileAppSection />
       </Container>
       <Container>
         <Testimonials />
-        <NewsLetter />
+        <NewsLetter /> 
       </Container> */}
     </main>
   );

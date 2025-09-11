@@ -107,7 +107,7 @@ const TestimonialSlider = ({}) => {
       </Swiper>
 
       {/* Pagination wrapper - absolutely inside container */}
-      <div className="absolute top-7 w-full flex justify-center z-50 pointer-events-none">
+      <div className="absolute top-7 w-full z-50 pointer-events-none">
         <style jsx global>{`
           .swiper-pagination {
             pointer-events: auto;
@@ -121,6 +121,14 @@ const TestimonialSlider = ({}) => {
           .swiper-pagination-bullet-active {
             opacity: 1;
             background: #f29e38;
+          }
+
+          @media (max-width: 768px) {
+            .swiper-pagination {
+              text-align: right !important;
+              right: 16px !important;
+              left: auto !important;
+            }
           }
         `}</style>
       </div>

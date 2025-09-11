@@ -5,7 +5,7 @@ import SecMainHeader from '../Shared/SecMainHeader';
 
 const NewsLetterBanner = () => {
   return (
-    <div className="h-[447px] w-full rounded-md relative overflow-hidden mt-15 mb-10">
+    <div className="h-[580px] md:h-[500px] lg:h-[447px] w-full rounded-md relative px-0 md:px-4 overflow-hidden mt-15 mb-10">
       <div
         className="absolute inset-0 bg-cover bg-bottom transform scale-102"
         style={{
@@ -24,7 +24,9 @@ const NewsLetterBanner = () => {
           spanClass="ms-9 mb-6"
         />
         <SecMainHeader
-          className={'text-white text-6xl font-extrabold mt-6'}
+          className={
+            'text-white text-4xl md:text-5xl lg:text-6xl font-extrabold mt-6'
+          }
           content={'Subscribe our news letter'}
         />
         <SecDescription
@@ -35,7 +37,7 @@ const NewsLetterBanner = () => {
         />
 
         {/* Input + Button row */}
-        <form className="mt-14 flex justify-center items-center gap-4 max-w-lg mx-auto">
+        <form className="mt-14 flex flex-col gap-7 md:flex-row justify-center items-center md:gap-4 max-w-lg mx-auto">
           <input
             type="email"
             placeholder="Enter your email"

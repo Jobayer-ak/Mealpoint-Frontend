@@ -11,10 +11,10 @@ const NewsLetter = () => {
   const description =
     'Porro eveniet, autem ipsam corrupti consectetur cum. Repudiandae dignissimos fugiat sit nam';
   return (
-    <div className="relative w-full min-h-screen px-19 py-10 rounded-b-md bg-white mt-8 ">
+    <div className="relative w-full min-h-screen px-3 lg:px-19 py-10 rounded-b-md bg-white mt-8 ">
       {/* text contents */}
       <div>
-        <div className="justify-items-center">
+        <div className="flex flex-col gap-6 justify-center items-center text-center">
           <SecHeader
             header={'NEWS LETTER'}
             className={'items-center'}
@@ -22,19 +22,23 @@ const NewsLetter = () => {
             spanClass="ms-14"
           />
           <SecMainHeader
-            className="text-5xl text-[#19302d] font-extrabold mt-8"
-            content="What Our Visitors Say"
+            className="text-4xl md:text-5xl text-[#19302d] font-extrabold"
+            content={
+              <>
+                Use the tips <br></br> and recipes of our chefs
+              </>
+            }
           />
           <SecDescription
             content={description}
-            className="mt-8 text-[#19302d] w-1/3 mx-auto text-center"
+            className="text-[#19302d] w-full lg:w-1/3 mx-auto text-center"
           />
         </div>
       </div>
 
       {/* blog card */}
       <div className="mt-12">
-        <div className="w-full flex flex-col-3 gap-8">
+        <div className="w-full flex flex-col lg:flex-row gap-8">
           {/* card */}
           <BlogCard
             src="/assets/news-letter-images/blog-4.jpg"
@@ -58,7 +62,7 @@ const NewsLetter = () => {
       </div>
 
       {/* button and text line  */}
-      <div className="flex justify-between items-center mt-9 mb-14">
+      <div className="flex flex-col gap-8 lg:flex-row justify-between items-center mt-9 mb-14">
         <p className="font-extralight text-gray-600 leading-7 tracking-wide antialiased">
           Read the news of our restaurant, recipes for delicious fears, tips for
           your home kitchen in our blog!

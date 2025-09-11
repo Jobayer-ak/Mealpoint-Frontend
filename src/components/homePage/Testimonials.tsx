@@ -246,7 +246,7 @@ const Testimonials = () => {
   // ];
 
   return (
-    <div className="relative bg-white px-3 lg:px-19 pt-15 rounded-t-md w-full min-h-screen">
+    <div className="relative bg-white px-3 lg:px-19 py-15 rounded-t-md w-full min-h-screen">
       {/* box shadow top of component */}
       <TopShadow />
 

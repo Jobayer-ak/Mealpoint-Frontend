@@ -7,6 +7,7 @@ import { RxCross1 } from 'react-icons/rx';
 import BottomShadow from '../Shared/BottomShadow';
 import ButtonComp from '../Shared/ButtonComp';
 import Counters from '../Shared/Counters';
+import HorizontalLine from '../Shared/featuresIcons/HorizontalLine';
 import SecDescription from '../Shared/SecDescription';
 import SecHeader from '../Shared/SecHeader';
 import SecMainHeader from '../Shared/SecMainHeader';
@@ -98,7 +99,7 @@ const AboutSection = () => {
 
   return (
     <div className="relative bg-white w-full px-4 lg:px-20 py-4 rounded-md">
-      <div className="flex flex-col-reverse gap-10 lg:flex lg:flex-row lg:justify-between lg:gap-10">
+      <div className="flex flex-col-reverse gap-10 lg:flex lg:flex-row lg:justify-between lg:gap-10 pb-15">
         {/* box shadow of component */}
         <TopShadow />
 
@@ -359,8 +360,10 @@ const AboutSection = () => {
         )}
       </AnimatePresence>
 
-      {/* Features  Section*/}
+      {/* Horizontal line */}
+      <HorizontalLine />
 
+      {/* Features  Section*/}
       <div className="my-10 md:my-20">
         <Features />
       </div>

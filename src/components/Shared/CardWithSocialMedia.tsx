@@ -14,14 +14,14 @@ const CardWithSocialMedia = ({ src, heading, desc }: ICard) => {
     <div className="w-full max-w-sm rounded-md overflow-hidden shadow-lg bg-white hover:shadow-xl transition-all duration-300 pb-6">
       {/* Image */}
 
-      <div className="relative w-full h-100 overflow-hidden group">
+      <div className="relative w-full h-100 md:h-60 lg:h-100 overflow-hidden group">
         <Image
           src={src}
           alt="Chef Image"
           fill
           quality={100}
           className="object-cover object-top transform transition-transform duration-500 ease-out group-hover:scale-110"
-          sizes="(max-width: 768px) 100vw, 33vw"
+          sizes="100vw"
         />
       </div>
 

@@ -1,4 +1,3 @@
-// /* eslint-disable react/jsx-key */
 import CardWithSocialMedia from '../Shared/CardWithSocialMedia';
 import HorizontalLine from '../Shared/featuresIcons/HorizontalLine';
 import SecDescription from '../Shared/SecDescription';
@@ -35,7 +34,7 @@ const Team = () => {
   return (
     <div className="mb-18 ">
       {/* top content */}
-      <div className="justify-items-center py-12">
+      <div className="flex flex-col justify-center gap-6 items-center py-12">
         <SecHeader
           header={'Team'}
           headerClass={'uppercase  text-[#15323d] font-bold tracking-[4px]'}
@@ -44,17 +43,21 @@ const Team = () => {
         />
 
         <SecMainHeader
-          className="text-5xl text-[#19302d] font-extrabold mt-8 -tracking-wide"
-          content="They are ready to treat you"
+          className="text-4xl lg:text-5xl text-[#19302d] font-extrabold text-center -tracking-wide"
+          content={
+            <>
+              They are ready to <br /> treat you
+            </>
+          }
         />
         <SecDescription
           content={description}
-          className="w-1/3 mt-8 text-md text-[#19302d] text-center leading-7 font-light"
+          className="w-full lg:w-1/3 text-md text-[#19302d] text-center leading-7 font-light"
         />
       </div>
 
       {/* card */}
-      <div className="w-full flex justify-between gap-8 my-18">
+      <div className="w-full flex flex-col justify-center items-center md:flex-row md:justify-between gap-8 my-18">
         {chefInfo?.map((info, index) => (
           <CardWithSocialMedia
             key={index}

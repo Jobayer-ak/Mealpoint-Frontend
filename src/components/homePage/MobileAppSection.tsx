@@ -20,7 +20,7 @@ const MobileAppSection = () => {
         <div className="w-full lg:w-1/2 h-full pt-12 lg:pt-24 text-center lg:text-left flex flex-col items-center lg:items-start">
           <SecHeader
             header="MOBILE APPLICATION"
-            className="flex flex-col items-center gap-6 lg:gap-3 text-white"
+            className="flex flex-col items-center gap-6 md:flex-row md:items-center  md:gap-3 text-white tracking-wide"
           />
 
           <motion.div

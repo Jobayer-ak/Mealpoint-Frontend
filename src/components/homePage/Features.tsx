@@ -9,7 +9,7 @@ const Features = () => {
   return (
     <div>
       {/* section header */}
-      <HorizontalLine />
+
       <div className="justify-items-center mt-10 md:mt-15">
         <SecHeader
           header={'FEATURES'}

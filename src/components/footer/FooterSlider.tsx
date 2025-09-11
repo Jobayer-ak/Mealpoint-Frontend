@@ -44,8 +44,10 @@ const FooterSlider = () => {
         modules={[Navigation, Autoplay]}
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
         breakpoints={{
-          0: { slidesPerView: 3 }, // mobile
-          640: { slidesPerView: 4, centeredSlides: false }, // tablet+
+          0: { slidesPerView: 3 },
+          640: { slidesPerView: 3, centeredSlides: true },
+          768: { slidesPerView: 3, centeredSlides: true },
+          1024: { slidesPerView: 4, centeredSlides: true },
         }}
         className="overflow-visible"
       >

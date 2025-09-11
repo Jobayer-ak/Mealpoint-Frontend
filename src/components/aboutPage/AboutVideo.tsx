@@ -37,7 +37,7 @@ const AboutVideo = () => {
   return (
     <div className="rounded-md relative">
       {/* text conent */}
-      <div className="justify-items-center">
+      <div className="flex flex-col gap-6 justify-center items-center">
         <SecHeader
           header="About Us"
           className=""
@@ -48,20 +48,20 @@ const AboutVideo = () => {
         <SecMainHeader
           content={
             <>
-              We invite you to <br className="" /> visit our restaurant
+              We invite you to <br /> visit our restaurant
             </>
           }
-          className=" text-[#192f36] text-6xl font-extrabold text-center mt-6 tracking-wide"
+          className=" text-[#192f36] text-4xl md:text-6xl font-extrabold text-center tracking-wide"
         />
 
         <SecDescription
           content={description}
-          className="text-center mt-8 text-[#192f36] font-light px-12 tracking-wide"
+          className="text-center text-[#192f36] font-light px-0 tracking-wide"
         />
       </div>
 
       {/* video content */}
-      <div className="flex justify-center gap-30 mt-24 ">
+      <div className="grid grid-cols-2 lg:flex justify-items-center md:justify-center gap-10 lg:gap-30 mt-12 md:mt-24 ">
         {srcList.map((item, index) => (
           <ImageIcon key={index} srcImage={item.srcImage} title={item.title} />
         ))}

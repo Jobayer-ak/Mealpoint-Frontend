@@ -10,7 +10,7 @@ const Features = () => {
     <div>
       {/* section header */}
       <HorizontalLine />
-      <div className="justify-items-center mt-15">
+      <div className="justify-items-center mt-10 md:mt-15">
         <SecHeader
           header={'FEATURES'}
           className={'items-center'}
@@ -18,14 +18,14 @@ const Features = () => {
           spanClass="ms-7"
         />
         <SecMainHeader
-          className="text-5xl text-[#19302d] font-extrabold mt-8 -tracking-wide"
+          className="text-3xl md:text-5xl text-[#19302d] font-extrabold mt-8 -tracking-wide"
           content="Why People Choose Us?"
         />
         <SecDescription content={description} className="mt-8 text-[#19302d]" />
       </div>
 
       {/* features icons */}
-      <div className="flex justify-between gap-10 mt-20 mb-20">
+      <div className="flex flex-col gap-10 md:flex md:flex-row md:justify-between md:gap-10 mt-10 md:mt-20 mb-20">
         <div>
           <Icon src="/assets/Features/icon-1.png" alt="icon-1" />
           <SecMainHeader

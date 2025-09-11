@@ -82,6 +82,12 @@ const TestimonialSlider = ({}) => {
           false ? { delay: 3000, disableOnInteraction: false } : undefined
         }
         modules={[Pagination, Navigation, Autoplay]}
+        breakpoints={{
+          0: { slidesPerView: 1 }, // small devices
+          640: { slidesPerView: 1 }, // sm
+          768: { slidesPerView: 2 }, // md
+          1024: { slidesPerView: 3 }, // lg and above
+        }}
         className="h-[600px] relative overflow-visible"
       >
         {items.map((item, index) => (

@@ -8,7 +8,7 @@ const WorkingHours = () => {
   return (
     <>
       {/* Content goes here */}
-      <div className="h-[420px] w-full rounded-md relative overflow-hidden mb-20">
+      <div className="h-min-screenlg:h-[420px] w-full rounded-md relative overflow-hidden mb-20">
         {/* Background image with zoom */}
         <div
           className="absolute inset-0 bg-cover bg-bottom transform scale-102"
@@ -20,19 +20,22 @@ const WorkingHours = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-[#0f2025]/40 via-[#0f2025]/50 to-[#0f2025]/10"></div>
 
         {/* Your content here */}
-        <div className="relative z-10 ps-15 pr-5 py-4 flex justify-between h-full items-center">
-          <div className="">
+        <div className="relative z-10 px-3 lg:ps-15 lg:pr-5 py-4 flex flex-col gap-10 lg:flex-row lg:justify-between h-full lg:items-center">
+          <div className="flex flex-col items-center md:items-start text-center lg:text-left gap-10">
             <SecHeader
               header={'ABOUT US'}
-              className={'my-8 flex gap-3 font-bold items-center text-white'}
+              className={
+                'flex flex-col items-center gap-3 font-bold md:flex-row md:items-center text-white'
+              }
+              // flex flex-col items-center md:flex-row md:items-center gap-6 md:gap-3
             />
             <SecMainHeader
-              className={'text-white text-6xl font-extrabold'}
+              className={'text-white text-4xl lg:text-6xl font-extrabold'}
               content={'Working Hours'}
             />
 
             <SecDescription
-              className="mt-8 text-[#d5f7f2] opacity-[0.9] max-w-lg"
+              className="text-[#d5f7f2] opacity-[0.9] max-w-lg text-center lg:text-left"
               content={
                 'Rolorem, beatae dolorum, praesentium itaque et quam quaerat.'
               }
@@ -43,7 +46,7 @@ const WorkingHours = () => {
               <div className="relative z-10">
                 <ButtonComp
                   content={'RESERVATION'}
-                  className="text-[#112029] tracking-[3px] bg-[#f29e38] py-8 px-10 mt-8 cursor-pointer transition-all duration-200 hover:translate-y-[-1px] active:translate-y-[1px]"
+                  className="text-[#112029] tracking-[3px] bg-[#f29e38] py-8 px-10 cursor-pointer transition-all duration-200 hover:translate-y-[-1px] active:translate-y-[1px]"
                 />
               </div>
 
@@ -60,7 +63,7 @@ const WorkingHours = () => {
           </div>
 
           {/* working times */}
-          <div className="bg-white rounded h-full w-1/3 justify-items-center py-20">
+          <div className="bg-white rounded h-full w-full lg:w-1/3 justify-items-center py-20">
             <div className="text-center text-[#1b2c2d]">
               <p className="tracking-wider font-bold text-md">
                 SUNDAY TO TUESDAY

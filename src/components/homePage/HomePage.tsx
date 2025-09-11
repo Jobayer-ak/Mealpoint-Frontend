@@ -1,5 +1,8 @@
 import Container from '../container/Container';
+import AboutSection from './AboutSection';
+import MobileAppSection from './MobileAppSection';
 import Slider from './Slider';
+import Testimonials from './Testimonials';
 
 const slides = [
   {
@@ -45,16 +48,17 @@ const HomePage = () => {
         <Slider slides={slides} />
       </Container>
 
-      {/* <Container>
+      <Container>
         <AboutSection />
-      </Container> */}
-      {/* <Container fullWidth>
+      </Container>
+      <Container fullWidth>
         <MobileAppSection />
       </Container>
+
       <Container>
         <Testimonials />
-        <NewsLetter /> 
-      </Container> */}
+        {/* <NewsLetter /> */}
+      </Container>
     </main>
   );
 };

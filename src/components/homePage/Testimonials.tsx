@@ -246,27 +246,27 @@ const Testimonials = () => {
   // ];
 
   return (
-    <div className="relative bg-white px-19 pt-15 rounded-t-md w-full min-h-screen">
+    <div className="relative bg-white px-3 lg:px-19 pt-15 rounded-t-md w-full min-h-screen">
       {/* box shadow top of component */}
       <TopShadow />
 
       <div className="">
         <div className="mb-14">
           {/* section header */}
-          <div className="justify-items-center">
+          <div className="flex flex-col gap-6 justify-center items-center">
             <SecHeader
               header={'TESTIMONIALS'}
               className={'items-center'}
-              headerClass={'mt-4 font-bold tracking-[4px] text-[#19302d]'}
+              headerClass={'mt-6 font-bold tracking-[4px] text-[#19302d]'}
               spanClass="ms-15"
             />
             <SecMainHeader
-              className="text-5xl text-[#19302d] font-extrabold mt-8"
+              className="text-4xl md:text-5xl text-[#19302d] font-extrabold"
               content="What Our Visitors Say"
             />
             <SecDescription
               content={description}
-              className="mt-8 text-[#19302d] w-1/3 text-center"
+              className="text-[#19302d] w-full md:w-1/2 lg:w-1/3 text-center"
             />
           </div>
 

@@ -97,8 +97,8 @@ const AboutSection = () => {
   };
 
   return (
-    <div className="relative bg-white w-full px-20 py-4 rounded-md">
-      <div className="flex gap-10 justify-between">
+    <div className="relative bg-white w-full px-4 lg:px-20 py-4 rounded-md">
+      <div className="flex flex-col-reverse gap-10 lg:flex lg:flex-row lg:justify-between lg:gap-10">
         {/* box shadow of component */}
         <TopShadow />
 
@@ -128,7 +128,7 @@ const AboutSection = () => {
             top: '-53px',
           }}
         ></div>
-        <div className="w-1/2 relative group">
+        <div className="w-full lg:w-1/2 relative group">
           {/* Video Container with Screen Height */}
           <div className="relative w-full h-[550px] bg-gray-900 rounded-lg overflow-hidden shadow-2xl mt-12">
             {/* Video Thumbnail Background */}
@@ -236,7 +236,8 @@ const AboutSection = () => {
           </div>
         </div>
 
-        <div className="w-1/2 p-8 mt-18">
+        {/* about us content */}
+        <div className="w-full lg:w-1/2 lg:p-8 mt-10 md:mt-18">
           <SecHeader
             header={'ABOUT US'}
             className={'flex gap-3 font-bold items-center text-[#19302d]'}
@@ -360,7 +361,7 @@ const AboutSection = () => {
 
       {/* Features  Section*/}
 
-      <div className="my-20">
+      <div className="my-10 md:my-20">
         <Features />
       </div>
 

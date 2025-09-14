@@ -9,7 +9,7 @@ const MenuBanner = () => {
 
   return (
     <div className="">
-      <div className="w-full h-100 flex flex-col justify-center items-center gap-10 mt-22 md:mt-14 lg:mt-19">
+      <div className="w-full h-100 flex flex-col justify-center items-center gap-10 mt-22 md:mt-14 lg:mt-22">
         <SecHeader
           className=""
           header="Menu"

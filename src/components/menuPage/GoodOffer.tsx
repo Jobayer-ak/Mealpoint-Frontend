@@ -10,11 +10,11 @@ import SecMainHeader from '../Shared/SecMainHeader';
 
 const GoodOffer = () => {
   return (
-    <div className="relative w-full">
+    <div className="relative w-full -mx-8 px-8">
       <DarkOverlay />
 
       {/* Container */}
-      <div className="container mx-auto px-6 lg:px-18 relative z-10 flex flex-col lg:flex-row items-center lg:items-start">
+      <div className="px-6 lg:px-18 relative z-10 flex flex-col lg:flex-row items-center lg:items-start">
         {/* Content Section */}
         <div className="w-full lg:w-1/2 h-full pt-12 lg:pt-24 text-center lg:text-left flex flex-col items-center lg:items-start">
           <SecHeader
@@ -75,7 +75,7 @@ const GoodOffer = () => {
         </div>
 
         {/* Burger Image Section */}
-        <div className="w-full lg:w-1/2 relative mt-0 md:mt-7 lg:mt-[-7]">
+        <div className="w-full lg:w-1/2 relative mt-0 md:mt-7 lg:mt-[-32]">
           {/* Large screen image */}
           <div className="hidden lg:block relative w-full h-[610px]">
             <Image

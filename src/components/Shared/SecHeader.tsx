@@ -1,5 +1,5 @@
 interface IHeader {
-  header: string;
+  header: string | boolean;
   className: string;
   headerClass?: string;
   spanClass?: string;

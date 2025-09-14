@@ -1,7 +1,9 @@
+import MenuPage from '../../components/menuPage/MenuPage';
+
 const Menu = () => {
   return (
     <div>
-      <h2>This Menu Page</h2>
+      <MenuPage />
     </div>
   );
 };

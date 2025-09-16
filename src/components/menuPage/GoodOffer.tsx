@@ -3,18 +3,16 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import ButtonComp from '../Shared/ButtonComp';
-import DarkOverlay from '../Shared/DarkOverlay';
 import SecDescription from '../Shared/SecDescription';
 import SecHeader from '../Shared/SecHeader';
 import SecMainHeader from '../Shared/SecMainHeader';
 
 const GoodOffer = () => {
   return (
-    <div className="relative w-full -mx-8 px-8">
-      <DarkOverlay />
-
+    // ps-32 pr-6
+    <div className="relative mt-[10px] lg:px-14">
       {/* Container */}
-      <div className="px-6 lg:px-18 relative z-10 flex flex-col lg:flex-row items-center lg:items-start">
+      <div className="relative z-10 flex flex-col lg:flex-row items-center lg:items-start">
         {/* Content Section */}
         <div className="w-full lg:w-1/2 h-full pt-12 lg:pt-24 text-center lg:text-left flex flex-col items-center lg:items-start">
           <SecHeader
@@ -37,16 +35,16 @@ const GoodOffer = () => {
                   Get two!
                 </>
               }
-              className="text-white text-5xl sm:text-6xl lg:text-7xl font-extrabold"
+              className="text-white text-5xl md:text-7xl font-extrabold leading-snug"
             />
           </motion.div>
 
           <SecDescription
-            className="text-[#a0acb0] mt-6 w-1/3 md:w-1/2 lg:w-full text-center lg:text-left"
+            className="text-[#a0acb0] mt-6 w-full md:w-1/2 lg:w-full text-center lg:text-left"
             content="Quaerat debitis, vel, sapiente dicta sequi labore porro pariatur harum expedita."
           />
 
-          <div className="mt-8 flex flex-col sm:flex-row gap-6 items-center lg:items-start">
+          <div className="mt-8 flex gap-6 items-center lg:items-start">
             {/* Reservation */}
             <div className="relative inline-block">
               <ButtonComp
@@ -75,7 +73,7 @@ const GoodOffer = () => {
         </div>
 
         {/* Burger Image Section */}
-        <div className="w-full lg:w-1/2 relative mt-0 md:mt-7 lg:mt-[-32]">
+        <div className="w-full lg:w-1/2 relative mt-7 lg:mt-[-16]">
           {/* Large screen image */}
           <div className="hidden lg:block relative w-full h-[610px]">
             <Image
@@ -87,8 +85,19 @@ const GoodOffer = () => {
             />
           </div>
 
+          {/* Tablet (medium screens) */}
+          <div className="hidden md:block lg:hidden relative w-[100%] mx-auto h-[610px]">
+            <Image
+              src="/assets/Mobile-App-Section/burger.png"
+              alt="Burger App"
+              fill
+              style={{ objectFit: 'contain', objectPosition: 'center' }}
+              priority
+            />
+          </div>
+
           {/* Small screen image - larger */}
-          <div className="block lg:hidden relative w-full h-[500px] sm:h-[780px]">
+          <div className="block md:hidden lg:hidden relative w-100 h-100 ">
             <Image
               src="/assets/Mobile-App-Section/burger.png"
               alt="Burger App"

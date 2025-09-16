@@ -12,11 +12,15 @@ export default function Container({
   fullWidth = false,
 }: ContainerProps) {
   if (fullWidth) {
-    return <div className={`w-full pt-0 ${className}`}>{children}</div>;
+    return (
+      <div className={`w-screen mx-[-0px] lg:mx-[-70px] ${className}`}>
+        {children}
+      </div>
+    );
   }
 
   return (
-    <div className={`mx-auto w-full px-2 sm:px-2 md:px-8 ${className}`}>
+    <div className={`w-full px-1 md:px-4 lg:px-6  ${className}`}>
       {children}
     </div>
   );

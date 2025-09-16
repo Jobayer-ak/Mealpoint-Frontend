@@ -11,25 +11,31 @@ interface ICard {
 
 const TabCard = ({ name, srcImage, description, price }: ICard) => {
   return (
-    <div className="flex justify-between items-center  gap-8 shadow-lg group">
-      <div className=" w-[160px] h-[140px] overflow-hidden rounded-s-md relative">
+    <div className="flex justify-between items-center gap-2 md:gap-0  lg:gap-2 shadow-lg group">
+      {/*image part  */}
+      <div className="w-[140px] h-[100px] lg:w-[160px] lg:h-[140px] overflow-hidden rounded-s-md relative">
         <Image
           src={srcImage}
           alt={name}
-          fill // <---- THIS makes the image fill the parent box
+          fill
           className="object-cover rounded-s-md cursor-pointer transform transition-transform duration-500 ease-out group-hover:scale-110"
         />
       </div>
 
-      <div className="flex justify-between items-center gap-4 ">
-        <div>
-          <h3 className="text-[#183136] mb-4 font-extrabold text-2xl">
+      {/*content part  */}
+
+      <div className="flex justify-between items-center gap-2 lg:gap-4">
+        {/* left side */}
+        <div className="">
+          <h3 className="text-[#183136] mb-4 font-extrabold text-xl md:text-2xl">
             {name}
           </h3>
           <p className="text-[#183136] w-full text-left font-light tracking-wider leading-6">
             {description}
           </p>
         </div>
+
+        {/* Right side  */}
 
         <div className="flex flex-col pb-2 justify-items-center gap-4 items-center w-1/3">
           <div className="inline-flex items-baseline">

@@ -2,6 +2,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import BottomShadow from '../Shared/BottomShadow';
 import SecDescription from '../Shared/SecDescription';
 import SecHeader from '../Shared/SecHeader';
 import SecMainHeader from '../Shared/SecMainHeader';
@@ -84,7 +85,7 @@ const DishTabsMain = () => {
   // useEffect(() => {}, [currentTab, SetCurrentTab]);
 
   return (
-    <div className="w-full min-h-screen px-12 bg-white relative pb-14 mt-14 rounded-md">
+    <div className="w-full min-h-screen bg-white relative pb-14 mt-14 rounded-md">
       {/* Top shadow */}
       <TopShadow />
 
@@ -115,13 +116,13 @@ const DishTabsMain = () => {
       ></div>
 
       {/* main content */}
-      <div className="pt-16">
+      <div className="pt-8 px-3 md:px-14 md:pt-17">
         {/* tabs */}
 
         <div>
           <Tabs defaultValue="alldishes" className="w-full">
             <div className="w-full flex justify-center items-center ">
-              <TabsList className="gap-10">
+              <TabsList className="w-full md:w-auto h-45 md:h-auto flex flex-col mt-5 md:mt-0 md:flex-row gap-0 md:gap-1 tracking-wider">
                 <TabsTrigger
                   value="alldishes"
                   className="cursor-pointer"
@@ -154,7 +155,7 @@ const DishTabsMain = () => {
             </div>
             <TabsContent value={currentTab}>
               {/* small section */}
-              <div className="flex flex-col justify-center items-center gap-8 mt-12">
+              <div className="flex flex-col justify-center items-center gap-8 mt-10 md:mt-12">
                 <SecHeader
                   className=""
                   header={
@@ -191,7 +192,7 @@ const DishTabsMain = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 md:justify-between items-center gap-8 px-8 mt-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 lg:justify-between items-center gap-8 mt-8">
                 {currentTab === 'dishes'
                   ? dishesArray?.map((dish) => (
                       <TabCard
@@ -235,6 +236,9 @@ const DishTabsMain = () => {
           </Tabs>
         </div>
       </div>
+
+      {/* Bottom shadow */}
+      <BottomShadow />
     </div>
   );
 };

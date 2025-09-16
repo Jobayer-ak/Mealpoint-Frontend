@@ -8,7 +8,10 @@ const MenuBanner = () => {
     'Quaerat debitis, vel, sapiente dicta sequi labore porro pariatur harum expedita.';
 
   return (
-    <div className="">
+    <div className="relative ">
+      {/* Dark gradient overlay */}
+      <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#0f2025]/20 via-[#0f2025]/10 to-[#0f2025]/10"></div>
+
       <div className="w-full h-100 flex flex-col justify-center items-center gap-10 mt-22 md:mt-14 lg:mt-22">
         <SecHeader
           className=""

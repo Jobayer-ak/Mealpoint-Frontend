@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { FaPlay } from 'react-icons/fa';
 import { FiMaximize } from 'react-icons/fi';
 import { RxCross1 } from 'react-icons/rx';
+import Features from './Features';
 import BottomShadow from '../Shared/BottomShadow';
 import ButtonComp from '../Shared/ButtonComp';
 import Counters from '../Shared/Counters';
@@ -14,7 +15,6 @@ import SecMainHeader from '../Shared/SecMainHeader';
 import TopShadow from '../Shared/TopShadow';
 import WorkingHours from '../Shared/workingHours/WorkingHours';
 import SocialMediaGroup from '../ui/SocialMediaGroup';
-import Features from './Features';
 
 const AboutSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

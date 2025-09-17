@@ -4,6 +4,7 @@ import { Josefin_Sans, Josefin_Slab, Playfair_Display } from 'next/font/google';
 import Container from '../components/container/Container';
 import Footer from '../components/footer/Footer';
 import Navbar from '../components/navigationMenu/Navbar';
+import { ReduxProvider } from '../components/Shared/ReduxProvider';
 import './globals.css';
 
 // Josefin fonts
@@ -39,25 +40,31 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${josefinSans.variable} ${josefinSlab.variable} ${playfairDisplay.variable}`}
     >
-      <body className={`${josefinSans.className} antialiased`}>
-        <BackgroundLayout>
-          {/* Navbar fixed at top */}
-          <header className="fixed top-0 left-0 z-40 w-full bg-transparent">
-            <Container>
-              <Navbar />
-            </Container>
-          </header>
+      <body
+        suppressHydrationWarning
+        className={`${josefinSans.className} antialiased`}
+      >
+        <ReduxProvider>
+          <BackgroundLayout>
+            {/* Navbar fixed at top */}
+            <header className="fixed top-0 left-0 z-40 w-full bg-transparent">
+              <Container>
+                <Navbar />
+              </Container>
+            </header>
 
-          {/* Main Content */}
-          <main className="">{children}</main>
+            {/* Main Content */}
+            <main className="">{children}</main>
 
-          {/* Footer */}
-          <footer>
-            <Footer />
-          </footer>
-        </BackgroundLayout>
+            {/* Footer */}
+            <footer>
+              <Footer />
+            </footer>
+          </BackgroundLayout>
+        </ReduxProvider>
       </body>
     </html>
   );

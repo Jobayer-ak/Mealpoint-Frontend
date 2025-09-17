@@ -82,11 +82,8 @@ const Counters = () => {
               {/* Animated Counter */}
               <Counter
                 end={stat.value}
-                duration={2.5}
-                delay={index * 0.2}
                 suffix={stat.suffix}
                 prefix={stat.prefix}
-                className="text-4xl md:text-5xl font-extrabold text-[#19302d] mb-4"
               />
 
               {/* Label */}

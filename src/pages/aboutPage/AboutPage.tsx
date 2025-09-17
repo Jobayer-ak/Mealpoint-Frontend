@@ -1,17 +1,17 @@
 'use client';
 import { motion } from 'framer-motion';
-import Features from '../homePage/Features';
-import NewsLetter from '../homePage/NewsLetter';
-import Testimonials from '../homePage/Testimonials';
-import BottomShadow from '../Shared/BottomShadow';
-import Counters from '../Shared/Counters';
-import HorizontalLine from '../Shared/featuresIcons/HorizontalLine';
-import TopShadow from '../Shared/TopShadow';
-import WorkingHours from '../Shared/workingHours/WorkingHours';
-import AboutBanner from './AboutBanner';
-import AboutVideo from './AboutVideo';
-import ReservationSection from './ReservationSection';
-import Team from './Team';
+import AboutBanner from '../../components/about/AboutBanner';
+import AboutVideo from '../../components/about/AboutVideo';
+import ReservationSection from '../../components/about/ReservationSection';
+import Team from '../../components/about/Team';
+import Features from '../../components/home/Features';
+import NewsLetter from '../../components/home/NewsLetter';
+import Testimonials from '../../components/home/Testimonials';
+import BottomShadow from '../../components/Shared/BottomShadow';
+import Counters from '../../components/Shared/Counters';
+import HorizontalLine from '../../components/Shared/featuresIcons/HorizontalLine';
+import TopShadow from '../../components/Shared/TopShadow';
+import WorkingHours from '../../components/Shared/workingHours/WorkingHours';
 
 const AboutPage = () => {
   return (

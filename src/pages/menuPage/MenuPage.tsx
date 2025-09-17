@@ -1,8 +1,8 @@
-import Container from '../container/Container';
-import DishTabsMain from './DishTabsMain';
-import GoodOffer from './GoodOffer';
-import MenuBanner from './MenuBanner';
-import SpecialProposal from './SpecialProposal';
+import Container from '../../components/container/Container';
+import DishTabsMain from '../../components/menu/DishTabsMain';
+import GoodOffer from '../../components/menu/GoodOffer';
+import MenuBanner from '../../components/menu/MenuBanner';
+import SpecialProposal from '../../components/menu/SpecialProposal';
 
 const MenuPage = () => {
   return (

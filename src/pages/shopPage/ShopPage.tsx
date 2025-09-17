@@ -1,17 +1,20 @@
+'use client';
 import Container from '../../components/container/Container';
-
+import Product from '../../components/products/Products';
 import DarkOverlay from '../../components/Shared/DarkOverlay';
-import MenuPage from '../../pages/menuPage/MenuPage';
+import ShopBanner from '../../components/shop/ShopBanner';
 
-const Menu = () => {
+const ShopPage = () => {
   return (
     <div className="relative">
       <DarkOverlay />
       <Container>
-        <MenuPage />
+        <ShopBanner />
+
+        <Product />
       </Container>
     </div>
   );
 };
 
-export default Menu;
+export default ShopPage;

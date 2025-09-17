@@ -1,9 +1,9 @@
+import TestimonialSlider from './TestimonialSlider';
 import HorizontalLine from '../Shared/featuresIcons/HorizontalLine';
 import SecDescription from '../Shared/SecDescription';
 import SecHeader from '../Shared/SecHeader';
 import SecMainHeader from '../Shared/SecMainHeader';
 import TopShadow from '../Shared/TopShadow';
-import TestimonialSlider from './TestimonialSlider';
 
 const Testimonials = () => {
   const description =

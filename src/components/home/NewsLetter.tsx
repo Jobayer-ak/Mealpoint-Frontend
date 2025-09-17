@@ -1,3 +1,4 @@
+import NewsLetterBanner from './NewsLetterBanner';
 import BlogCard from '../Shared/blog-card/BlogCard';
 import BottomShadow from '../Shared/BottomShadow';
 import ButtonComp from '../Shared/ButtonComp';
@@ -5,7 +6,6 @@ import HorizontalLine from '../Shared/featuresIcons/HorizontalLine';
 import SecDescription from '../Shared/SecDescription';
 import SecHeader from '../Shared/SecHeader';
 import SecMainHeader from '../Shared/SecMainHeader';
-import NewsLetterBanner from './NewsLetterBanner';
 
 const NewsLetter = () => {
   const description =

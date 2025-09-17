@@ -14,6 +14,7 @@ const NAV_LINKS = [
   { title: 'Reservation', href: '/reservation' },
   { title: 'Blog', href: '/blog' },
   { title: 'Contact', href: '/contact' },
+  { title: 'Shop', href: '/shop' },
   { title: 'Login', href: '/login' },
 ];
 

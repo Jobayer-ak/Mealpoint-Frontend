@@ -13,7 +13,7 @@ const SpecialSliderCard = ({ name, srcImage, description, price }: ICard) => {
   return (
     <div className=" rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
       {/* image part */}
-      <div className="w-full h-[260px] overflow-hidden rounded-lg md:rounded-t-lg relative">
+      <div className="w-full h-[260px] overflow-hidden relative rounded-t-sm">
         <Image
           src={srcImage}
           alt={name}

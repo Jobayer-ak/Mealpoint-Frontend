@@ -1,7 +1,9 @@
+import ContactPage from '../../pages/contactPage/ContactPage';
+
 const Contact = () => {
   return (
     <div>
-      <h2>This is Contact Page</h2>
+      <ContactPage />
     </div>
   );
 };

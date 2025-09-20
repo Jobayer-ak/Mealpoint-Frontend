@@ -1,20 +1,18 @@
-'use client';
+import ContactBanner from '../../components/contact/ContactBanner';
+import ContactInfo from '../../components/contact/ContactInfo';
 import Container from '../../components/container/Container';
 import DarkOverlay from '../../components/Shared/DarkOverlay';
-import Products from '../../components/shop/Products';
-import ShopBanner from '../../components/shop/ShopBanner';
 
-const ShopPage = () => {
+const ContactPage = () => {
   return (
     <div className="relative">
       <DarkOverlay />
       <Container>
-        <ShopBanner />
-
-        <Products />
+        <ContactBanner />
+        <ContactInfo />
       </Container>
     </div>
   );
 };
 
-export default ShopPage;
+export default ContactPage;

@@ -1,12 +1,12 @@
 'use client';
 
 import Container from '../../../../components/container/Container';
-import Product from '../../../../components/products/Products';
 import BreadCrumbButton from '../../../../components/Shared/BreadCrumbButton';
 import DarkOverlay from '../../../../components/Shared/DarkOverlay';
 import SecDescription from '../../../../components/Shared/SecDescription';
 import SecHeader from '../../../../components/Shared/SecHeader';
 import SecMainHeader from '../../../../components/Shared/SecMainHeader';
+import Product from '../../../../components/shop/Products';
 
 const description =
   'Quaerat debitis, vel, sapiente dicta sequi labore porro pariatur harum expedita.';

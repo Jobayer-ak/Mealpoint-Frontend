@@ -7,27 +7,24 @@ import SecMainHeader from '../Shared/SecMainHeader';
 const description =
   'Quaerat debitis, vel, sapiente dicta sequi labore porro pariatur harum expedita.';
 
-const ShopBanner = () => {
+const ContactBanner = () => {
   return (
-    <div className="relative">
-      {/* <DarkOverlay /> */}
+    <div>
       <Container>
         <div>
-          <div className="w-full h-100 flex flex-col justify-center items-center gap-10 mt-22 md:mt-14 lg:mt-22">
+          <div className="w-full h-100 flex flex-col justify-start items-start gap-10 mt-22 md:mt-14 lg:mt-26">
             <SecHeader
-              className=""
-              header="Online Store"
-              headerClass="uppercase text-white mt-6 tracking-wider font-semibold tracking-widest"
-              spanClass="ms-12"
+              header="Contact"
+              className="uppercase flex flex-col items-center gap-6 md:flex-row md:items-center  md:gap-3 text-white tracking-wide"
             />
 
             <SecMainHeader
-              className="text-white text-5xl md:text-6xl lg:text-7xl text-center font-extrabold tracking-wider "
-              content={'Shop'}
+              className="text-white text-5xl md:text-6xl lg:text-7xl text-start font-extrabold tracking-wider "
+              content={'Contact'}
             />
 
             <SecDescription
-              className="text-[#b3c2c9] w-full md:w-1/2 lg:w-1/3 px-8 text-center tracking-wider leading-7"
+              className="text-[#b3c2c9] w-full md:w-1/2 lg:w-1/3 text-start font-light tracking-wider leading-7"
               content={description}
             />
 
@@ -41,4 +38,4 @@ const ShopBanner = () => {
   );
 };
 
-export default ShopBanner;
+export default ContactBanner;

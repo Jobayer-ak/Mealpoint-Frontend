@@ -8,6 +8,10 @@
   --font-family-playfair: var(--font-playfair-display);
 }
 
+:root {
+  --removed-body-scroll-bar-size: 0px !important;
+}
+
 /* Font hierarchy with PlayfairDisplay for headings */
 :root {
   --font-primary: var(--font-josefin-sans); /* Body text, navigation, buttons */
@@ -47,12 +51,8 @@ body {
   box-sizing: border-box;
 }
 
-/* Add to your global CSS */
-
-/* .slider-container,
-.swiper,
-.swiper-wrapper,
-.swiper-slide {
-  margin: 0;
-  padding: 0;
-} */
+/* Keep page scrollbar visible and stable */
+html {
+  /* scrollbar-gutter: stable both-edges; */
+  overflow-y: scroll; /* always show vertical scrollbar */
+}

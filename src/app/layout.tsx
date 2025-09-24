@@ -47,8 +47,12 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${josefinSans.className} antialiased`}
       >
+        {/* Guard to prevent body/html scroll compensation and layout shift */}
+        {/* <ScrollLockGuard /> */}
         <ReduxProvider>
           <BackgroundLayout>
+            {/* Mount guard early so it catches any style injections */}
+
             {/* Navbar fixed at top */}
             <header className="fixed top-0 left-0 z-40 w-full bg-transparent">
               <Container>

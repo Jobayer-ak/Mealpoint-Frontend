@@ -15,7 +15,7 @@ const NAV_LINKS = [
   { title: 'Blog', href: '/blog' },
   { title: 'Contact', href: '/contact' },
   { title: 'Shop', href: '/shop' },
-  { title: 'Login', href: '/login' },
+  { title: 'Login', href: '/auth/login' },
 ];
 
 interface NavLinkProps {

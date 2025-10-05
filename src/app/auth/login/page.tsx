@@ -1,7 +1,9 @@
+import LoginPage from '../../../pages/loginPage/LoginPage';
+
 const Login = () => {
   return (
     <div>
-      <h2>Login Page</h2>
+      <LoginPage />
     </div>
   );
 };

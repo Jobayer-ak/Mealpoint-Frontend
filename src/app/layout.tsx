@@ -1,11 +1,14 @@
 import BackgroundLayout from '@/components/layouts/BackgroundLayout';
 import type { Metadata } from 'next';
-import { SessionProvider, getServerSession } from 'next-auth/react';
+import { getServerSession } from 'next-auth';
 import { Josefin_Sans, Josefin_Slab, Playfair_Display } from 'next/font/google';
+import ClientLayoutWrapper from '../components/ClientLayoutWrapper';
 import Container from '../components/container/Container';
 import Footer from '../components/footer/Footer';
 import Navbar from '../components/navigationMenu/Navbar';
+import UserSyncProvider from '../components/Shared/providers/UserSyncProvider';
 import { ReduxProvider } from '../components/Shared/ReduxProvider';
+import { authOptions } from '../lib/auth/authOptions';
 import './global.css';
 
 // Josefin fonts
@@ -51,26 +54,26 @@ export default async function RootLayout({
         className={`${josefinSans.className} antialiased`}
       >
         <ReduxProvider>
-          <SessionProvider session={session}>
-            <BackgroundLayout>
-              {/* Mount guard early so it catches any style injections */}
+          <ClientLayoutWrapper session={session}>
+            <UserSyncProvider>
+              <BackgroundLayout>
+                {/* navbar */}
+                <header className="fixed top-0 left-0 z-40 w-full bg-transparent">
+                  <Container>
+                    <Navbar />
+                  </Container>
+                </header>
 
-              {/* Navbar fixed at top */}
-              <header className="fixed top-0 left-0 z-40 w-full bg-transparent">
-                <Container>
-                  <Navbar />
-                </Container>
-              </header>
+                {/* Main Content */}
+                <main className="">{children}</main>
 
-              {/* Main Content */}
-              <main className="">{children}</main>
-
-              {/* Footer */}
-              <footer>
-                <Footer />
-              </footer>
-            </BackgroundLayout>
-          </SessionProvider>
+                {/* Footer */}
+                <footer>
+                  <Footer />
+                </footer>
+              </BackgroundLayout>
+            </UserSyncProvider>
+          </ClientLayoutWrapper>
         </ReduxProvider>
       </body>
     </html>

@@ -1,3 +1,4 @@
+'use client';
 import Container from '../../components/container/Container';
 import DishTabsMain from '../../components/menu/DishTabsMain';
 import GoodOffer from '../../components/menu/GoodOffer';
@@ -6,22 +7,20 @@ import SpecialProposal from '../../components/menu/SpecialProposal';
 
 const MenuPage = () => {
   return (
-    <div className="">
-      <Container>
-        {/* Menu banner */}
-        <MenuBanner />
+    <Container>
+      {/* Menu banner */}
+      <MenuBanner />
 
-        {/* Menu tabs */}
-        <DishTabsMain />
+      {/* Menu tabs */}
+      <DishTabsMain />
 
-        {/* Good Offer */}
+      {/* Good Offer */}
 
-        <GoodOffer />
+      <GoodOffer />
 
-        {/* special proposal */}
-        <SpecialProposal />
-      </Container>
-    </div>
+      {/* special proposal */}
+      <SpecialProposal />
+    </Container>
   );
 };
 

@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useGetMenusQuery } from '../../redux/features/menu/menuApi';
@@ -17,19 +17,15 @@ const DishTabsMain = () => {
   const [currentTab, SetCurrentTab] = useState('alldishes');
   const [mounted, setMounted] = useState(false);
 
-  const { data, isLoading, isError } = useGetMenusQuery(undefined);
+  // ensure query runs only after client mount
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  //  Avoid hydration mismatch
-  useEffect(() => setMounted(true), []);
-
-  if (isLoading) {
-    return <div className="text-center py-10">Loading...</div>;
-  }
-  if (isError) {
-    return (
-      <div className="text-center py-10 text-red-500">Something went wrong</div>
-    );
-  }
+  const { data } = useGetMenusQuery(undefined, {
+    // skip: !mounted, // don't run on SSR
+    // useErrorBoundary: true,
+  });
 
   const desserts = data?.data?.filter((d) => d.category.name === 'Desserts');
   const beverages = data?.data?.filter((b) => b.category.name === 'Beverages');
@@ -45,19 +41,18 @@ const DishTabsMain = () => {
       <div className="absolute bg-white w-[80px] h-[90px] rounded-full z-22 top-[-42px] left-1/2 transform -translate-x-1/2">
         <div className="w-[20px] h-[35px] bg-white/10 rounded-xl border-2 border-[#54575a] flex m-auto mt-[14px] relative overflow-hidden">
           {/* Animated dot */}
-          {mounted && (
-            <motion.button
-              className="absolute w-[4px] h-[4px] bg-[#54575a] rounded-full left-1/2 transform -translate-x-1/2 cursor-pointer"
-              initial={{ y: 3 }}
-              animate={{ y: [3, 15, 3] }}
-              transition={{
-                duration: 1.2,
-                repeat: Infinity,
-                ease: 'easeInOut',
-                repeatDelay: 0.5,
-              }}
-            />
-          )}
+
+          <motion.button
+            className="absolute w-[4px] h-[4px] bg-[#54575a] rounded-full left-1/2 transform -translate-x-1/2 cursor-pointer"
+            initial={{ y: 3 }}
+            animate={{ y: [3, 15, 3] }}
+            transition={{
+              duration: 1.2,
+              repeat: Infinity,
+              ease: 'easeInOut',
+              repeatDelay: 0.5,
+            }}
+          />
         </div>
       </div>
       {/* Shadow for the circular div */}
@@ -138,7 +133,7 @@ const DishTabsMain = () => {
               {currentTab === 'maincourses'
                 ? mainCourses?.map((dish) => (
                     <TabCard
-                      key={dish._id} // ✅ added key
+                      key={dish._id}
                       name={dish.name}
                       srcImage={dish.image}
                       description={dish.description}

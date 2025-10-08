@@ -1,4 +1,5 @@
 import BackgroundLayout from '@/components/layouts/BackgroundLayout';
+
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { Josefin_Sans, Josefin_Slab, Playfair_Display } from 'next/font/google';
@@ -6,6 +7,7 @@ import ClientLayoutWrapper from '../components/ClientLayoutWrapper';
 import Container from '../components/container/Container';
 import Footer from '../components/footer/Footer';
 import Navbar from '../components/navigationMenu/Navbar';
+import GlobalLoaderProvider from '../components/providers/GlobalLoaderProvider';
 import UserSyncProvider from '../components/Shared/providers/UserSyncProvider';
 import { ReduxProvider } from '../components/Shared/ReduxProvider';
 import { authOptions } from '../lib/auth/authOptions';
@@ -54,26 +56,28 @@ export default async function RootLayout({
         className={`${josefinSans.className} antialiased`}
       >
         <ReduxProvider>
-          <ClientLayoutWrapper session={session}>
-            <UserSyncProvider>
-              <BackgroundLayout>
-                {/* navbar */}
-                <header className="fixed top-0 left-0 z-40 w-full bg-transparent">
-                  <Container>
-                    <Navbar />
-                  </Container>
-                </header>
+          <GlobalLoaderProvider>
+            <ClientLayoutWrapper session={session}>
+              <UserSyncProvider>
+                <BackgroundLayout>
+                  {/* navbar */}
+                  <header className="fixed top-0 left-0 z-40 w-full bg-transparent">
+                    <Container>
+                      <Navbar />
+                    </Container>
+                  </header>
 
-                {/* Main Content */}
-                <main className="">{children}</main>
+                  {/* Main Content */}
+                  <main className="">{children}</main>
 
-                {/* Footer */}
-                <footer>
-                  <Footer />
-                </footer>
-              </BackgroundLayout>
-            </UserSyncProvider>
-          </ClientLayoutWrapper>
+                  {/* Footer */}
+                  <footer>
+                    <Footer />
+                  </footer>
+                </BackgroundLayout>
+              </UserSyncProvider>
+            </ClientLayoutWrapper>
+          </GlobalLoaderProvider>
         </ReduxProvider>
       </body>
     </html>

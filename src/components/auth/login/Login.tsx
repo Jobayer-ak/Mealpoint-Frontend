@@ -1,5 +1,4 @@
 'use client';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
@@ -7,11 +6,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { FaFacebook } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
+import PacmanLoader from 'react-spinners/PacmanLoader';
 import z from 'zod';
 import Container from '../../container/Container';
-import Loader from '../../Shared/Loader';
+import AuthLoader from '../../Shared/Loader';
 import { Button } from '../../ui/button';
 import {
   Form,
@@ -78,7 +77,7 @@ const Login = () => {
   // Google Login — Pro setup
   const handleGoogleLogin = async () => {
     try {
-      setGoogleLoading(true);
+      // setGoogleLoading(true);
       await signIn('google', { callbackUrl: '/' });
     } catch (error) {
       console.error('Google login failed:', error);
@@ -91,7 +90,7 @@ const Login = () => {
     <div className="">
       <Container>
         {/* Fullscreen Loading State */}
-        {loading && <Loader />}
+        {loading && <AuthLoader />}
 
         {!loading && (
           <div className="flex flex-col lg:flex-row justify-center items-center gap-0 lg:gap-12 w-full min-h-screen">
@@ -188,20 +187,15 @@ const Login = () => {
                   type="button"
                   onClick={handleGoogleLogin}
                   disabled={googleLoading}
-                  className="px-12 py-2 rounded-3xl bg-white cursor-pointer disabled:opacity-70"
+                  className="px-12 py-2 rounded-md bg-white cursor-pointer disabled:opacity-70 flex items-center justify-center"
                 >
                   {googleLoading ? (
-                    <span className="text-gray-500 text-sm">Loading...</span>
+                    <div className="w-full h-full flex items-center justify-center">
+                      <PacmanLoader size={14} color="#183136" />
+                    </div>
                   ) : (
                     <FcGoogle size={28} />
                   )}
-                </button>
-
-                <button
-                  type="button"
-                  className="px-12 py-2 rounded-3xl bg-white cursor-pointer"
-                >
-                  <FaFacebook size={28} fill="blue" />
                 </button>
               </div>
 

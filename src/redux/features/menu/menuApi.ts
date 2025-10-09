@@ -5,7 +5,12 @@ const menuApi = api.injectEndpoints({
   endpoints: (build) => ({
     getMenus: build.query<MenuApiResponse, void>({
       query: () => '/menus',
-      extraOptions: { suspense: true, useErrorBoundary: true, critical: true },
+      extraOptions: {
+        suspense: true,
+        useErrorBoundary: true,
+        critical: true,
+        meta: { skipLoader: true },
+      },
       providesTags: ['Menu'],
       // mark this as critical so loader shows
     }),

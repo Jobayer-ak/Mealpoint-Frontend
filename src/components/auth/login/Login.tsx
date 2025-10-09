@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
@@ -7,11 +8,10 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
-import PacmanLoader from 'react-spinners/PacmanLoader';
+import { toast } from 'sonner';
 import z from 'zod';
 import Container from '../../container/Container';
-import AuthLoader from '../../Shared/Loader';
-import { Button } from '../../ui/button';
+import LoadingButton from '../../Shared/LoadingButton';
 import {
   Form,
   FormControl,
@@ -21,11 +21,12 @@ import {
   FormMessage,
 } from '../../ui/form';
 import { Input } from '../../ui/input';
+import { Spinner } from '../../ui/spinner';
 
 const Login = () => {
   const router = useRouter();
   const [googleLoading, setGoogleLoading] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const formSchema = z.object({
     email: z
@@ -48,10 +49,9 @@ const Login = () => {
   });
 
   // Credentials login
-  async function onSubmit(values: FormSchemaType) {
+  const onSubmit = async (values: FormSchemaType) => {
+    setIsSubmitting(true);
     try {
-      setLoading(true);
-
       const result = await signIn('credentials', {
         redirect: false,
         email: values.email,
@@ -59,157 +59,148 @@ const Login = () => {
       });
 
       if (result?.error) {
-        form.setError('password', {
-          type: 'manual',
-          message: 'Invalid email or password',
-        });
+        toast.error('Invalid email or password');
         return;
       }
 
+      toast.success('Login successful!');
       router.push('/');
-    } catch (err) {
-      console.error('Login failed:', err);
+    } catch (err: any) {
+      toast.error(err?.message || 'Something went wrong');
     } finally {
-      setLoading(false);
+      setIsSubmitting(false);
     }
-  }
+  };
 
-  // Google Login — Pro setup
+  // Google login
   const handleGoogleLogin = async () => {
+    setGoogleLoading(true);
     try {
-      // setGoogleLoading(true);
       await signIn('google', { callbackUrl: '/' });
-    } catch (error) {
-      console.error('Google login failed:', error);
+    } catch (err: any) {
+      toast.error(err?.message || 'Google login failed');
     } finally {
       setGoogleLoading(false);
     }
   };
 
   return (
-    <div className="">
-      <Container>
-        {/* Fullscreen Loading State */}
-        {loading && <AuthLoader />}
+    <Container>
+      <div className="flex flex-col lg:flex-row justify-center items-center gap-0 lg:gap-12 w-full min-h-screen">
+        {/* Image */}
+        <div className="relative w-full lg:w-1/2 h-100 mt-28 lg:mt-0">
+          <Image
+            src="/assets/Login.png"
+            alt="Login image"
+            fill
+            className="md:object-cover object-center"
+          />
+        </div>
 
-        {!loading && (
-          <div className="flex flex-col lg:flex-row justify-center items-center gap-0 lg:gap-12 w-full min-h-screen">
-            {/* image */}
-            <div className="relative w-full lg:w-1/2 h-100 mt-28 lg:mt-0">
-              <Image
-                src="/assets/Login.png"
-                alt="image"
-                fill
-                className="md:object-cover object-center"
+        {/* Login Form */}
+        <div className="w-full lg:w-1/2 flex flex-col justify-center gap-5 items-center bg-[#1b1a1a] mt-16 pb-6 rounded-lg">
+          <h4 className="text-white text-4xl font-extrabold tracking-wider mt-2">
+            Login
+          </h4>
+
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="text-white w-full md:w-2/3 px-6 md:px-0"
+            >
+              {/* Email */}
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Email</FormLabel>
+                    <FormControl className="mb-3">
+                      <Input
+                        {...field}
+                        placeholder="you@example.com"
+                        className="py-6 bg-white text-[#183136]"
+                        disabled={isSubmitting}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
 
-            {/* login form  */}
-            <div className="w-full lg:w-1/2 flex flex-col justify-center gap-5 items-center bg-[#1b1a1a] mt-16 pb-6 rounded-lg">
-              <div className="items-center justify-center">
-                <h4 className="text-white text-4xl font-extrabold tracking-wider mt-2">
-                  Login
-                </h4>
-              </div>
+              {/* Password */}
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="password"
+                        placeholder="******"
+                        className="py-6 bg-white text-[#183136]"
+                        disabled={isSubmitting}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="text-white w-full md:w-2/3 px-6 md:px-0"
-                >
-                  {/* Email */}
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel className="tracking-wider text-sm">
-                          Email
-                        </FormLabel>
-                        <FormControl className="mb-3">
-                          <Input
-                            placeholder="you@example.com"
-                            {...field}
-                            className="py-6 bg-white text-[#183136]"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* Password */}
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel className="text-sm tracking-wider">
-                          Password
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="password"
-                            placeholder="******"
-                            {...field}
-                            className="py-6 bg-white text-[#183136] mb-2"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <div className="flex justify-end items-end">
-                    <button
-                      type="button"
-                      className="text-blue-500 text-xs tracking-wider cursor-pointer"
-                    >
-                      Forgot Password
-                    </button>
-                  </div>
-
-                  <Button
-                    type="submit"
-                    className="w-full text-xl text-[#183136] bg-yellow-600 py-6 mt-6 cursor-pointer"
-                  >
-                    Login
-                  </Button>
-                </form>
-              </Form>
-
-              {/* social login */}
-              <p className="text-md text-white">Or continue with </p>
-
-              {/* Google & Facebook login */}
-              <div className="flex justify-center items-center gap-6">
+              <div className="flex justify-end items-end mb-4">
                 <button
                   type="button"
-                  onClick={handleGoogleLogin}
-                  disabled={googleLoading}
-                  className="px-12 py-2 rounded-md bg-white cursor-pointer disabled:opacity-70 flex items-center justify-center"
+                  className="text-blue-500 text-xs tracking-wider cursor-pointer"
+                  disabled={isSubmitting}
                 >
-                  {googleLoading ? (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <PacmanLoader size={14} color="#183136" />
-                    </div>
-                  ) : (
-                    <FcGoogle size={28} />
-                  )}
+                  Forgot Password
                 </button>
               </div>
 
-              <p className="text-md text-white font-light">
-                Don&apos;t have an account yet?{' '}
-                <span className="font-semibold underline underline-offset-4 decoration-[#d08b2f]">
-                  <Link href="/auth/signup">Register for free</Link>
-                </span>
-              </p>
-            </div>
+              {/* Submit Button */}
+              <LoadingButton
+                type="submit"
+                isLoading={isSubmitting}
+                loadingText="Logging in..."
+                className="w-full text-xl text-[#183136] bg-yellow-600 py-6 mt-2"
+              >
+                Login
+              </LoadingButton>
+            </form>
+          </Form>
+
+          {/* Social login */}
+          <p className="text-md text-white mt-4">Or continue with</p>
+
+          <div className="flex justify-center items-center gap-6 mt-2">
+            <button
+              type="button"
+              onClick={handleGoogleLogin}
+              disabled={googleLoading || isSubmitting}
+              className="px-12 py-2 rounded-md bg-white cursor-pointer disabled:opacity-70 flex items-center justify-center"
+            >
+              {googleLoading ? (
+                <Spinner className="size-5" />
+              ) : (
+                <FcGoogle size={28} />
+              )}
+            </button>
           </div>
-        )}
-      </Container>
-    </div>
+
+          <p className="text-md text-white font-light mt-4">
+            Don&apos;t have an account yet?{' '}
+            <Link
+              href="/auth/signup"
+              className="font-semibold underline underline-offset-4 decoration-[#d08b2f]"
+            >
+              Register for free
+            </Link>
+          </p>
+        </div>
+      </div>
+    </Container>
   );
 };
 

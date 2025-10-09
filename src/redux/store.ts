@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { api } from './api/apiSlice';
+import errorReducer from './features/error/errorSlice';
 import loaderReducer from './features/loader/loaderSlice';
 import useReducer from './features/user/userSlice';
 import { loaderMiddleware } from './middleware/loaderMiddleware';
@@ -7,6 +8,7 @@ import { loaderMiddleware } from './middleware/loaderMiddleware';
 const store = configureStore({
   reducer: {
     loader: loaderReducer,
+    error: errorReducer,
     user: useReducer,
     [api.reducerPath]: api.reducer,
   },

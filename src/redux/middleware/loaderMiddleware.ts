@@ -8,11 +8,13 @@ import {
 import { hideLoader, showLoader } from '../features/loader/loaderSlice';
 
 export const loaderMiddleware: Middleware = (store) => (next) => (action) => {
+  const result = next(action); // ✅ pass action to the next middleware first
+
   if (isPending(action)) {
     store.dispatch(showLoader());
-  }
-  if (isFulfilled(action) || isRejected(action)) {
+  } else if (isFulfilled(action) || isRejected(action)) {
     store.dispatch(hideLoader());
   }
-  return next(action);
+
+  return result;
 };

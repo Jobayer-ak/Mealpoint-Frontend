@@ -23,7 +23,7 @@ const DishTabsMain = () => {
   }, []);
 
   const { data } = useGetMenusQuery(undefined, {
-    // skip: !mounted, // don't run on SSR
+    skip: !mounted, // don't run on SSR
     // useErrorBoundary: true,
   });
 

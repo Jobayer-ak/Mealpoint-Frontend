@@ -1,14 +1,9 @@
+// redux/features/loader/loaderSlice.ts
 import { createSlice } from '@reduxjs/toolkit';
-
-interface LoaderState {
-  isLoading: boolean;
-}
-
-const initialState: LoaderState = { isLoading: false };
 
 const loaderSlice = createSlice({
   name: 'loader',
-  initialState,
+  initialState: { isLoading: false },
   reducers: {
     showLoader: (state) => {
       state.isLoading = true;

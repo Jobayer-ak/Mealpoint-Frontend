@@ -1,11 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import z from 'zod';
 import Container from '../../container/Container';
-import { Button } from '../../ui/button';
+import LoadingButton from '../../Shared/LoadingButton';
 import {
   Form,
   FormControl,
@@ -17,89 +22,116 @@ import {
 import { Input } from '../../ui/input';
 
 const Signup = () => {
-  const formSchema = z.object({
-    name: z.string().min(1, { message: 'Name is required.' }),
+  const router = useRouter();
+  // const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-    email: z
-      .string()
-      .min(1, { message: 'Email is required.' })
-      .email({ message: 'Please enter a valid email address.' }),
-
-    password: z
-      .string()
-      .min(6, { message: 'Password must be at least 6 characters long.' }),
-
-    phone: z
-      .string()
-      .min(1, { message: 'Phone number is required.' })
-      .regex(/^[0-9]{10,15}$/, {
-        message: 'Please enter a valid phone number.',
-      }),
-
-    address: z.string().min(1, { message: 'Address is required.' }),
-  });
+  // Zod schema with confirm password
+  const formSchema = z
+    .object({
+      name: z.string().min(1, { message: 'Name is required.' }),
+      email: z
+        .string()
+        .min(1, { message: 'Email is required.' })
+        .email({ message: 'Please enter a valid email address.' }),
+      password: z
+        .string()
+        .min(6, { message: 'Password must be at least 6 characters long.' }),
+      confirmPassword: z.string().min(6, { message: 'Confirm your password.' }),
+      phone: z
+        .string()
+        .min(1, { message: 'Phone number is required.' })
+        .regex(/^[0-9]{10,15}$/, {
+          message: 'Please enter a valid phone number.',
+        }),
+      address: z.string().min(1, { message: 'Address is required.' }),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: 'Passwords must match',
+      path: ['confirmPassword'], // Shows error under confirmPassword field
+    });
 
   type FormSchemaType = z.infer<typeof formSchema>;
 
-  // 3. Hook form
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
       email: '',
       password: '',
+      confirmPassword: '',
       phone: '',
       address: '',
     },
   });
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-  }
+  const onSubmit = async (values: FormSchemaType) => {
+    setIsSubmitting(true);
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
+      });
+
+      let data: any;
+      try {
+        data = await res.json();
+      } catch (err) {
+        data = { message: res.statusText || 'Invalid response from server' };
+      }
+
+      if (!res.ok) {
+        toast.error(data.message || 'Signup failed');
+        return;
+      }
+
+      toast.success('Signup successful! You can now login.');
+      router.push('/auth/login');
+    } catch (err: any) {
+      toast.error(err?.message || 'Something went wrong');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
-    <div className="">
+    <div>
       <Container>
-        <div className="flex flex-col lg:flex-row justify-center items-center gap-0  lg:gap-12  w-full min-h-screen">
+        <div className="flex flex-col lg:flex-row justify-center items-center gap-0 lg:gap-12 w-full min-h-screen">
           {/* image */}
-          <div className="relative w-full  lg:w-1/2 h-100 mt-28 lg:mt-0">
+          <div className="relative w-full lg:w-1/2 h-100 mt-28 lg:mt-0">
             <Image
               src="/assets/Login.png"
-              alt="image"
+              alt="Signup image"
               fill
               className="md:object-cover object-center"
             />
           </div>
 
-          {/* login form  */}
+          {/* signup form */}
           <div className="w-full lg:w-1/2 flex flex-col justify-center gap-5 items-center bg-[#1b1a1a] mt-16 pb-6 rounded-lg">
-            <div className="items-center justify-center">
-              <h4 className="text-white text-4xl font-extrabold tracking-wider mt-2">
-                Sign Up
-              </h4>
-            </div>
+            <h4 className="text-white text-4xl font-extrabold tracking-wider mt-2">
+              Sign Up
+            </h4>
 
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className=" text-white w-full px-1 md:px-4"
+                className="text-white w-full px-1 md:px-4"
               >
                 <div className="flex flex-col justify-center items-center gap-3 md:grid md:grid-cols-2 md:gap-3 w-full">
-                  {/* name */}
+                  {/* Name */}
                   <FormField
                     control={form.control}
                     name="name"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="tracking-wider text-sm">
-                          Full Name
-                        </FormLabel>
-                        <FormControl className="mb-3">
+                        <FormLabel>Full Name</FormLabel>
+                        <FormControl>
                           <Input
-                            placeholder="Your Full Name"
                             {...field}
+                            placeholder="Your Full Name"
                             className="py-6 bg-white text-[#183136]"
                           />
                         </FormControl>
@@ -107,19 +139,18 @@ const Signup = () => {
                       </FormItem>
                     )}
                   />
+
                   {/* Email */}
                   <FormField
                     control={form.control}
                     name="email"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="tracking-wider text-sm">
-                          Email
-                        </FormLabel>
-                        <FormControl className="mb-3">
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
                           <Input
-                            placeholder="you@example.com"
                             {...field}
+                            placeholder="you@example.com"
                             className="py-6 bg-white text-[#183136]"
                           />
                         </FormControl>
@@ -134,15 +165,13 @@ const Signup = () => {
                     name="password"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="text-sm tracking-wider">
-                          Password
-                        </FormLabel>
+                        <FormLabel>Password</FormLabel>
                         <FormControl>
                           <Input
+                            {...field}
                             type="password"
                             placeholder="******"
-                            {...field}
-                            className="py-6 bg-white text-[#183136] mb-2"
+                            className="py-6 bg-white text-[#183136]"
                           />
                         </FormControl>
                         <FormMessage />
@@ -150,21 +179,19 @@ const Signup = () => {
                     )}
                   />
 
-                  {/* Password */}
+                  {/* Confirm Password */}
                   <FormField
                     control={form.control}
-                    name="password"
+                    name="confirmPassword"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="text-sm tracking-wider">
-                          Confirm Password
-                        </FormLabel>
+                        <FormLabel>Confirm Password</FormLabel>
                         <FormControl>
                           <Input
+                            {...field}
                             type="password"
                             placeholder="******"
-                            {...field}
-                            className="py-6 bg-white text-[#183136] mb-2"
+                            className="py-6 bg-white text-[#183136]"
                           />
                         </FormControl>
                         <FormMessage />
@@ -172,20 +199,17 @@ const Signup = () => {
                     )}
                   />
 
-                  {/*  phone*/}
-
+                  {/* Phone */}
                   <FormField
                     control={form.control}
                     name="phone"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="tracking-wider text-sm">
-                          Phone
-                        </FormLabel>
-                        <FormControl className="mb-3">
+                        <FormLabel>Phone</FormLabel>
+                        <FormControl>
                           <Input
-                            placeholder="Phone Number"
                             {...field}
+                            placeholder="Phone Number"
                             className="py-6 bg-white text-[#183136]"
                           />
                         </FormControl>
@@ -194,19 +218,17 @@ const Signup = () => {
                     )}
                   />
 
-                  {/* address */}
+                  {/* Address */}
                   <FormField
                     control={form.control}
                     name="address"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel className="tracking-wider text-sm">
-                          Address
-                        </FormLabel>
-                        <FormControl className="mb-3">
+                        <FormLabel>Address</FormLabel>
+                        <FormControl>
                           <Input
-                            placeholder="Your Address"
                             {...field}
+                            placeholder="Your Address"
                             className="py-6 bg-white text-[#183136]"
                           />
                         </FormControl>
@@ -216,13 +238,15 @@ const Signup = () => {
                   />
                 </div>
 
-                <div className=" flex justify-center items-center">
-                  <Button
+                <div className="flex justify-center items-center mt-6">
+                  <LoadingButton
                     type="submit"
-                    className=" text-xl text-[#183136] bg-yellow-600 px-16 py-6 mt-6"
+                    isLoading={isSubmitting}
+                    loadingText="Logging in..."
+                    className="w-1/3 text-xl text-[#183136] bg-yellow-600 py-6 mt-2"
                   >
-                    Sign Up
-                  </Button>
+                    Signup
+                  </LoadingButton>
                 </div>
               </form>
             </Form>

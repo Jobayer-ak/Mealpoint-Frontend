@@ -11,7 +11,7 @@ interface LoadingButtonProps extends React.ComponentProps<typeof Button> {
 
 const LoadingButton: React.FC<LoadingButtonProps> = ({
   isLoading = false,
-  loadingText = 'Loading...',
+  loadingText,
   children,
   disabled,
   ...props

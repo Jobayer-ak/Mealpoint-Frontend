@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
@@ -67,22 +66,23 @@ const Signup = () => {
 
   const onSubmit = async (values: FormSchemaType) => {
     setIsSubmitting(true);
-    try {
-      const res = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
-      });
 
-      let data: any;
-      try {
-        data = await res.json();
-      } catch (err) {
-        data = { message: res.statusText || 'Invalid response from server' };
-      }
+    const payload = {
+      ...values,
+      provider: 'local', // ✅ explicitly send provider
+    };
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/auth/register`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        }
+      );
 
       if (!res.ok) {
-        toast.error(data.message || 'Signup failed');
+        toast.error(res.message || 'Signup failed');
         return;
       }
 
@@ -242,10 +242,10 @@ const Signup = () => {
                   <LoadingButton
                     type="submit"
                     isLoading={isSubmitting}
-                    loadingText="Logging in..."
-                    className="w-1/3 text-xl text-[#183136] bg-yellow-600 py-6 mt-2"
+                    loadingText="Signing up..."
+                    className="w-1/3 text-xl text-[#183136] bg-yellow-600 py-6 mt-2 cursor-pointer"
                   >
-                    Signup
+                    Sign Up
                   </LoadingButton>
                 </div>
               </form>

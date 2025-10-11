@@ -66,10 +66,9 @@ const Signup = () => {
 
   const onSubmit = async (values: FormSchemaType) => {
     setIsSubmitting(true);
-
     const payload = {
       ...values,
-      provider: 'local', // ✅ explicitly send provider
+      provider: 'local',
     };
     try {
       const res = await fetch(
@@ -81,8 +80,10 @@ const Signup = () => {
         }
       );
 
+      const data = await res.json();
+
       if (!res.ok) {
-        toast.error(res.message || 'Signup failed');
+        toast.error(data.message || 'Signup failed');
         return;
       }
 

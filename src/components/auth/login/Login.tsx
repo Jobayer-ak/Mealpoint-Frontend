@@ -76,7 +76,7 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     setGoogleLoading(true);
     try {
-      await signIn('google', { callbackUrl: '/' });
+      await signIn('google', { redirect: false });
     } catch (err: any) {
       toast.error(err?.message || 'Google login failed');
     } finally {

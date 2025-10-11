@@ -59,9 +59,6 @@ const Navbar = () => {
 
   // Choose links based on session
   const links = session?.user ? AUTH_LINKS : GUEST_LINKS;
-  console.log('session: ', session?.user);
-
-  console.log('Profile: ', profile ?? 'No profile found');
 
   return (
     <header className="bg-white shadow-md rounded-2xl my-4 relative z-50">

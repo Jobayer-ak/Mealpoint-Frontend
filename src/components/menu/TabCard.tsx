@@ -1,17 +1,20 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 import Image from 'next/image';
+import Link from 'next/link';
 import { HiOutlineShoppingBag } from 'react-icons/hi2';
 import { LuEuro } from 'react-icons/lu';
 
 interface ICard {
+  id: string;
   name: string;
+  slug: string;
   srcImage: string;
   description: string;
   price: number;
 }
 
-const TabCard = ({ name, srcImage, description, price }: ICard) => {
-  console.log(name, srcImage, description, price);
+const TabCard = ({ id, name, slug, srcImage, description, price }: ICard) => {
   return (
     <div className="flex justify-between items-center gap-2 md:gap-0  lg:gap-4 shadow-lg group">
       {/*image part  */}
@@ -30,9 +33,12 @@ const TabCard = ({ name, srcImage, description, price }: ICard) => {
       <div className="flex justify-between items-center flex-grow gap-2">
         {/* left side */}
         <div className="">
-          <h3 className="text-[#183136] mb-4 font-bold md:font-extrabold text-xl md:text-2xl">
+          <Link
+            href={`/product/${slug}-${id}`}
+            className="text-[#183136] mb-4 font-bold md:font-extrabold text-xl md:text-2xl"
+          >
             {name}
-          </h3>
+          </Link>
           <p className="text-[#183136] w-full text-left font-light tracking-wider">
             {description}
           </p>

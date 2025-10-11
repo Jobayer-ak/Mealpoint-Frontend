@@ -27,6 +27,8 @@ const DishTabsMain = () => {
     // useErrorBoundary: true,
   });
 
+  console.log('Data: ', data);
+
   const desserts = data?.data?.filter((d) => d.category.name === 'Desserts');
   const beverages = data?.data?.filter((b) => b.category.name === 'Beverages');
   const mainCourses = data?.data?.filter(
@@ -134,7 +136,9 @@ const DishTabsMain = () => {
                 ? mainCourses?.map((dish) => (
                     <TabCard
                       key={dish._id}
+                      id={dish._id}
                       name={dish.name}
+                      slug={dish.slug}
                       srcImage={dish.image}
                       description={dish.description}
                       price={dish.price}
@@ -144,7 +148,9 @@ const DishTabsMain = () => {
                 ? desserts?.map((dish) => (
                     <TabCard
                       key={dish._id}
+                      id={dish._id}
                       name={dish.name}
+                      slug={dish.slug}
                       srcImage={dish.image}
                       description={dish.description}
                       price={dish.price}
@@ -154,7 +160,9 @@ const DishTabsMain = () => {
                 ? beverages?.map((dish) => (
                     <TabCard
                       key={dish._id}
+                      id={dish._id}
                       name={dish.name}
+                      slug={dish.slug}
                       srcImage={dish.image}
                       description={dish.description}
                       price={dish.price}
@@ -163,7 +171,9 @@ const DishTabsMain = () => {
                 : data?.data?.map((dish) => (
                     <TabCard
                       key={dish._id}
+                      id={dish._id}
                       name={dish.name}
+                      slug={dish.slug}
                       srcImage={dish.image}
                       description={dish.description}
                       price={dish.price}

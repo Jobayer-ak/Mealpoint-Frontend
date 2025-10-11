@@ -10,6 +10,7 @@ export interface Category {
 
 // Menu item type
 export interface MenuItem {
+  slug: string;
   _id: string;
   id: string; // e.g. "M-101"
   name: string;

@@ -5,7 +5,7 @@ import ClientLayoutWrapper from '../components/ClientLayoutWrapper';
 import Container from '../components/container/Container';
 import Footer from '../components/footer/Footer';
 import Navbar from '../components/navigationMenu/Navbar';
-import GlobalLoaderProvider from '../components/providers/GlobalLoaderProvider';
+import GlobalLoaderProvider from '../components/Shared/providers/GlobalLoaderProvider';
 import UserSyncProvider from '../components/Shared/providers/UserSyncProvider';
 import { ReduxProvider } from '../components/Shared/ReduxProvider';
 import { Toaster } from '../components/ui/sonner';

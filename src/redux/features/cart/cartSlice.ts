@@ -1,14 +1,21 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { IProduct } from '../../../types/globalTypes';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface ICart {
-  products: IProduct[];
+interface ICartItem {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  quantity: number;
+  size?: string;
+}
+
+interface CartState {
+  items: ICartItem[];
   total: number;
 }
 
-const initialState: ICart = {
-  products: [],
+const initialState: CartState = {
+  items: [],
   total: 0,
 };
 
@@ -16,46 +23,22 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<IProduct>) => {
-      const existing = state.products.find(
-        (product) => product._id === action.payload._id
+    addToCart: (state, action: PayloadAction<ICartItem>) => {
+      const existingItem = state.items.find(
+        (item) => item.id === action.payload.id
       );
 
-      if (existing) {
-        existing.quantity! += 1;
+      if (existingItem) {
+        existingItem.quantity += action.payload.quantity;
       } else {
-        state.products.push({ ...action.payload, quantity: 1 });
+        state.items.push(action.payload);
       }
 
       state.total += action.payload.price;
     },
-
-    removeFromCart: (state, action: PayloadAction<IProduct>) => {
-      state.products = state.products.filter(
-        (proudct) => proudct._id !== action.payload._id
-      );
-
-      state.total -= action.payload.price * action.payload.quantity!;
-    },
-
-    removeOne: (state, action: PayloadAction<IProduct>) => {
-      const existing = state.products.find(
-        (product) => product._id === action.payload._id
-      );
-
-      if (existing && existing.quantity! > 1) {
-        existing.quantity! -= 1;
-      } else {
-        state.products = state.products.filter(
-          (proudct) => proudct._id !== action.payload._id
-        );
-      }
-
-      state.total -= action.payload.price;
-    },
   },
 });
 
-export const { addToCart, removeFromCart, removeOne } = cartSlice.actions;
+export const { addToCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

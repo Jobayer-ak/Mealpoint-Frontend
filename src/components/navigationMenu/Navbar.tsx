@@ -53,7 +53,8 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { data: session } = useSession();
 
-  const profile = useAppSelector((state) => state.user?.profile);
+  const data = useAppSelector((state) => state.cart);
+  console.log(data.items.length);
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 

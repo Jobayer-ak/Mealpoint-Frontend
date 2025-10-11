@@ -27,8 +27,6 @@ const DishTabsMain = () => {
     // useErrorBoundary: true,
   });
 
-  console.log('Data: ', data);
-
   const desserts = data?.data?.filter((d) => d.category.name === 'Desserts');
   const beverages = data?.data?.filter((b) => b.category.name === 'Beverages');
   const mainCourses = data?.data?.filter(

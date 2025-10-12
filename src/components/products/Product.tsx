@@ -22,6 +22,8 @@ import Container from '../container/Container';
 import BottomShadow from '../Shared/BottomShadow';
 import ButtonComp from '../Shared/ButtonComp';
 import HorizontalLine from '../Shared/featuresIcons/HorizontalLine';
+
+import ImageZoomModal from '../Shared/ImageZoomModal';
 import SecMainHeader from '../Shared/SecMainHeader';
 import TopShadow from '../Shared/TopShadow';
 import { Form, FormControl, FormField, FormItem } from '../ui/form';
@@ -57,6 +59,7 @@ const tabClass =
 const Product = () => {
   const [currentTab, setCurrentTab] = useState('description');
   const dispatch = useAppDispatch();
+  const [zoomOpen, setZoomOpen] = useState(false);
 
   // Get productId from params
   const params = useParams();
@@ -134,7 +137,20 @@ const Product = () => {
                 fill
                 className="object-center transition-transform duration-500 ease-out hover:scale-110"
               />
-              <AiOutlineSearch className="absolute bg-white p-3 rounded-full top-10 right-10 text-black size-12 cursor-pointer shadow-md" />
+
+              <AiOutlineSearch
+                className="absolute bg-white p-3 rounded-full top-10 right-10 text-black size-12 cursor-pointer shadow-md"
+                onClick={() => setZoomOpen(true)}
+              />
+
+              <ImageZoomModal
+                src={
+                  'https://tastyc.bslthemes.com/wp-content/uploads/2021/04/gallery-i-2.jpg'
+                }
+                alt={product?.name || 'Product'}
+                isOpen={zoomOpen}
+                onClose={() => setZoomOpen(false)}
+              />
             </div>
 
             {/* Product Info */}

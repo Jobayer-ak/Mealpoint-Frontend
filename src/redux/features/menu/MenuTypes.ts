@@ -8,14 +8,21 @@ export interface Category {
   __v: number;
 }
 
+export interface IVariation {
+  size: string;
+  price: number;
+}
+
 // Menu item type
 export interface MenuItem {
+  hasVariants: boolean;
   slug: string;
   _id: string;
   id: string; // e.g. "M-101"
   name: string;
   description: string;
-  price: number;
+  variations?: IVariation[] | undefined;
+  basePrice?: number | undefined;
   category: Category;
   image: string;
   available: boolean;

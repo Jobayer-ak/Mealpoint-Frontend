@@ -13,7 +13,7 @@ const menuApi = api.injectEndpoints({
       // mark this as critical so loader shows
     }),
     getSingleProduct: build.query({
-      query: (id) => `/menus/id/${id}`,
+      query: (slug) => `/menus/${slug}`,
       extraOptions: {
         critical: true,
         meta: { skipLoader: true },

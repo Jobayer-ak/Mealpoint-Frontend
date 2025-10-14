@@ -2,13 +2,15 @@
 
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { CiMenuFries } from 'react-icons/ci';
-import { MdOutlineShoppingCart } from 'react-icons/md';
+import { PiShoppingCartLight } from 'react-icons/pi';
 import { RxCross1 } from 'react-icons/rx';
 import { useAppSelector } from '../../redux/hook/hook';
+import { useOutsideClick } from '../../redux/hook/useOutsideClick';
+import CartDropdown from '../cart/CartDropdown';
 
-// Guest links (not logged in)
 const GUEST_LINKS = [
   { title: 'Home', href: '/' },
   { title: 'About', href: '/about' },
@@ -20,7 +22,6 @@ const GUEST_LINKS = [
   { title: 'Login', href: '/auth/login' },
 ];
 
-// Authenticated user links
 const AUTH_LINKS = [
   { title: 'Home', href: '/' },
   { title: 'About', href: '/about' },
@@ -29,7 +30,7 @@ const AUTH_LINKS = [
   { title: 'Blog', href: '/blog' },
   { title: 'Contact', href: '/contact' },
   { title: 'Shop', href: '/shop' },
-  { title: 'Logout', href: '/auth/logout' }, // will handle click
+  { title: 'Logout', href: '/auth/logout' },
 ];
 
 interface NavLinkProps {
@@ -51,14 +52,26 @@ const NavLink = ({ href, title, onClick, className }: NavLinkProps) => (
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { data: session } = useSession();
+  const [cartOpen, setCartOpen] = useState(false);
+  const pathname = usePathname();
 
+  const cartRef = useRef<HTMLDivElement | null>(null);
+
+  const toggleCart = useCallback(() => setCartOpen((prev) => !prev), []);
+  const closeCart = useCallback(() => setCartOpen(false), []);
+
+  // Close dropdown on outside click
+  useOutsideClick(cartRef, closeCart);
+
+  // Close cart automatically on route change
+  useEffect(() => {
+    closeCart();
+  }, [pathname, closeCart]);
+
+  const { data: session } = useSession();
   const data = useAppSelector((state) => state.cart);
-  console.log(data.items.length);
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
-
-  // Choose links based on session
   const links = session?.user ? AUTH_LINKS : GUEST_LINKS;
 
   return (
@@ -98,9 +111,25 @@ const Navbar = () => {
             Reservation
           </button>
 
-          <button className="text-gray-600 hover:text-yellow-500">
-            <MdOutlineShoppingCart size={24} />
-          </button>
+          {/* Cart */}
+          <div ref={cartRef} className="relative">
+            <button
+              className="text-gray-600 hover:text-yellow-500 cursor-pointer relative"
+              onClick={toggleCart}
+            >
+              <PiShoppingCartLight size={34} />
+              <span className="absolute top-0 right-0 w-5 h-5 flex justify-center items-center bg-green-500 text-white rounded-full text-xs">
+                {data?.items.length || 0}
+              </span>
+            </button>
+
+            {/* Smooth animated dropdown */}
+            <CartDropdown
+              isOpen={cartOpen}
+              onClose={closeCart}
+              className="absolute right-0 top-15 mt-2 z-50"
+            />
+          </div>
 
           {/* Mobile Menu Toggle */}
           <button

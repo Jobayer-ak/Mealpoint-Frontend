@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 
@@ -18,11 +18,11 @@ import { useGetSingleProductQuery } from '../../redux/features/menu/menuApi';
 import { useAppDispatch } from '../../redux/hook/hook';
 
 // UI Components
+import { toast } from 'sonner';
 import Container from '../container/Container';
 import BottomShadow from '../Shared/BottomShadow';
 import ButtonComp from '../Shared/ButtonComp';
 import HorizontalLine from '../Shared/featuresIcons/HorizontalLine';
-
 import ImageZoomModal from '../Shared/ImageZoomModal';
 import SecMainHeader from '../Shared/SecMainHeader';
 import TopShadow from '../Shared/TopShadow';
@@ -43,7 +43,6 @@ import ProductInfo from './ProductInfo';
 import ProductReview from './ProductReview';
 import RelatedProductCard from './RelatedProductCard';
 
-// ------------------- Form Schema -------------------
 const formSchema = z.object({
   quantity: z
     .string()
@@ -52,57 +51,83 @@ const formSchema = z.object({
   size: z.string().optional(),
 });
 
-// ------------------- Tabs Class -------------------
 const tabClass =
   'data-[state=active]:bg-white w-full md:w-fit px-0 py-0 md:px-4 md:py-4 uppercase text-foreground text-[#838383] inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center rounded-sm text-sm whitespace-nowrap transition-[color,box-shadow] focus-visible:outline-none disabled:opacity-50 data-[state=active]:text-[#183136]';
 
 const Product = () => {
   const [currentTab, setCurrentTab] = useState('description');
-  const dispatch = useAppDispatch();
   const [zoomOpen, setZoomOpen] = useState(false);
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [displayPrice, setDisplayPrice] = useState<number | null>(null);
 
-  // Get productId from params
+  const dispatch = useAppDispatch();
   const params = useParams();
-  const productId = params?.slug?.split('-').pop();
+  const slug = params?.slug as string;
 
-  const { data } = useGetSingleProductQuery(productId);
+  const { data } = useGetSingleProductQuery(slug!, { skip: !slug });
   const product = data?.data;
 
-  // Form
+  // React Hook Form
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: { quantity: '1', size: '' },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    dispatch(
-      addToCart({
-        id: product?._id,
-        name: product?.name,
-        price: product?.price,
-        image:
-          'https://tastyc.bslthemes.com/wp-content/uploads/2021/04/gallery-i-2.jpg',
-        quantity: +values.quantity,
-        size: values.size,
-      })
-    );
-  };
-
   const quantityValue = form.watch('quantity');
   const isAddToCartDisabled =
     !quantityValue ||
     isNaN(Number(quantityValue)) ||
-    Number(quantityValue) <= 0;
+    Number(quantityValue) <= 0 ||
+    (product?.hasVariants && !selectedSize);
+
+  // Update price dynamically when size is selected
+  useEffect(() => {
+    if (!product) return;
+
+    if (product.hasVariants && selectedSize) {
+      const variant = product.variations.find(
+        (v: { size: string }) => v.size === selectedSize
+      );
+      setDisplayPrice(variant?.price ?? 0);
+    } else if (!product.hasVariants) {
+      setDisplayPrice(product.basePrice ?? 0);
+    } else {
+      setDisplayPrice(null);
+    }
+  }, [selectedSize, product]);
+
+  // Handle Add to Cart
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    if (!product) return;
+
+    const price = displayPrice ?? 0;
+
+    const cartItem = {
+      id: product.id,
+      mongoId: product._id,
+      name: product.name,
+      price,
+      image: product.image,
+      description: product.description,
+      quantity: Number(values.quantity),
+      size: product.hasVariants ? selectedSize : null,
+      hasVariants: product.hasVariants,
+      totalPrice: price * Number(values.quantity),
+    };
+
+    dispatch(addToCart(cartItem));
+    toast.success(`${cartItem?.name} addet to cart!`);
+  };
 
   return (
     <div className="mt-18">
       <Container>
         <div className="relative min-h-screen px-14 pb-12 bg-white rounded-md">
-          {/* Top & Bottom Shadows */}
+          {/* Shadows */}
           <TopShadow />
           <BottomShadow />
 
-          {/* Decorative Floating Circle */}
+          {/* Decorative Circle */}
           <div className="absolute bg-white w-[80px] h-[90px] rounded-full z-22 top-[-42px] left-1/2 transform -translate-x-1/2">
             <div className="w-[20px] h-[35px] bg-white/10 rounded-xl border-2 border-[#54575a] flex m-auto mt-[14px] relative overflow-hidden">
               <motion.button
@@ -113,7 +138,6 @@ const Product = () => {
                   duration: 1,
                   repeat: Infinity,
                   ease: 'easeInOut',
-                  repeatDelay: 0.1,
                 }}
               />
             </div>
@@ -129,24 +153,24 @@ const Product = () => {
           <div className="pt-20 flex flex-col gap-12 md:flex-row">
             {/* Product Image */}
             <div className="w-full md:w-1/2 relative h-[355px] rounded-sm overflow-hidden">
-              <Image
-                src={
-                  'https://tastyc.bslthemes.com/wp-content/uploads/2021/04/gallery-i-2.jpg'
-                }
-                alt={product?.name || 'Product'}
-                fill
-                className="object-center transition-transform duration-500 ease-out hover:scale-110"
-              />
-
+              {product?.image ? (
+                <Image
+                  src={product.image}
+                  alt={product.name || 'Product'}
+                  fill
+                  className="object-cover"
+                />
+              ) : (
+                <div className="w-full h-[355px] bg-gray-200 flex items-center justify-center text-gray-500">
+                  No Image Available
+                </div>
+              )}
               <AiOutlineSearch
                 className="absolute bg-white p-3 rounded-full top-10 right-10 text-black size-12 cursor-pointer shadow-md"
                 onClick={() => setZoomOpen(true)}
               />
-
               <ImageZoomModal
-                src={
-                  'https://tastyc.bslthemes.com/wp-content/uploads/2021/04/gallery-i-2.jpg'
-                }
+                src={product?.image || ''}
                 alt={product?.name || 'Product'}
                 isOpen={zoomOpen}
                 onClose={() => setZoomOpen(false)}
@@ -167,10 +191,15 @@ const Product = () => {
                       content={product?.name || 'Unnamed Product'}
                     />
 
-                    <div className="inline-flex items-baseline">
+                    {/* Price */}
+                    <div className="inline-flex items-baseline gap-2">
                       <LuEuro className="text-[#183136] size-9 translate-y-[6px]" />
                       <p className="text-[#183136] font-light text-4xl leading-none">
-                        {product?.price?.toFixed(2) || '0.00'}
+                        {displayPrice !== null
+                          ? displayPrice.toFixed(2)
+                          : product?.hasVariants
+                          ? 'Select size'
+                          : 'Contact us'}
                       </p>
                     </div>
 
@@ -181,15 +210,18 @@ const Product = () => {
                   </div>
 
                   {/* Size Selection */}
-                  {product?.size?.length ? (
+                  {product?.hasVariants && product.variations.length > 0 && (
                     <FormField
                       control={form.control}
                       name="size"
                       render={({ field }) => (
                         <FormItem>
                           <Select
-                            value={field.value}
-                            onValueChange={field.onChange}
+                            value={selectedSize ?? ''}
+                            onValueChange={(value) => {
+                              field.onChange(value);
+                              setSelectedSize(value);
+                            }}
                           >
                             <SelectTrigger className="w-[210px] text-[#183136] text-md pl-4 pr-2 py-6 shadow-md rounded-sm border border-gray-100">
                               <SelectValue placeholder="Select size" />
@@ -197,21 +229,24 @@ const Product = () => {
                             <SelectContent className="bg-white rounded-sm shadow-md">
                               <SelectGroup>
                                 <SelectLabel>Available Sizes</SelectLabel>
-                                {product.size.map((s: string) => (
-                                  <SelectItem key={s} value={s}>
-                                    {s}
-                                  </SelectItem>
-                                ))}
+                                {['small', 'medium', 'large']
+                                  .filter((size) =>
+                                    product.variations.some(
+                                      (v: { size: string }) => v.size === size
+                                    )
+                                  )
+                                  .map((size) => (
+                                    <SelectItem key={size} value={size}>
+                                      {size.charAt(0).toUpperCase() +
+                                        size.slice(1)}
+                                    </SelectItem>
+                                  ))}
                               </SelectGroup>
                             </SelectContent>
                           </Select>
                         </FormItem>
                       )}
                     />
-                  ) : (
-                    <p className="text-[#183136] font-light text-md">
-                      Size not available
-                    </p>
                   )}
 
                   {/* Quantity + Add to Cart */}
@@ -255,19 +290,13 @@ const Product = () => {
               {/* Additional Product Info */}
               <div className="mt-8 flex flex-col gap-4">
                 <p className="text-[#183136] text-md font-light tracking-wide">
-                  SKU : <span>{product?.sku || 'N/A'}</span>
-                </p>
-                <p className="text-[#183136] text-md font-light tracking-wide ">
-                  Categories :{' '}
-                  <span>
-                    {product?.categories?.join(', ') || 'All, Dessers'}
-                  </span>
+                  SKU : <span>{product?._id || 'N/A'}</span>
                 </p>
                 <p className="text-[#183136] text-md font-light tracking-wide">
-                  Tags :{' '}
-                  <span>
-                    {product?.tags?.join(', ') || 'Desserts, Fruits, Salad'}
-                  </span>
+                  Category : <span>{product?.category?.name || 'N/A'}</span>
+                </p>
+                <p className="text-[#183136] text-md font-light tracking-wide">
+                  Tags : <span>{product?.tags?.join(', ') || 'N/A'}</span>
                 </p>
               </div>
             </div>

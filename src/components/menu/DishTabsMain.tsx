@@ -27,11 +27,12 @@ const DishTabsMain = () => {
     // useErrorBoundary: true,
   });
 
+  console.log('Data: ', data);
+
   const desserts = data?.data?.filter((d) => d.category.name === 'Desserts');
-  const beverages = data?.data?.filter((b) => b.category.name === 'Beverages');
-  const mainCourses = data?.data?.filter(
-    (m) => m.category.name === 'Main Course'
-  );
+  const drinks = data?.data?.filter((b) => b.category.name === 'Drinks');
+
+  const fastFood = data?.data?.filter((f) => f.category.name === 'Fast Food');
 
   return (
     <div className="w-full min-h-screen bg-white relative pb-14 mt-14 rounded-md">
@@ -74,17 +75,26 @@ const DishTabsMain = () => {
         >
           <div className="w-full flex justify-center items-center ">
             <TabsList className="w-full md:w-auto h-45 md:h-auto flex flex-col mt-5 md:mt-0 md:flex-row gap-0 md:gap-1 tracking-wider">
-              <TabsTrigger value="alldishes" className="cursor-pointer">
-                ALL DISHES
+              <TabsTrigger
+                value="alldishes"
+                className="cursor-pointer uppercase"
+              >
+                All Dishes
               </TabsTrigger>
-              <TabsTrigger value="maincourses" className="cursor-pointer">
-                MAIN COURSES
+              <TabsTrigger
+                value="fastfood"
+                className="uppercase cursor-pointer"
+              >
+                Fast Food
               </TabsTrigger>
-              <TabsTrigger value="desserts" className="cursor-pointer">
-                DESSERTS
+              <TabsTrigger
+                value="desserts"
+                className="cursor-pointer uppercase"
+              >
+                Desserts
               </TabsTrigger>
-              <TabsTrigger value="beverages" className="cursor-pointer">
-                DRINKS
+              <TabsTrigger value="drinks" className="cursor-pointer uppercase">
+                Drinks
               </TabsTrigger>
             </TabsList>
           </div>
@@ -94,11 +104,11 @@ const DishTabsMain = () => {
             <div className="flex flex-col justify-center items-center gap-8 mt-10 md:mt-12">
               <SecHeader
                 header={
-                  currentTab === 'maincourses'
+                  currentTab === 'fastfood'
                     ? '01 Menu'
                     : currentTab === 'desserts'
                     ? '02 Menu'
-                    : currentTab === 'beverages'
+                    : currentTab === 'drinks'
                     ? '03 Menu'
                     : 'Our Menu'
                 }
@@ -112,11 +122,11 @@ const DishTabsMain = () => {
               <SecMainHeader
                 className="text-[#183136] text-3xl md:text-4xl lg:text-6xl text-center font-extrabold"
                 content={
-                  currentTab === 'maincourses'
+                  currentTab === 'fastfood'
                     ? 'Main Courses'
                     : currentTab === 'desserts'
                     ? 'Desserts'
-                    : currentTab === 'beverages'
+                    : currentTab === 'drinks'
                     ? 'Drinks'
                     : 'All Dishes'
                 }
@@ -130,51 +140,63 @@ const DishTabsMain = () => {
 
             {/* cards */}
             <div className="grid grid-cols-1 lg:grid-cols-2 lg:justify-between items-center gap-8 mt-8">
-              {currentTab === 'maincourses'
-                ? mainCourses?.map((dish) => (
+              {currentTab === 'fastfood'
+                ? fastFood?.map((dish) => (
                     <TabCard
                       key={dish._id}
                       id={dish._id}
+                      shortId={dish.id}
                       name={dish.name}
                       slug={dish.slug}
                       srcImage={dish.image}
                       description={dish.description}
-                      price={dish.price}
+                      basePrice={dish.basePrice || undefined}
+                      hasVariants={dish.hasVariants}
+                      variations={dish.variations || undefined}
                     />
                   ))
                 : currentTab === 'desserts'
                 ? desserts?.map((dish) => (
                     <TabCard
                       key={dish._id}
+                      shortId={dish.id}
                       id={dish._id}
                       name={dish.name}
                       slug={dish.slug}
                       srcImage={dish.image}
                       description={dish.description}
-                      price={dish.price}
+                      basePrice={dish.basePrice || undefined}
+                      hasVariants={dish.hasVariants}
+                      variations={dish.variations ?? undefined}
                     />
                   ))
-                : currentTab === 'beverages'
-                ? beverages?.map((dish) => (
+                : currentTab === 'drinks'
+                ? drinks?.map((dish) => (
                     <TabCard
                       key={dish._id}
                       id={dish._id}
+                      shortId={dish.id}
                       name={dish.name}
                       slug={dish.slug}
                       srcImage={dish.image}
                       description={dish.description}
-                      price={dish.price}
+                      basePrice={dish.basePrice || undefined}
+                      hasVariants={dish.hasVariants}
+                      variations={dish.variations ?? undefined}
                     />
                   ))
                 : data?.data?.map((dish) => (
                     <TabCard
                       key={dish._id}
                       id={dish._id}
+                      shortId={dish.id}
                       name={dish.name}
                       slug={dish.slug}
                       srcImage={dish.image}
                       description={dish.description}
-                      price={dish.price}
+                      basePrice={dish.basePrice || undefined}
+                      hasVariants={dish.hasVariants}
+                      variations={dish.variations ?? undefined}
                     />
                   ))}
             </div>

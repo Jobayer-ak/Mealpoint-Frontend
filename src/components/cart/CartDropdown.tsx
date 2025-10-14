@@ -3,82 +3,121 @@
 import { Button } from '@/components/ui/button';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
-import { useAppSelector } from '../../redux/hook/hook';
+import { useRouter } from 'next/navigation';
+import { VscChromeClose } from 'react-icons/vsc';
+import { toast } from 'sonner';
+import { removeFromCart } from '../../redux/features/cart/cartSlice';
+import { useAppDispatch, useAppSelector } from '../../redux/hook/hook';
 
-export default function CartDropdown() {
-  const data = useAppSelector((state) => state.cart);
-  const cartItems = data?.items;
+interface IRemoveItemProps {
+  id: string;
+  itemName: string;
+}
 
-  console.log(cartItems);
+interface CartDropdownProps {
+  isOpen: boolean;
+  onClose: () => void;
+  className?: string;
+}
+export default function CartDropdown({ isOpen, className }: CartDropdownProps) {
+  const router = useRouter();
+  const { items } = useAppSelector((state) => state.cart);
+  const dispatch = useAppDispatch();
+
+  const total = items?.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
+  const handleRemove = ({ id, itemName }: IRemoveItemProps) => {
+    dispatch(removeFromCart({ id }));
+    toast.success(`${itemName} removed from cart!`);
+  };
 
   return (
-    <div className="relative">
-      {/* Dropdown */}
-      <AnimatePresence>
+    <AnimatePresence>
+      {isOpen && (
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          className="absolute right-0 mt-2 w-80 bg-white shadow-xl rounded-2xl p-4 z-50"
+          key="cart-dropdown"
+          initial={{ opacity: 0, scale: 0.95, y: -20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: -20 }}
+          transition={{ duration: 0.25 }}
+          className={`w-full sm:w-110 bg-white shadow-2xl rounded-sm mt-2 p-4 origin-top-right ${className}`}
         >
-          <h3 className="text-lg font-semibold mb-3">Shopping Cart</h3>
-
-          {/* Cart Items */}
-          {cartItems.length === 0 ? (
-            <p className="text-gray-500 text-center">Your cart is empty</p>
+          {items.length === 0 ? (
+            <p className="text-gray-500 text-center py-8">
+              Your cart is empty! <br />
+              Please add products!
+            </p>
           ) : (
-            <div className="space-y-3 max-h-60 overflow-y-auto">
-              {cartItems?.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex items-center justify-between border rounded-xl p-2"
-                >
-                  <div className="flex items-center space-x-3 relative">
-                    <Image
-                      src={item.image || 'product image'}
-                      alt={item.name || 'product name'}
-                      fill
-                      className="w-12 h-12 rounded-md object-cover"
-                    />
-                    <div>
-                      <p className="font-medium">{item.name}</p>
-                      <p className="text-sm text-gray-500">
-                        ${item.price} × {item.quantity}
+            <>
+              <div className="space-y-3 max-h-75 overflow-y-auto scrollbar-none">
+                {items.map((item) => (
+                  <div
+                    key={item.id + item.size}
+                    className="relative flex items-center justify-between shadow-xl rounded-sm p-2 group hover:bg-gray-50 transition"
+                  >
+                    {/* Left: Image + Info */}
+                    <div className="flex items-center gap-3">
+                      <div className="relative w-24 h-20 flex-shrink-0">
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          className="rounded-sm object-cover"
+                        />
+                      </div>
+                      <div>
+                        <p className="font-medium text-[#183136]">
+                          {item.name}
+                          {item.size ? ` - ${item.size}` : ''}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          &euro;{item.price} × {item.quantity}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Right: Price + Close Icon */}
+                    <div className="">
+                      <button
+                        className="absolute top-1 right-2 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 transition cursor-pointer"
+                        onClick={() =>
+                          handleRemove({ id: item?.id, itemName: item?.name })
+                        }
+                        aria-label="Remove item"
+                      >
+                        <VscChromeClose size={18} />
+                      </button>
+                      <p className="font-semibold text-[#183136]">
+                        &euro;{(item.price * item.quantity).toFixed(2)}
                       </p>
                     </div>
                   </div>
-                  <p className="font-semibold">
-                    ${(item.price * item.quantity).toFixed(2)}
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
 
-          {/* Total + Buttons */}
-          {cartItems.length > 0 && (
-            <>
-              <div className="flex justify-between items-center mt-4">
-                <span className="text-gray-700 font-semibold">Total:</span>
-                <span className="text-lg font-bold">
-                  ${data?.totalAmount.toFixed(2)}
+              <div className="flex justify-between items-center my-6 pt-6 border-t border-gray-200">
+                <span className="text-[#183136] text-md font-semibold uppercase tracking-wider">
+                  Subtotal:
+                </span>
+                <span className="text-xl font-semibold text-[#183136]">
+                  <span className="font-normal text-md">&euro;</span>
+                  {total.toFixed(2)}
                 </span>
               </div>
 
-              <div className="mt-4 flex gap-3">
+              <div className="mt-6 mb-2 flex gap-3">
                 <Button
-                  className="flex-1 bg-gray-200 text-gray-800 hover:bg-gray-300"
-                  onClick={() => {
-                    window.location.href = '/cart';
-                  }}
+                  className="flex-1 bg-[#f19e38] text-[#183136] cursor-pointer uppercase font-bold tracking-wider py-6 transition-all duration-300 hover:bg-[#e09335]"
+                  onClick={() => router.push('/cart')}
                 >
                   View Cart
                 </Button>
                 <Button
-                  className="flex-1 bg-blue-600 text-white hover:bg-blue-700"
-                  onClick={() => {
-                    window.location.href = '/checkout';
-                  }}
+                  className="flex-1 bg-[#f19e38] text-[#183136] cursor-pointer uppercase font-bold tracking-wider py-6 transition-all duration-300 hover:bg-[#e09335]"
+                  onClick={() => router.push('/checkout')}
                 >
                   Checkout
                 </Button>
@@ -86,7 +125,7 @@ export default function CartDropdown() {
             </>
           )}
         </motion.div>
-      </AnimatePresence>
-    </div>
+      )}
+    </AnimatePresence>
   );
 }

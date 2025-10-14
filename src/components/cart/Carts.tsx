@@ -1,4 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+'use client';
 import { FaAngleDown } from 'react-icons/fa';
+import { useAppSelector } from '../../redux/hook/hook';
 import Container from '../container/Container';
 import BottomShadow from '../Shared/BottomShadow';
 import ButtonComp from '../Shared/ButtonComp';
@@ -8,6 +11,15 @@ import TopShadow from '../Shared/TopShadow';
 import Cart from './Cart';
 
 const Carts = () => {
+  const data = useAppSelector((state) => state.cart);
+
+  const total = data?.items?.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
+  console.log('Items: ', data);
+
   return (
     <div className="mt-28">
       <Container>
@@ -38,18 +50,13 @@ const Carts = () => {
 
               {/* carts with details */}
               <div className="px-5 mt-5">
-                <div className="flex flex-col gap-8">
-                  <Cart />
-                  {/* Horizontal line */}
-                  <HorizontalLine />
-                  <Cart />
-
-                  {/* Horizontal line */}
-                  <HorizontalLine />
-                  <Cart />
-                  {/* Horizontal line */}
-                  <HorizontalLine />
-                  <Cart />
+                <div className="flex flex-col gap-4">
+                  {data?.items?.map((item) => (
+                    <>
+                      <Cart key={item?.id} item={item} />
+                      <HorizontalLine />
+                    </>
+                  ))}
                 </div>
               </div>
             </div>
@@ -78,24 +85,13 @@ const Carts = () => {
                   <HorizontalLine />
 
                   <div className="flex justify-between items-center px-5 py-4">
-                    <p className="text-[#183136] text-md font-light tracking-widest">
-                      Subtotal
-                    </p>
-
-                    <h5 className="text-[#183136] text-xl font-light ">$ 80</h5>
-                  </div>
-
-                  {/* Horizontal line */}
-                  <HorizontalLine />
-
-                  <div className="flex justify-between items-center px-5 py-4">
                     <p className="text-[#183136] text-xl font-extrabold tracking-widest">
-                      Total
+                      Estimated Total:
                     </p>
 
-                    <h5 className="text-[#183136] text-xl font-extrabold ">
-                      $ 80
-                    </h5>
+                    <p className="text-[#183136] text-xl font-extrabold ">
+                      &euro; {data?.totalAmount.toFixed(2)}
+                    </p>
                   </div>
                 </div>
               </div>

@@ -58,9 +58,17 @@ body::before {
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
   z-index: -1;
 }
+.SelectTrigger:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1); /* use shadow, not border */
+}
 
 /* Keep page scrollbar visible and stable */
 html {
   /* scrollbar-gutter: stable both-edges; */
   overflow-y: scroll; /* always show vertical scrollbar */
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }

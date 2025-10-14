@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
+import { AnimatePresence, motion } from 'framer-motion';
 import { FaAngleDown } from 'react-icons/fa';
 import { useAppSelector } from '../../redux/hook/hook';
 import Container from '../container/Container';
@@ -27,10 +28,12 @@ const Carts = () => {
           {/* top shadow */}
           <TopShadow />
 
-          <SecMainHeader
-            className="text-[#183136] text-5xl  text-left font-extrabold"
-            content={'Cart'}
-          />
+          <motion.div animate={{ x: 100 }}>
+            <SecMainHeader
+              className="text-[#183136] text-5xl  text-left font-extrabold"
+              content={'Cart'}
+            />
+          </motion.div>
 
           <div className="flex justify-between items-baseline gap-0 py-5">
             {/* product cards of left side*/}
@@ -49,16 +52,25 @@ const Carts = () => {
               <HorizontalLine />
 
               {/* carts with details */}
-              <div className="px-5 mt-5">
-                <div className="flex flex-col gap-4">
-                  {data?.items?.map((item) => (
-                    <>
-                      <Cart key={item?.id} item={item} />
-                      <HorizontalLine />
-                    </>
-                  ))}
+              <AnimatePresence>
+                <div className="px-5 mt-5">
+                  <div className="flex flex-col gap-4">
+                    {data?.items?.map((item, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, x: -200 }}
+                        transition={{ duration: 0.4, ease: 'easeOut' }}
+                        layout
+                      >
+                        <Cart key={i} item={item} />
+                        <HorizontalLine />
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              </AnimatePresence>
             </div>
 
             {/* Cart totals of Right side */}

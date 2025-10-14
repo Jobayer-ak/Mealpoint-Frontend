@@ -26,17 +26,6 @@ import HorizontalLine from '../Shared/featuresIcons/HorizontalLine';
 import ImageZoomModal from '../Shared/ImageZoomModal';
 import SecMainHeader from '../Shared/SecMainHeader';
 import TopShadow from '../Shared/TopShadow';
-import { Form, FormControl, FormField, FormItem } from '../ui/form';
-import { Input } from '../ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import ProductAdditionalInfo from './ProductAdditionalInfo';
 import ProductInfo from './ProductInfo';
@@ -51,6 +40,8 @@ const formSchema = z.object({
   size: z.string().optional(),
 });
 
+type FormValues = z.infer<typeof formSchema>;
+
 const tabClass =
   'data-[state=active]:bg-white w-full md:w-fit px-0 py-0 md:px-4 md:py-4 uppercase text-foreground text-[#838383] inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center rounded-sm text-sm whitespace-nowrap transition-[color,box-shadow] focus-visible:outline-none disabled:opacity-50 data-[state=active]:text-[#183136]';
 
@@ -59,6 +50,7 @@ const Product = () => {
   const [zoomOpen, setZoomOpen] = useState(false);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [displayPrice, setDisplayPrice] = useState<number | null>(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const dispatch = useAppDispatch();
   const params = useParams();
@@ -67,8 +59,7 @@ const Product = () => {
   const { data } = useGetSingleProductQuery(slug!, { skip: !slug });
   const product = data?.data;
 
-  // React Hook Form
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: { quantity: '1', size: '' },
   });
@@ -80,7 +71,6 @@ const Product = () => {
     Number(quantityValue) <= 0 ||
     (product?.hasVariants && !selectedSize);
 
-  // Update price dynamically when size is selected
   useEffect(() => {
     if (!product) return;
 
@@ -96,10 +86,8 @@ const Product = () => {
     }
   }, [selectedSize, product]);
 
-  // Handle Add to Cart
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: FormValues) => {
     if (!product) return;
-
     const price = displayPrice ?? 0;
 
     const cartItem = {
@@ -116,14 +104,13 @@ const Product = () => {
     };
 
     dispatch(addToCart(cartItem));
-    toast.success(`${cartItem?.name} addet to cart!`);
+    toast.success(`${cartItem.name} added to cart!`);
   };
 
   return (
     <div className="mt-18">
       <Container>
         <div className="relative min-h-screen px-14 pb-12 bg-white rounded-md">
-          {/* Shadows */}
           <TopShadow />
           <BottomShadow />
 
@@ -143,13 +130,6 @@ const Product = () => {
             </div>
           </div>
 
-          {/* Top Half Shadow */}
-          <div
-            className="absolute bg-white/15 rounded-full z-30 left-1/2 transform -translate-x-1/2"
-            style={{ width: '106px', height: '106px', top: '-53px' }}
-          />
-
-          {/* Main Content */}
           <div className="pt-20 flex flex-col gap-12 md:flex-row">
             {/* Product Image */}
             <div className="w-full md:w-1/2 relative h-[355px] rounded-sm overflow-hidden">
@@ -179,113 +159,112 @@ const Product = () => {
 
             {/* Product Info */}
             <div className="w-full md:w-1/2">
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-8"
-                >
-                  {/* Product Details */}
-                  <div className="flex flex-col gap-6">
-                    <SecMainHeader
-                      className="text-[#183136] text-5xl font-extrabold"
-                      content={product?.name || 'Unnamed Product'}
-                    />
-
-                    {/* Price */}
-                    <div className="inline-flex items-baseline gap-2">
-                      <LuEuro className="text-[#183136] size-9 translate-y-[6px]" />
-                      <p className="text-[#183136] font-light text-4xl leading-none">
-                        {displayPrice !== null
-                          ? displayPrice.toFixed(2)
-                          : product?.hasVariants
-                          ? 'Select size'
-                          : 'Contact us'}
-                      </p>
-                    </div>
-
-                    <p className="text-[#183136] font-light tracking-wide leading-relaxed">
-                      {product?.description ||
-                        'No product description available.'}
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8"
+              >
+                <div className="flex flex-col gap-6">
+                  <SecMainHeader
+                    className="text-[#183136] text-5xl font-extrabold"
+                    content={product?.name || 'Unnamed Product'}
+                  />
+                  <div className="inline-flex items-baseline gap-2">
+                    <LuEuro className="text-[#183136] size-9 translate-y-[6px]" />
+                    <p className="text-[#183136] font-light text-4xl leading-none">
+                      {displayPrice !== null
+                        ? displayPrice.toFixed(2)
+                        : product?.hasVariants
+                        ? 'Select size'
+                        : 'Contact us'}
                     </p>
                   </div>
+                  <p className="text-[#183136] font-light tracking-wide leading-relaxed">
+                    {product?.description ||
+                      'No product description available.'}
+                  </p>
+                </div>
 
-                  {/* Size Selection */}
-                  {product?.hasVariants && product.variations.length > 0 && (
-                    <FormField
-                      control={form.control}
-                      name="size"
-                      render={({ field }) => (
-                        <FormItem>
-                          <Select
-                            value={selectedSize ?? ''}
-                            onValueChange={(value) => {
-                              field.onChange(value);
-                              setSelectedSize(value);
-                            }}
-                          >
-                            <SelectTrigger className="w-[210px] text-[#183136] text-md pl-4 pr-2 py-6 shadow-md rounded-sm border border-gray-100">
-                              <SelectValue placeholder="Select size" />
-                            </SelectTrigger>
-                            <SelectContent className="bg-white rounded-sm shadow-md">
-                              <SelectGroup>
-                                <SelectLabel>Available Sizes</SelectLabel>
-                                {['small', 'medium', 'large']
-                                  .filter((size) =>
-                                    product.variations.some(
-                                      (v: { size: string }) => v.size === size
-                                    )
-                                  )
-                                  .map((size) => (
-                                    <SelectItem key={size} value={size}>
-                                      {size.charAt(0).toUpperCase() +
-                                        size.slice(1)}
-                                    </SelectItem>
-                                  ))}
-                              </SelectGroup>
-                            </SelectContent>
-                          </Select>
-                        </FormItem>
-                      )}
-                    />
+                {/* Size Dropdown */}
+                {product?.hasVariants && product.variations.length > 0 && (
+                  <div className="relative w-[210px]">
+                    <div
+                      className="cursor-pointer text-[#183136] text-md pl-3 pr-2 py-4 shadow-md rounded-sm border border-gray-100 flex justify-between items-center"
+                      onClick={() => setDropdownOpen((prev) => !prev)}
+                    >
+                      <span>
+                        {selectedSize
+                          ? selectedSize.charAt(0).toUpperCase() +
+                            selectedSize.slice(1)
+                          : 'Select size'}
+                      </span>
+                      <svg
+                        className={`w-4 h-4 transition-transform duration-200 ${
+                          dropdownOpen ? 'rotate-180' : 'rotate-0'
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </div>
+                    {dropdownOpen && (
+                      <div className="absolute z-50 mt-1 w-full bg-white rounded-sm shadow-md">
+                        {['small', 'medium', 'large']
+                          .filter((size) =>
+                            product.variations.some(
+                              (v: { size: string }) => v.size === size
+                            )
+                          )
+                          .map((size) => (
+                            <div
+                              key={size}
+                              className="px-4 py-3 transition-all duration-100 hover:bg-amber-400 cursor-pointer text-[#183136]"
+                              onClick={() => {
+                                setSelectedSize(size);
+                                form.setValue('size', size);
+                                setDropdownOpen(false);
+                              }}
+                            >
+                              {size.charAt(0).toUpperCase() + size.slice(1)}
+                            </div>
+                          ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Quantity + Add to Cart */}
+                <div className="flex gap-4 justify-start items-center mt-6">
+                  <input
+                    {...form.register('quantity')}
+                    type="number"
+                    min={1}
+                    placeholder="1"
+                    className="w-[120px] text-[#183136] text-lg pl-4 py-2 border border-gray-200 rounded-sm shadow-sm focus:outline-none"
+                  />
+                  {form.formState.errors.quantity && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {form.formState.errors.quantity.message}
+                    </p>
                   )}
 
-                  {/* Quantity + Add to Cart */}
-                  <div className="flex gap-4 justify-start items-center mt-6">
-                    <FormField
-                      control={form.control}
-                      name="quantity"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Input
-                              {...field}
-                              type="number"
-                              min={1}
-                              placeholder="1"
-                              className="w-[120px] text-[#183136] text-lg pl-4 py-6 border border-gray-200 rounded-sm shadow-sm"
-                            />
-                          </FormControl>
-                          {form.formState.errors.quantity && (
-                            <p className="text-red-500 text-sm mt-1">
-                              {form.formState.errors.quantity.message}
-                            </p>
-                          )}
-                        </FormItem>
-                      )}
-                    />
-
-                    <ButtonComp
-                      content="Add To Cart"
-                      disabled={isAddToCartDisabled}
-                      className={`uppercase text-[#112029] tracking-[2px] font-semibold bg-[#f29e38] py-6 px-6 transition-all duration-200 cursor-pointer ${
-                        isAddToCartDisabled
-                          ? 'opacity-50 cursor-not-allowed hover:translate-y-0'
-                          : ''
-                      }`}
-                    />
-                  </div>
-                </form>
-              </Form>
+                  <ButtonComp
+                    content="Add To Cart"
+                    disabled={isAddToCartDisabled}
+                    className={`uppercase text-[#112029] tracking-[2px] font-semibold bg-[#f29e38] py-6 px-6 transition-all duration-200 cursor-pointer ${
+                      isAddToCartDisabled
+                        ? 'opacity-50 cursor-not-allowed hover:translate-y-0'
+                        : ''
+                    }`}
+                  />
+                </div>
+              </form>
 
               {/* Additional Product Info */}
               <div className="mt-8 flex flex-col gap-4">
@@ -322,9 +301,7 @@ const Product = () => {
                   </TabsTrigger>
                 </TabsList>
               </div>
-
               <HorizontalLine />
-
               <TabsContent value={currentTab}>
                 {currentTab === 'additionalInfo' ? (
                   <ProductAdditionalInfo currentTab={currentTab} />

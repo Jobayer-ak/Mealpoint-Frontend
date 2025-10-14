@@ -53,9 +53,9 @@ export default function CartDropdown({ isOpen, className }: CartDropdownProps) {
           ) : (
             <>
               <div className="space-y-3 max-h-75 overflow-y-auto scrollbar-none">
-                {items.map((item) => (
+                {items.map((item, i) => (
                   <div
-                    key={item.id + item.size}
+                    key={i}
                     className="relative flex items-center justify-between shadow-xl rounded-sm p-2 group hover:bg-gray-50 transition"
                   >
                     {/* Left: Image + Info */}
@@ -65,7 +65,7 @@ export default function CartDropdown({ isOpen, className }: CartDropdownProps) {
                           src={item.image}
                           alt={item.name}
                           fill
-                          className="rounded-sm object-cover"
+                          className="rounded-l-sm object-cover"
                         />
                       </div>
                       <div>

@@ -1,56 +1,25 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-@theme {
+/* Theme Variables */
+
+:root {
   --bg-image: url('/assets/bg.jpg.webp');
-  --font-family-sans: var(--font-josefin-sans);
-  --font-family-heading: var(--font-playfair-display);
-  --font-family-playfair: var(--font-playfair-display);
+  --font-primary: var(--font-josefin-sans); /* body text */
+  --font-heading: var(--font-playfair-display); /* headings */
+  --font-playfair: var(--font-playfair-display);
 }
 
-:root {
-  --removed-body-scroll-bar-size: 0px !important;
-}
-
-/* Font hierarchy with PlayfairDisplay for headings */
-:root {
-  --font-primary: var(--font-josefin-sans); /* Body text, navigation, buttons */
-  --font-heading: var(--font-playfair-display); /* Main headings, titles */
-}
-
-/* Heading styles with PlayfairDisplay */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-playfair-display) !important;
-}
-
-.font-heading {
-  font-family: var(--font-playfair-display) !important;
-}
-
-.font-playfair {
-  font-family: var(--font-playfair-display) !important;
-}
-
+/* Body & Background */
 body {
   @apply min-h-screen bg-fixed bg-cover bg-center;
   background-image: var(--bg-image);
-  /* font-family: var(--font-josefin-sans); */
-}
-
-body {
-  /* color: #1a2f33;
-  font-size: 18px; */
-  /* font-weight: 400; */
-  background-size: 100%;
-  background-attachment: fixed;
   box-sizing: border-box;
+  font-family: var(--font-primary);
+  color: #1a2f33;
 }
 
+/* Overlay for dimming background */
 body::before {
   content: '';
   position: fixed;
@@ -58,17 +27,42 @@ body::before {
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
   z-index: -1;
 }
-.SelectTrigger:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1); /* use shadow, not border */
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-heading,
+.font-playfair {
+  font-family: var(--font-playfair-display) !important;
 }
 
-/* Keep page scrollbar visible and stable */
 html {
-  /* scrollbar-gutter: stable both-edges; */
-  overflow-y: scroll; /* always show vertical scrollbar */
+  overflow-y: scroll; /* always show scrollbar track */
+  scrollbar-gutter: stable; /* modern browsers */
 }
 
+/* Remove Radix scroll-lock padding and keep scrollbar visible */
+body[data-radix-select-locked],
+body[data-radix-dialog-locked],
+body[data-radix-popover-locked] {
+  padding-right: 0 !important;
+  overflow-y: auto !important;
+}
+
+/*  Scrollbar Utilities */
+/* Only use on specific elements, not body */
 .scrollbar-none::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
+}
+
+/* Additional Utilities */
+/* Ensure all elements respect box-sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }

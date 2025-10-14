@@ -38,6 +38,8 @@ const Cart: React.FC<CartProps> = ({ item }) => {
     toast.success(`${item.name} quantity increased to ${item.quantity + 1}`);
   };
 
+  console.log('size: ', item?.size);
+
   const handleDecrease = (id: string) => {
     if (item.quantity > 1) {
       dispatch(decreaseQuantity({ id }));
@@ -58,7 +60,7 @@ const Cart: React.FC<CartProps> = ({ item }) => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, x: -200, transition: { duration: 0.3 } }}
         layout
-        className="bg-white p-4 rounded-md shadow-sm mb-4"
+        className="bg-white p-4 rounded-md mb-4"
       >
         <div className="flex justify-between items-start gap-4">
           {/* Image */}

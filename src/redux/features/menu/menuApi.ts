@@ -1,5 +1,6 @@
 import { api } from '../../api/apiSlice';
-import { MenuApiResponse } from './MenuTypes';
+
+import { CategoriesApiResponse, MenuApiResponse } from './MenuTypes';
 
 const menuApi = api.injectEndpoints({
   endpoints: (build) => ({
@@ -19,7 +20,19 @@ const menuApi = api.injectEndpoints({
         meta: { skipLoader: true },
       },
     }),
+    getCategories: build.query<CategoriesApiResponse, void>({
+      query: () => '/categories',
+      extraOptions: {
+        critical: true,
+        meta: { skipLoader: true },
+      },
+      providesTags: ['Category'],
+    }),
   }),
 });
 
-export const { useGetMenusQuery, useGetSingleProductQuery } = menuApi;
+export const {
+  useGetMenusQuery,
+  useGetSingleProductQuery,
+  useGetCategoriesQuery,
+} = menuApi;

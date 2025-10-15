@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 import { AiOutlineDelete, AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import { toast } from 'sonner';
 import {
@@ -17,6 +18,7 @@ interface ICart {
   id: string;
   mongoId: string;
   name: string;
+  slug: string;
   image: string;
   description: string;
   price: number;
@@ -76,10 +78,12 @@ const Cart: React.FC<CartProps> = ({ item }) => {
 
             {/* Details */}
             <div className="flex flex-col gap-3">
-              <SecMainHeader
-                className="text-[#183136] text-lg font-semibold tracking-wide"
-                content={item.name}
-              />
+              <Link href={`/product/${item?.slug}`}>
+                <SecMainHeader
+                  className="text-[#183136] text-lg font-semibold tracking-wide"
+                  content={item.name}
+                />
+              </Link>
               <div className="flex gap-3 items-baseline">
                 <del className="text-[#adb6b7] text-lg">
                   &euro;{item.price + 2}
@@ -93,6 +97,16 @@ const Cart: React.FC<CartProps> = ({ item }) => {
                 className="text-[#183136] text-sm font-light"
                 content={item.description}
               />
+
+              {/* size of item */}
+              {item?.size && (
+                <div className="flex justify-start items-center gap-4">
+                  <p className="text-[#183136] text-md font-semibold">Size: </p>
+                  <p className="text-[#183136] text-md font-semibold">
+                    {item.size}
+                  </p>
+                </div>
+              )}
 
               {/* Quantity controls with animation */}
               <motion.div
@@ -119,7 +133,7 @@ const Cart: React.FC<CartProps> = ({ item }) => {
               {/* Remove button */}
               <div className="flex items-center gap-2 mt-2">
                 <button
-                  className="bg-red-600 rounded-full p-1 hover:scale-110 transition-transform"
+                  className="bg-red-600 rounded-full p-1 cursor-pointer hover:scale-110 transition-transform"
                   onClick={() => handleRemove(item.id)}
                 >
                   <AiOutlineDelete size={18} className="text-white" />

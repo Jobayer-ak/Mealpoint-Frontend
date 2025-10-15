@@ -5,6 +5,7 @@ export interface ICartItem {
   id: string; // Your business product ID (e.g. M-103)
   mongoId: string; // Optional MongoDB _id
   name: string;
+  slug: string;
   price: number;
   image: string;
   description: string;
@@ -92,27 +93,6 @@ const cartSlice = createSlice({
       state.totalAmount = state.items.reduce((acc, i) => acc + i.totalPrice, 0);
     },
 
-    // updateQuantity: (
-    //   state,
-    //   action: PayloadAction<{
-    //     id: string;
-    //     size?: string | null;
-    //     quantity: number;
-    //   }>
-    // ) => {
-    //   const item = state.items.find(
-    //     (i) =>
-    //       i.id === action.payload.id && i.size === (action.payload.size ?? null)
-    //   );
-
-    //   if (item) {
-    //     item.quantity = action.payload.quantity;
-    //     item.totalPrice = item.price * item.quantity;
-    //   }
-
-    //   state.totalAmount = state.items.reduce((acc, i) => acc + i.totalPrice, 0);
-    // },
-
     clearCart: (state) => {
       state.items = [];
       state.totalAmount = 0;
@@ -126,6 +106,7 @@ export const {
   removeFromCart,
   increaseQuantity,
   decreaseQuantity,
+
   clearCart,
 } = cartSlice.actions;
 

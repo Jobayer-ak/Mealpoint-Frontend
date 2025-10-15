@@ -5,6 +5,6 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://mealpoint-server.onrender.com/api/v1',
   }),
-  tagTypes: ['Menu'],
+  tagTypes: ['Menu', 'Category'],
   endpoints: () => ({}),
 });

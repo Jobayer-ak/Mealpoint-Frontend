@@ -94,6 +94,7 @@ const Product = () => {
       id: product.id,
       mongoId: product._id,
       name: product.name,
+      slug: slug,
       price,
       image: product.image,
       description: product.description,
@@ -269,7 +270,7 @@ const Product = () => {
               {/* Additional Product Info */}
               <div className="mt-8 flex flex-col gap-4">
                 <p className="text-[#183136] text-md font-light tracking-wide">
-                  SKU : <span>{product?._id || 'N/A'}</span>
+                  SKU : <span>{product?.id || 'N/A'}</span>
                 </p>
                 <p className="text-[#183136] text-md font-light tracking-wide">
                   Category : <span>{product?.category?.name || 'N/A'}</span>

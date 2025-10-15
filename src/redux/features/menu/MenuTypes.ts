@@ -6,6 +6,7 @@ export interface Category {
   createdAt: string;
   updatedAt: string;
   __v: number;
+  slug: string;
 }
 
 export interface IVariation {
@@ -48,4 +49,12 @@ export interface MenuApiResponse {
   message: string;
   meta: Meta;
   data: MenuItem[];
+}
+
+export interface CategoriesApiResponse {
+  statusCode: number;
+  success: boolean;
+  message: string;
+  meta?: null;
+  data: Category[];
 }

@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { VscChromeClose } from 'react-icons/vsc';
 import { toast } from 'sonner';
@@ -56,7 +57,7 @@ export default function CartDropdown({ isOpen, className }: CartDropdownProps) {
                 {items.map((item, i) => (
                   <div
                     key={i}
-                    className="relative flex items-center justify-between shadow-xl rounded-sm p-2 group hover:bg-gray-50 transition"
+                    className="relative flex items-center justify-between shadow-lg rounded-sm p-2 group hover:bg-gray-50 transition"
                   >
                     {/* Left: Image + Info */}
                     <div className="flex items-center gap-3">
@@ -69,13 +70,15 @@ export default function CartDropdown({ isOpen, className }: CartDropdownProps) {
                         />
                       </div>
                       <div>
-                        <p className="font-medium text-[#183136]">
-                          {item.name}
-                          {item.size ? ` - ${item.size}` : ''}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          &euro;{item.price} × {item.quantity}
-                        </p>
+                        <Link href={`/product/${item?.slug}`}>
+                          <p className="font-medium text-[#183136]">
+                            {item.name}
+                            {item.size ? ` - ${item.size}` : ''}
+                          </p>
+                          <p className="text-sm text-gray-500">
+                            &euro;{item.price} × {item.quantity}
+                          </p>
+                        </Link>
                       </div>
                     </div>
 

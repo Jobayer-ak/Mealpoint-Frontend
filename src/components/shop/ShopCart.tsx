@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { HiOutlineShoppingBag } from 'react-icons/hi2';
 import { LuEuro } from 'react-icons/lu';
+import { useAppSelector } from '../../redux/hook/hook';
 
 interface Variation {
   size: string;
@@ -32,6 +33,10 @@ const ShopCart: React.FC<IShopCart> = ({
   hasVariants,
   variations = [],
 }) => {
+  const cartItems = useAppSelector((state) => state.cart?.items);
+
+  const itemInCart = cartItems.some((item) => item.id === id);
+
   // Determine price display
   const priceDisplay =
     hasVariants && variations.length > 0
@@ -81,7 +86,9 @@ const ShopCart: React.FC<IShopCart> = ({
 
             <HiOutlineShoppingBag
               size={40}
-              className="bg-[#f59d39] rounded-sm p-2 transition-all duration-300 hover:bg-[#f0b437] cursor-pointer"
+              className={`${
+                itemInCart ? 'bg-green-700' : 'bg-[#f59d39] text-[#183136]'
+              }  rounded-sm p-2 transition-all duration-300 hover:bg-[#f0b437] cursor-pointer`}
             />
           </div>
         </div>

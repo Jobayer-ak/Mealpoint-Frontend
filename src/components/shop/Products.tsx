@@ -65,8 +65,6 @@ const Products = () => {
     skip: !mounted,
   });
 
-  console.log('all menus: ', allMenus?.data);
-  console.log('all cat: ', categoriesData?.data);
   const tabs =
     categoriesData?.data?.map((cat) => ({
       key: cat.slug,
@@ -83,8 +81,6 @@ const Products = () => {
   };
 
   const allTabs = [allTab, ...tabs];
-
-  console.log('all Tabs: ', allTabs);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     setSearchInput(values.search.toLowerCase());
@@ -238,7 +234,9 @@ const Products = () => {
                     step={1}
                     onValueChange={(value) => setPriceRange(value)}
                   />
-                  <p className="mt-4">From 0 to {priceRange[0]}</p>
+                  <p className="mt-4 text-[#183136] font-normal">
+                    From 0 to {priceRange[0]}
+                  </p>
                 </div>
               </div>
 

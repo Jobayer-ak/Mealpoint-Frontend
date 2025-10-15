@@ -1,5 +1,5 @@
 import Container from '../../../components/container/Container';
-import Product from '../../../components/products/Product';
+import ProductDetails from '../../../components/products/ProductDetails';
 import DarkOverlay from '../../../components/Shared/DarkOverlay';
 import ShopBanner from '../../../components/shop/ShopBanner';
 
@@ -10,7 +10,7 @@ const page = () => {
       <Container>
         <ShopBanner />
 
-        <Product />
+        <ProductDetails />
       </Container>
     </div>
   );

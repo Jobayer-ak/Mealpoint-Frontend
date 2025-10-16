@@ -1,5 +1,5 @@
 import Container from '../container/Container';
-import BreadCrumbButton from '../Shared/BreadCrumbButton';
+import BreadCrumb from '../Shared/BreadCrumb';
 import SecDescription from '../Shared/SecDescription';
 import SecHeader from '../Shared/SecHeader';
 import SecMainHeader from '../Shared/SecMainHeader';
@@ -32,7 +32,8 @@ const ShopBanner = () => {
             />
 
             <div className="">
-              <BreadCrumbButton />
+              {/* <BreadCrumbButton /> */}
+              <BreadCrumb />
             </div>
           </div>
         </div>

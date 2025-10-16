@@ -1,4 +1,4 @@
-import BreadCrumbButton from '../Shared/BreadCrumbButton';
+import BreadCrumb from '../Shared/BreadCrumb';
 import SecDescription from '../Shared/SecDescription';
 import SecHeader from '../Shared/SecHeader';
 import SecMainHeader from '../Shared/SecMainHeader';
@@ -12,7 +12,7 @@ const MenuBanner = () => {
       {/* Dark gradient overlay */}
       <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#0f2025]/20 via-[#0f2025]/10 to-[#0f2025]/10"></div>
 
-      <div className="w-full h-100 flex flex-col justify-center items-center gap-10 mt-22 md:mt-14 lg:mt-22">
+      <div className="w-full h-100 flex flex-col justify-center items-center gap-10 mt-22 md:mt-14 lg:mt-25">
         <SecHeader
           className=""
           header="Menu"
@@ -26,12 +26,12 @@ const MenuBanner = () => {
         />
 
         <SecDescription
-          className="text-[#b3c2c9] w-full md:w-1/2 lg:w-1/4 text-center tracking-wider leading-7"
+          className="text-[#b3c2c9] w-full md:w-1/2 lg:w-1/4 text-center tracking-wider leading-6"
           content={description}
         />
 
         <div className="">
-          <BreadCrumbButton />
+          <BreadCrumb />
         </div>
       </div>
     </div>

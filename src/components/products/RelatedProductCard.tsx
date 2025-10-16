@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import { HiOutlineShoppingBag } from 'react-icons/hi2';
 import { LuEuro } from 'react-icons/lu';
+import { PiShoppingCartDuotone } from 'react-icons/pi';
 import { Button } from '../ui/button';
 
 interface ICard {
@@ -12,9 +12,9 @@ interface ICard {
 
 const RelatedProductCard = ({ name, srcImage, description, price }: ICard) => {
   return (
-    <div className=" rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
+    <div className="rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
       {/* image part */}
-      <div className="w-[350px] h-[280px] overflow-hidden relative rounded-t-sm">
+      <div className="w-full md:w-[360px] h-[280px] overflow-hidden relative rounded-t-sm">
         <Image
           src={srcImage}
           alt={name}
@@ -72,7 +72,7 @@ const RelatedProductCard = ({ name, srcImage, description, price }: ICard) => {
             </div>
           </div>
 
-          <HiOutlineShoppingBag
+          <PiShoppingCartDuotone
             size={40}
             className="bg-[#f59d39] w-12 h-12 rounded-sm fill-black p-2 transition-all duration-300 hover:bg-[#f0b437] cursor-pointer"
           />

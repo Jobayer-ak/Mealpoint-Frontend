@@ -32,7 +32,7 @@ const ProductReview = ({ currentTab }: IReview) => {
             content='Be the first to review "Fruit salad" '
           />
 
-          <div className="bg-[#f0efef] py-2 px-2 w-1/2 mt-2">
+          <div className="bg-[#f0efef] py-2 px-2 w-full md:w-1/2 mt-2">
             <p className=" text-[#183136] text-sm tracking-wider italic ">
               Your email address will not be published. Required fields are
               marked. *
@@ -47,11 +47,6 @@ const ProductReview = ({ currentTab }: IReview) => {
           </p>
 
           <div className="flex gap-2 mt-2">
-            {/* <AiOutlineStar className="text-yellow-500" />
-            <AiOutlineStar className="text-yellow-500" />
-            <AiOutlineStar className="text-yellow-500" />
-            <AiOutlineStar className="text-yellow-500" />
-            <AiOutlineStar className="text-yellow-500" /> */}
             <StarRating />
           </div>
         </div>
@@ -60,7 +55,7 @@ const ProductReview = ({ currentTab }: IReview) => {
         <div>
           <Textarea
             placeholder="Type your review here."
-            className="border-none w-1/2 shadow-lg"
+            className="border-none w-full md:w-1/2 shadow-lg"
           />
         </div>
 

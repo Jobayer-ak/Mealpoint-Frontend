@@ -1,5 +1,5 @@
 import Container from '../container/Container';
-import BreadCrumbButton from '../Shared/BreadCrumbButton';
+import BreadCrumb from '../Shared/BreadCrumb';
 import SecDescription from '../Shared/SecDescription';
 import SecHeader from '../Shared/SecHeader';
 import SecMainHeader from '../Shared/SecMainHeader';
@@ -29,7 +29,7 @@ const ContactBanner = () => {
             />
 
             <div className="">
-              <BreadCrumbButton />
+              <BreadCrumb />
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import BreadCrumbButton from '../Shared/BreadCrumbButton';
+import BreadCrumb from '../Shared/BreadCrumb';
 import SecDescription from '../Shared/SecDescription';
 import SecHeader from '../Shared/SecHeader';
 import SecMainHeader from '../Shared/SecMainHeader';
@@ -44,7 +44,7 @@ const AboutBanner = () => {
           />
 
           <div className="">
-            <BreadCrumbButton />
+            <BreadCrumb />
           </div>
         </div>
       </div>

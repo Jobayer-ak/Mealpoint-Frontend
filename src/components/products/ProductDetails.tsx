@@ -44,7 +44,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const tabClass =
-  'data-[state=active]:bg-white w-full md:w-fit px-0 py-0 md:px-4 md:py-4 uppercase text-foreground text-[#838383] inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center rounded-sm text-sm whitespace-nowrap transition-[color,box-shadow] focus-visible:outline-none disabled:opacity-50 data-[state=active]:text-[#183136]';
+  'data-[state=active]:bg-white w-full md:w-fit px-0 py-0 md:px-4 md:py-4 uppercase text-foreground text-[#838383] inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center rounded-sm text-sm whitespace-nowrap transition-[color,box-shadow] focus-visible:outline-none disabled:opacity-50 data-[state=active]:text-[#183136] cursor-pointer';
 
 const ProductDetails = () => {
   const [currentTab, setCurrentTab] = useState('description');
@@ -119,7 +119,7 @@ const ProductDetails = () => {
   return (
     <div className="mt-18">
       <Container>
-        <div className="relative px-14 pb-12 bg-white rounded-md">
+        <div className="relative px-3 md:px-14 pb-12 bg-white rounded-md">
           <TopShadow />
           <BottomShadow />
 
@@ -326,8 +326,8 @@ const ProductDetails = () => {
               onValueChange={setCurrentTab}
               className="w-full"
             >
-              <div className="mb-7">
-                <TabsList className="flex flex-row justify-start gap-6 items-center tracking-widest">
+              <div className="my-14 md:mb-7">
+                <TabsList className="flex flex-col justify-center md:flex-row md:justify-start gap-6 items-center tracking-widest">
                   <TabsTrigger value="description" className={tabClass}>
                     Description
                   </TabsTrigger>
@@ -358,7 +358,7 @@ const ProductDetails = () => {
           <HorizontalLine />
 
           {/* Related Products */}
-          <div className="mt-12">
+          <div className="mt-12 ">
             <SecMainHeader
               className="text-[#183136] text-3xl text-left font-extrabold"
               content="Related Products"

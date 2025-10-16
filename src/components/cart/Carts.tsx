@@ -9,7 +9,7 @@ import ButtonComp from '../Shared/ButtonComp';
 import HorizontalLine from '../Shared/featuresIcons/HorizontalLine';
 import SecMainHeader from '../Shared/SecMainHeader';
 import TopShadow from '../Shared/TopShadow';
-import Cart from './Cart';
+import CartDetails from './CartDetails';
 
 const Carts = () => {
   const data = useAppSelector((state) => state.cart);
@@ -66,7 +66,7 @@ const Carts = () => {
                         transition={{ duration: 0.4, ease: 'easeOut' }}
                         layout
                       >
-                        <Cart key={i} item={item} />
+                        <CartDetails key={i} item={item} />
                         <HorizontalLine />
                       </motion.div>
                     ))}

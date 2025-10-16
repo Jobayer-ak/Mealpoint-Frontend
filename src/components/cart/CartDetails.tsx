@@ -32,7 +32,7 @@ interface CartProps {
   item: ICart;
 }
 
-const Cart: React.FC<CartProps> = ({ item }) => {
+const CartDetails: React.FC<CartProps> = ({ item }) => {
   const dispatch = useAppDispatch();
 
   const handleIncrease = (id: string) => {
@@ -169,4 +169,4 @@ const Cart: React.FC<CartProps> = ({ item }) => {
   );
 };
 
-export default Cart;
+export default CartDetails;

@@ -112,7 +112,7 @@ const Navbar = () => {
           </button>
 
           {/* Cart */}
-          <div ref={cartRef} className="relative">
+          <div ref={cartRef} className="">
             <button
               className="text-gray-600 hover:text-yellow-500 cursor-pointer relative"
               onClick={toggleCart}
@@ -127,7 +127,7 @@ const Navbar = () => {
             <CartDropdown
               isOpen={cartOpen}
               onClose={closeCart}
-              className="absolute right-0 top-15 mt-2 z-50"
+              className="absolute right-0 top-20 mt-2 z-50"
             />
           </div>
 

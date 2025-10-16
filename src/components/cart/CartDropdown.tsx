@@ -44,7 +44,7 @@ export default function CartDropdown({ isOpen, className }: CartDropdownProps) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: -20 }}
           transition={{ duration: 0.25 }}
-          className={`w-full sm:w-110 bg-white shadow-2xl rounded-sm mt-2 p-4 origin-top-right ${className}`}
+          className={`w-80 md:w-110 bg-white shadow-2xl rounded-sm mt-2 p-4 origin-top-right ${className}`}
         >
           {items.length === 0 ? (
             <p className="text-gray-500 text-center py-8">
@@ -53,7 +53,7 @@ export default function CartDropdown({ isOpen, className }: CartDropdownProps) {
             </p>
           ) : (
             <>
-              <div className="space-y-3 max-h-75 overflow-y-auto scrollbar-none">
+              <div className="space-y-3 max-h-75 overflow-y-auto">
                 {items.map((item, i) => (
                   <div
                     key={i}
@@ -85,7 +85,8 @@ export default function CartDropdown({ isOpen, className }: CartDropdownProps) {
                     {/* Right: Price + Close Icon */}
                     <div className="">
                       <button
-                        className="absolute top-1 right-2 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 transition cursor-pointer"
+                        // className="absolute top-1 right-2 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-500 transition cursor-pointer"
+                        className="absolute top-1 right-2 text-gray-400 hover:text-red-500 transition p-1 rounded sm:opacity-0 sm:hover:opacity-100"
                         onClick={() =>
                           handleRemove({ id: item?.id, itemName: item?.name })
                         }

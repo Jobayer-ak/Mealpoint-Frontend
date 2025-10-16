@@ -24,28 +24,30 @@ const Carts = () => {
   return (
     <div className="mt-28">
       <Container>
-        <div className="bg-white px-12 py-12 rounded-md relative">
+        <div className="bg-white px-3 md:px-12 py-12 rounded-md relative">
           {/* top shadow */}
           <TopShadow />
 
-          <motion.div animate={{ x: 100 }}>
+          <div>
             <SecMainHeader
-              className="text-[#183136] text-5xl  text-left font-extrabold"
+              className="text-[#183136] text-4xl lg:text-5xl  text-left font-extrabold"
               content={'Cart'}
             />
-          </motion.div>
+          </div>
 
-          <div className="flex justify-between items-baseline gap-0 py-5">
+          <div className="flex flex-col gap-15 md:flex-row justify-between items-baseline md:gap-0 py-5">
             {/* product cards of left side*/}
-            <div className="w-3/5 shadow-lg py-5">
+            <div className="w-full md:w-3/5 shadow-lg py-5 ">
               {/* carts heading and total */}
-              <div className="flex justify-between items-center px-5 mb-4">
-                <p className="text-sm text-[#183136] font-semibold tracking-widest uppercase">
-                  Product
-                </p>
-                <p className="text-sm text-[#183136] font-semibold tracking-widest uppercase">
-                  Total
-                </p>
+              <div className="hidden md:block">
+                <div className="flex justify-between items-center px-5 mb-4">
+                  <p className="text-sm text-[#183136] font-semibold tracking-widest uppercase">
+                    Product
+                  </p>
+                  <p className="text-sm text-[#183136] font-semibold tracking-widest uppercase">
+                    Total
+                  </p>
+                </div>
               </div>
 
               {/* Horizontal line */}
@@ -53,7 +55,7 @@ const Carts = () => {
 
               {/* carts with details */}
               <AnimatePresence>
-                <div className="px-5 mt-5">
+                <div className="px-0 md:px-5 mt-5">
                   <div className="flex flex-col gap-4">
                     {data?.items?.map((item, i) => (
                       <motion.div
@@ -74,7 +76,7 @@ const Carts = () => {
             </div>
 
             {/* Cart totals of Right side */}
-            <div className="w-3/8  pb-2">
+            <div className="w-full md:w-3/8  pb-2">
               <div className="shadow-lg mb-3">
                 <div className="px-5 mb-4">
                   <p className="text-md text-[#183136] font-semibold tracking-widest uppercase ">

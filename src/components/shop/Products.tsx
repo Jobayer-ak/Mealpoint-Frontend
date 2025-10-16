@@ -152,7 +152,7 @@ const Products = () => {
   return (
     <div className="mt-18">
       <Container>
-        <div className="relative min-h-screen px-14 pb-12 bg-white rounded-md">
+        <div className="relative min-h-screen px-0 md:px-1 lg:px-14 pb-12 bg-white rounded-md">
           <TopShadow />
 
           {/* Animated circular div */}
@@ -179,9 +179,9 @@ const Products = () => {
             style={{ width: '106px', height: '106px', top: '-53px' }}
           ></div>
 
-          <div className="mt-18 pt-15 flex gap-4">
+          <div className="mt-18 pt-15 flex flex-col-reverse md:flex-row gap-6 md:gap-1 lg:gap-4">
             {/* Left sidebar */}
-            <div className="row-span-3 w-1/3 flex flex-col gap-14 pr-3">
+            <div className="row-span-3 w-full md:w-1/3 flex flex-col gap-14 px-6 md:px-0 md:pl-2">
               {/* Search */}
               <Form {...form}>
                 <form
@@ -292,7 +292,7 @@ const Products = () => {
 
             {/* Right content */}
             <div className="col-span-8 w-full px-4">
-              <div className="flex justify-between items-baseline-last">
+              <div className="flex flex-col gap-4 md:gap-0 md:flex-row justify-between items-baseline-last">
                 <div>
                   <SecMainHeader
                     className="text-[#183136] text-3xl md:text-4xl lg:text-4xl text-left font-extrabold"
@@ -307,7 +307,7 @@ const Products = () => {
                 </div>
 
                 {/* Custom Dropdown */}
-                <div ref={dropdownRef} className="relative w-[220px]">
+                <div ref={dropdownRef} className="relative w-full md:w-[220px]">
                   <button
                     onClick={() => setDropdownOpen(!dropdownOpen)}
                     className="w-full px-4 py-3 border border-gray-100 rounded shadow flex justify-between items-center cursor-pointer"
@@ -343,7 +343,7 @@ const Products = () => {
               </div>
 
               {/* Product cards */}
-              <div className="grid grid-cols-3 gap-6 mt-4">
+              <div className="grid grid-cols md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
                 {filteredAndSortedProducts.length > 0 ? (
                   filteredAndSortedProducts.map((item) => (
                     <ShopCart

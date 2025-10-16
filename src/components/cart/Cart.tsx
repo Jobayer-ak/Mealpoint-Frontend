@@ -67,7 +67,7 @@ const Cart: React.FC<CartProps> = ({ item }) => {
         <div className="flex justify-between items-start gap-4">
           {/* Image */}
           <div className="flex justify-start items-start gap-6">
-            <div className="relative w-40 h-30">
+            <div className="relative w-30 md:w-40 h-20 md:h-30">
               <Image
                 src={item.image || '/placeholder.png'}
                 alt={item.name}
@@ -159,9 +159,9 @@ const Cart: React.FC<CartProps> = ({ item }) => {
             >
               &euro;{item.totalPrice}
             </motion.p>
-            <button className="border border-[#f99d3a] rounded-sm text-xs font-semibold text-[#f99d3a] w-[80px] py-1 mt-1 hover:bg-[#f99d3a] hover:text-white transition-all">
+            {/* <button className="border border-[#f99d3a] rounded-sm text-xs font-semibold text-[#f99d3a] w-[80px] py-1 mt-1 hover:bg-[#f99d3a] hover:text-white transition-all">
               Save &euro; 2
-            </button>
+            </button> */}
           </div>
         </div>
       </motion.div>

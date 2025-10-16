@@ -148,13 +148,15 @@ const ProductDetails = () => {
           <div className="pt-14">
             {/* if item already in the cart  */}
             <div
-              className={` flex justify-between items-center bg-gray-100 py-4 px-4 rounded-sm ${
+              className={` flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0 bg-gray-100 py-4 px-4 rounded-sm ${
                 itemInCart ? 'block' : 'hidden'
               }`}
             >
-              <p className="text-[#183136] text-lg font-light">
-                {product?.name} has already been added in your shopping cart!
-              </p>
+              <div className="w-full md:w-1/2 items-center">
+                <p className="text-[#183136] text-lg font-light">
+                  {product?.name} has already been added in your shopping cart!
+                </p>
+              </div>
 
               <Button
                 className=" w-[150px] bg-[#f19e38] text-[#183136] cursor-pointer uppercase font-semibold tracking-wider py-6 transition-all duration-300 hover:bg-[#e09335]"

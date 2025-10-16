@@ -3,9 +3,9 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { FaSearch } from 'react-icons/fa';
+import { FaAngleDown, FaAngleUp, FaSearch } from 'react-icons/fa';
 import { z } from 'zod';
 import {
   useGetCategoriesQuery,
@@ -17,15 +17,6 @@ import SecMainHeader from '../Shared/SecMainHeader';
 import TopShadow from '../Shared/TopShadow';
 import { Form, FormControl, FormField, FormItem } from '../ui/form';
 import { Input } from '../ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select';
 import { Slider } from '../ui/slider';
 import ShopCart from './ShopCart';
 
@@ -41,6 +32,13 @@ const TAGS = [
   'Seafoods',
 ];
 
+const SORT_OPTIONS = [
+  { label: 'Default sorting', value: 'default' },
+  { label: 'Price: Low to High', value: 'priceLowToHigh' },
+  { label: 'Price: High to Low', value: 'priceHighToLow' },
+  { label: 'Newest', value: 'newest' },
+];
+
 const formSchema = z.object({
   search: z
     .string()
@@ -52,8 +50,25 @@ const Products = () => {
   const [currentTab, setCurrentTab] = useState('alldishes');
   const [priceRange, setPriceRange] = useState([150]);
   const [searchInput, setSearchInput] = useState('');
+  const [sortOption, setSortOption] = useState('default');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => setMounted(true), []);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -79,42 +94,60 @@ const Products = () => {
     label: 'All',
     count: allMenus?.data?.length || 0,
   };
-
   const allTabs = [allTab, ...tabs];
+
+  const getPrice = (item: any) => {
+    if (
+      item.hasVariants &&
+      Array.isArray(item.variations) &&
+      item.variations.length > 0
+    ) {
+      const prices = item.variations
+        .map((v: any) => Number(v?.price))
+        .filter((p: number) => !Number.isNaN(p));
+      if (prices.length > 0) return Math.min(...prices);
+    }
+    const base = Number(item?.basePrice);
+    if (!Number.isNaN(base) && base > 0) return base;
+    return Infinity;
+  };
+
+  const filteredAndSortedProducts = useMemo(() => {
+    if (!allMenus?.data) return [];
+
+    let products = [...allMenus.data];
+
+    if (currentTab !== 'alldishes') {
+      products = products.filter((item) => item.category.slug === currentTab);
+    }
+
+    products = products.filter((item) => getPrice(item) <= priceRange[0]);
+
+    if (searchInput.trim()) {
+      const value = searchInput.toLowerCase();
+      products = products.filter((item) =>
+        item.name.toLowerCase().includes(value)
+      );
+    }
+
+    switch (sortOption) {
+      case 'priceLowToHigh':
+        return products.sort((a, b) => getPrice(a) - getPrice(b));
+      case 'priceHighToLow':
+        return products.sort((a, b) => getPrice(b) - getPrice(a));
+      case 'newest':
+        return products.sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      default:
+        return products;
+    }
+  }, [allMenus, currentTab, priceRange, searchInput, sortOption]);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     setSearchInput(values.search.toLowerCase());
   };
-
-  // Filtered products
-  let filteredProducts: any[] = [];
-
-  if (allMenus?.data) {
-    filteredProducts =
-      currentTab === 'alldishes'
-        ? allMenus.data
-        : allMenus.data.filter((item) => item.category.slug === currentTab);
-
-    // Filter by price
-    filteredProducts = filteredProducts.filter((item) => {
-      const price =
-        item.basePrice ??
-        item.variations?.reduce((min: number, v: any) => {
-          return v.price < min ? v.price : min;
-        }, Infinity);
-      return price <= priceRange[0];
-    });
-
-    // Filter by search
-    const searchValue = searchInput.toLowerCase();
-    if (searchValue) {
-      filteredProducts = filteredProducts.filter((item) =>
-        item.name.toLowerCase().includes(searchValue)
-      );
-    }
-  }
-
-  console.log('Price range: ', priceRange);
 
   return (
     <div className="mt-18">
@@ -141,7 +174,6 @@ const Products = () => {
             </div>
           </div>
 
-          {/* circular white glow */}
           <div
             className="absolute bg-white/15 rounded-full z-30 left-1/2 transform -translate-x-1/2"
             style={{ width: '106px', height: '106px', top: '-53px' }}
@@ -168,13 +200,12 @@ const Products = () => {
                               {...field}
                               onChange={(e) => {
                                 field.onChange(e);
-                                setSearchInput(e.target.value.toLowerCase()); // update live
+                                setSearchInput(e.target.value.toLowerCase());
                               }}
-                              className="text-black text-lg md:text-md pl-4 pr-10 py-7 shadow-xl shadow-gray-300/50 rounded-sm border border-gray-100"
+                              className="text-black text-lg md:text-md pl-4 pr-10 py-7 shadow shadow-gray-300/50 rounded-sm border border-gray-100"
                               onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
+                                if (e.key === 'Enter')
                                   form.handleSubmit(onSubmit)();
-                                }
                               }}
                             />
                             <button
@@ -271,40 +302,50 @@ const Products = () => {
                     }
                   />
                   <p className="text-[#183136] font-light mt-4">
-                    Show all {filteredProducts.length} results
+                    Show all {filteredAndSortedProducts.length} results
                   </p>
                 </div>
 
-                {/* Sorting select */}
-                <div className="relative">
-                  <Select>
-                    <SelectTrigger className="w-[210px] text-[#183136] text-md pl-4 pr-2 py-5 shadow-md shadow-gray-300/50 rounded-sm border border-gray-100">
-                      <SelectValue placeholder="Default sorting" />
-                    </SelectTrigger>
-                    <SelectContent className="rounded-sm border-none bg-white">
-                      <SelectGroup>
-                        <SelectLabel>Default sorting</SelectLabel>
-                        <SelectItem value="default">Default sorting</SelectItem>
-                        <SelectItem value="rating">
-                          Sort by average rating
-                        </SelectItem>
-                        <SelectItem value="popularity">
-                          Sort by popularity
-                        </SelectItem>
-                        <SelectItem value="latest">Sort by latest</SelectItem>
-                        <SelectItem value="price-low-high">
-                          Sort by price: low to high
-                        </SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
+                {/* Custom Dropdown */}
+                <div ref={dropdownRef} className="relative w-[220px]">
+                  <button
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                    className="w-full px-4 py-3 border border-gray-100 rounded shadow flex justify-between items-center cursor-pointer"
+                  >
+                    {SORT_OPTIONS.find((o) => o.value === sortOption)?.label ||
+                      'Select'}
+                    <span className="ml-2">
+                      {dropdownOpen ? <FaAngleUp /> : <FaAngleDown />}
+                    </span>
+                  </button>
+
+                  {dropdownOpen && (
+                    <ul className="absolute w-full border-gray-100 bg-white shadow-lg rounded mt-1 z-50">
+                      {SORT_OPTIONS.map((option) => (
+                        <li
+                          key={option.value}
+                          className={`px-4 py-2 hover:bg-gray-200 cursor-pointer ${
+                            sortOption === option.value
+                              ? 'font-semibold text-[#f19e38]'
+                              : ''
+                          }`}
+                          onClick={() => {
+                            setSortOption(option.value);
+                            setDropdownOpen(false);
+                          }}
+                        >
+                          {option.label}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
 
               {/* Product cards */}
               <div className="grid grid-cols-3 gap-6 mt-4">
-                {filteredProducts.length > 0 ? (
-                  filteredProducts.map((item) => (
+                {filteredAndSortedProducts.length > 0 ? (
+                  filteredAndSortedProducts.map((item) => (
                     <ShopCart
                       key={item._id}
                       id={item.id}

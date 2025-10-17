@@ -1,14 +1,17 @@
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { Josefin_Sans, Josefin_Slab, Playfair_Display } from 'next/font/google';
+// import ClientLayoutWrapper from '../../components/ClientLayoutWrapper';
+// import GlobalLoaderProvider from '../../components/Shared/providers/GlobalLoaderProvider';
+// import { ReduxProvider } from '../../components/Shared/providers/ReduxProvider';
+// import UserSyncProvider from '../../components/Shared/providers/UserSyncProvider';
+// import { Toaster } from '../../components/ui/sonner';
+// import { authOptions } from '../../lib/auth/authOptions';
+import { Toaster } from 'sonner';
 import ClientLayoutWrapper from '../components/ClientLayoutWrapper';
-import Container from '../components/container/Container';
-import Footer from '../components/footer/Footer';
-import Navbar from '../components/navigationMenu/Navbar';
 import GlobalLoaderProvider from '../components/Shared/providers/GlobalLoaderProvider';
 import { ReduxProvider } from '../components/Shared/providers/ReduxProvider';
 import UserSyncProvider from '../components/Shared/providers/UserSyncProvider';
-import { Toaster } from '../components/ui/sonner';
 import { authOptions } from '../lib/auth/authOptions';
 import './global.css';
 
@@ -58,16 +61,7 @@ export default async function RootLayout({
           <GlobalLoaderProvider>
             <ClientLayoutWrapper session={session}>
               <UserSyncProvider>
-                {/* <BackgroundLayout> */}
-                {/* navbar */}
-                <header className="fixed top-0 left-0 z-40 w-full bg-transparent">
-                  <Container>
-                    <Navbar />
-                  </Container>
-                </header>
-
-                {/* Main Content */}
-                <main>{children}</main>
+                {children}
                 <Toaster
                   position="bottom-right"
                   richColors
@@ -83,12 +77,6 @@ export default async function RootLayout({
                     },
                   }}
                 />
-
-                {/* Footer */}
-                <footer>
-                  <Footer />
-                </footer>
-                {/* </BackgroundLayout> */}
               </UserSyncProvider>
             </ClientLayoutWrapper>
           </GlobalLoaderProvider>

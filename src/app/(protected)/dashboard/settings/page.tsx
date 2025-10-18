@@ -1,5 +1,5 @@
 const page = () => {
-  return <div></div>;
+  return <div className="bg-amber-300">This is settings page</div>;
 };
 
 export default page;

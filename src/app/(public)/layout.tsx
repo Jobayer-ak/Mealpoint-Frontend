@@ -1,5 +1,6 @@
 import Container from '../../components/container/Container';
 import Footer from '../../components/footer/Footer';
+import BackgroundLayout from '../../components/layouts/BackgroundLayout';
 import Navbar from '../../components/navigationMenu/Navbar';
 
 export default async function PublicLayout({
@@ -9,22 +10,22 @@ export default async function PublicLayout({
 }) {
   return (
     <>
-      {/* <BackgroundLayout> */}
-      {/* navbar */}
-      <header className="fixed top-0 left-0 z-40 w-full bg-transparent">
-        <Container>
-          <Navbar />
-        </Container>
-      </header>
+      <BackgroundLayout>
+        {/* navbar */}
+        <header className="fixed top-0 left-0 z-40 w-full bg-transparent">
+          <Container>
+            <Navbar />
+          </Container>
+        </header>
 
-      {/* Main Content */}
-      <main>{children}</main>
+        {/* Main Content */}
+        <main>{children}</main>
 
-      {/* Footer */}
-      <footer>
-        <Footer />
-      </footer>
-      {/* </BackgroundLayout> */}
+        {/* Footer */}
+        <footer>
+          <Footer />
+        </footer>
+      </BackgroundLayout>
     </>
   );
 }

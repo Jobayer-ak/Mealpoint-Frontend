@@ -77,6 +77,8 @@ const Login = () => {
     setGoogleLoading(true);
     try {
       await signIn('google', { redirect: false });
+      toast.success('Google login successful!');
+      router.push('/');
     } catch (err: any) {
       toast.error(err?.message || 'Google login failed');
     } finally {

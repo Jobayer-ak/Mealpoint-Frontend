@@ -1,4 +1,3 @@
-// app/providers/UserSyncProvider.tsx
 'use client';
 import { setUserProfile } from '@/redux/features/user/userSlice';
 import { useSession } from 'next-auth/react';

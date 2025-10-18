@@ -2,12 +2,10 @@
 @import 'tw-animate-css';
 
 /* Theme Variables */
-
 :root {
   --bg-image: url('/assets/bg.jpg.webp');
-  --font-primary: var(--font-josefin-sans); /* body text */
-  --font-heading: var(--font-playfair-display); /* headings */
-  --font-playfair: var(--font-playfair-display);
+  --font-primary: var(--font-josefin-sans);
+  --font-heading: var(--font-playfair-display);
 }
 
 /* Body & Background */
@@ -40,29 +38,93 @@ h6,
   font-family: var(--font-playfair-display) !important;
 }
 
+/* Scrollbar */
 html {
-  overflow-y: scroll; /* always show scrollbar track */
-  scrollbar-gutter: stable; /* modern browsers */
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
 }
-
-/* Remove Radix scroll-lock padding and keep scrollbar visible */
-body[data-radix-select-locked],
-body[data-radix-dialog-locked],
-body[data-radix-popover-locked] {
-  padding-right: 0 !important;
-  overflow-y: auto !important;
-}
-
-/*  Scrollbar Utilities */
-/* Only use on specific elements, not body */
 .scrollbar-none::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
 }
 
-/* Additional Utilities */
-/* Ensure all elements respect box-sizing */
+/* Box sizing */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+/* Dashboard colors */
+@theme {
+  --dashboard-light-bg: #ffffff;
+  --dashboard-light-text: #183239;
+  --dashboard-dark-bg: #001f3f;
+  --dashboard-dark-text: #ffffff;
+}
+
+/* Sidebar button colors */
+:root {
+  --sidebar-btn-bg: #f3f4f6;
+  --sidebar-btn-hover: #eab308;
+  --sidebar-btn-active: #f59e0b;
+  --sidebar-btn-text: #183239;
+  --sidebar-btn-logout-bg: #10b981;
+  --sidebar-btn-logout-hover: #059669;
+}
+
+/* Dark mode */
+.dark {
+  --sidebar-btn-bg: #1f2937;
+  --sidebar-btn-hover: #f59e0b;
+  --sidebar-btn-active: #f59e0b;
+  --sidebar-btn-text: #f9fafb;
+  --sidebar-btn-logout-bg: #f59e0b;
+  --sidebar-btn-logout-hover: #f59e0b;
+}
+
+/* Dashboard base */
+.dashboard {
+  background-color: var(--dashboard-light-bg);
+  color: var(--dashboard-light-text);
+}
+.dashboard.dark {
+  background-color: var(--dashboard-dark-bg);
+  color: var(--dashboard-dark-text);
+}
+
+/* Sidebar buttons */
+.sidebar-btn {
+  @apply w-full flex items-center gap-2 px-4 py-2 rounded transition-colors;
+  background-color: var(--sidebar-btn-bg);
+  color: var(--sidebar-btn-text);
+}
+
+.sidebar-btn:hover {
+  background-color: var(--sidebar-btn-hover);
+  color: var(--sidebar-btn-text);
+}
+
+.sidebar-btn.active {
+  background-color: var(--sidebar-btn-active);
+  color: var(--sidebar-btn-text);
+}
+
+/* Logout button */
+.sidebar-btn.logout {
+  background-color: var(--sidebar-btn-logout-bg);
+  color: #fff;
+}
+
+.sidebar-btn.logout:hover {
+  background-color: var(--sidebar-btn-logout-hover);
+}
+
+/* Dark/light toggle button */
+.sidebar-btn.toggle {
+  background-color: var(--sidebar-btn-bg);
+  color: var(--sidebar-btn-text);
+}
+
+.sidebar-btn.toggle:hover {
+  background-color: var(--sidebar-btn-hover);
 }

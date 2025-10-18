@@ -8,7 +8,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { CiMenuFries } from 'react-icons/ci';
 import { LiaShoppingBagSolid } from 'react-icons/lia';
 import { RxCross1 } from 'react-icons/rx';
-import { useAppSelector } from '../../redux/hook/hook';
+import { clearUserProfile } from '../../redux/features/user/userSlice';
+import { useAppDispatch, useAppSelector } from '../../redux/hook/hook';
 import { useOutsideClick } from '../../redux/hook/useOutsideClick';
 import CartDropdown from '../cart/CartDropdown';
 
@@ -57,6 +58,7 @@ const Navbar = () => {
   const [cartOpen, setCartOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const pathname = usePathname();
+  const dispatch = useAppDispatch();
 
   const cartRef = useRef<HTMLDivElement | null>(null);
   const userMenuRef = useRef<HTMLDivElement | null>(null);
@@ -77,7 +79,10 @@ const Navbar = () => {
 
   const { data: session } = useSession();
   const cart = useAppSelector((state) => state.cart);
-  const user = session?.user;
+  // const user = session?.user;
+  const { profile: user } = useAppSelector((state) => state.user);
+
+  console.log('user: ', user);
 
   return (
     <header className="bg-white shadow-md rounded-lg my-4 relative z-50">
@@ -135,12 +140,13 @@ const Navbar = () => {
                 className="flex items-center focus:outline-none cursor-pointer"
                 aria-label="User menu"
               >
-                {!user.image ? (
+                {user.profileImage ? (
                   <div className="w-10 h-10 relative rounded-full overflow-hidden">
                     <Image
-                      src={
-                        'https://tastyc.bslthemes.com/wp-content/uploads/2021/04/face-1.jpg'
-                      }
+                      // src={
+                      //   'https://tastyc.bslthemes.com/wp-content/uploads/2021/04/face-1.jpg'
+                      // }
+                      src={user.profileImage}
                       alt={user?.name || 'User'}
                       fill
                       className="object-cover"
@@ -174,6 +180,7 @@ const Navbar = () => {
                     onClick={() => {
                       signOut({ callbackUrl: '/' });
                       closeUserMenu();
+                      dispatch(clearUserProfile());
                     }}
                     className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 cursor-pointer"
                   >
@@ -228,6 +235,7 @@ const Navbar = () => {
                   onClick={() => {
                     signOut({ callbackUrl: '/' });
                     setIsMenuOpen(false);
+                    dispatch(clearUserProfile());
                   }}
                   className="bg-[#f29e38] text-white px-6 py-2 rounded-full hover:bg-yellow-600 transition"
                 >

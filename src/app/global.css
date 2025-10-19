@@ -56,7 +56,7 @@
 }
 
 .dashboard header {
-  border-bottom: 1px solid #e5e9f0; /* light gray 40% opacity */
+  border-color: 1px solid #e5e9f0; /* light gray 40% opacity */
   /* border-color: #e5e9f0; */
   border-width: 1px;
 }
@@ -153,7 +153,7 @@ html {
 /* Logout button */
 .sidebar-btn.logout {
   background-color: var(--sidebar-btn-logout-bg);
-  color: #fff;
+  color: var(--sidebar-btn-text);
 }
 
 .sidebar-btn.logout:hover {

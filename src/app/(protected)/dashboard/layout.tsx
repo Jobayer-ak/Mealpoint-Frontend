@@ -59,7 +59,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Sidebar */}
       <aside
         className={cn(
-          'fixed lg:static top-20 left-0 z-40 min-h-screen p-4 flex flex-col border-r border-[#e5e9f0] dashboard-border transform transition-all duration-300',
+          'fixed lg:static top-20 left-0 z-40 min-h-screen p-4 flex flex-col dashboard-border transform transition-all duration-300',
           darkMode
             ? 'bg-[#101828] text-[--dashboard-dark-text]'
             : 'bg-white text-[--dashboard-light-text]',
@@ -122,7 +122,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Main Area */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
-        <header className="h-20 px-4 md:px-6 flex items-center justify-between border-b border-[#e5e9f0] dashboard-border bg-[--dashboard-light-bg] dark:bg-[--dashboard-dark-bg] text-[--dashboard-light-text] dark:text-[--dashboard-dark-text] dashboard-transition sticky top-0 z-20">
+        <header className="h-20 px-4 md:px-6 flex items-center justify-between dashboard-border-bottom bg-[--dashboard-light-bg] dark:bg-[--dashboard-dark-bg] text-[--dashboard-light-text] dark:text-[--dashboard-dark-text] dashboard-transition sticky top-0 z-20">
           <div className="flex items-center gap-4">
             {/* Burger menu for all screens */}
             <button
@@ -133,12 +133,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   setCollapsed(!collapsed);
                 }
               }}
-              className="text-[--dashboard-light-text] dark:text-[--dashboard-dark-text]"
+              className="text-[--dashboard-light-text] dark:text-[--dashboard-dark-text] dashboard-border p-2 rounded-sm cursor-pointer"
             >
               {sidebarOpen ? (
                 <IoCloseOutline size={32} />
               ) : (
-                <RiMenu2Line size={30} />
+                <RiMenu2Line size={32} />
               )}
             </button>
 
@@ -151,7 +151,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             {/* Dark mode toggle */}
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className="sidebar-btn toggle flex items-center justify-center text-[--toggle-btn-text] bg-[--toggle-btn-bg] hover:bg-[--toggle-btn-hover] transition-all duration-300 cursor-pointer w-10 h-10 md:w-12 md:h-12 rounded-full"
+              className="sidebar-btn toggle dashboard-border flex items-center justify-center text-[--toggle-btn-text] bg-[--toggle-btn-bg] hover:bg-[--toggle-btn-hover] transition-all duration-300 cursor-pointer w-10 h-10 md:w-12 md:h-12"
             >
               {darkMode ? (
                 <LuSun style={{ width: 26, height: 26 }} />
@@ -162,7 +162,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
             {/* Profile */}
             {profile?.profileImage ? (
-              <div className="w-12 h-12 relative rounded-full overflow-hidden">
+              <div className="w-14 h-14 relative rounded-full overflow-hidden">
                 <Image
                   src={profile.profileImage}
                   alt={profile?.name || 'profile'}

@@ -1,6 +1,18 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+@layer base {
+  /* All sides border, dynamic */
+  .dashboard-border {
+    border: 1px solid var(--dashboard-border-color) !important;
+  }
+
+  /* Only bottom border, dynamic */
+  .dashboard-border-bottom {
+    border-bottom: 1px solid var(--dashboard-border-color) !important;
+  }
+}
+
 /* Theme Variables */
 :root {
   --bg-image: url('/assets/bg.jpg.webp');
@@ -10,10 +22,11 @@
   /* Dashboard colors - light mode */
   --dashboard-light-bg: #ffffff;
   --dashboard-light-text: #183034;
+  --dashboard-border-color: #e5e9f0;
 
   /* Sidebar button colors - light mode */
   --sidebar-btn-bg: #ecf3fe;
-  --sidebar-btn-hover: #d6e0fb; /* light hover */
+  --sidebar-btn-hover: #d6e0fb;
   --sidebar-btn-active: #ecf3fe;
   --sidebar-btn-text: #183239;
   --sidebar-btn-logout-bg: cyan;
@@ -30,6 +43,7 @@
   /* Dashboard colors */
   --dashboard-dark-bg: #101828;
   --dashboard-dark-text: #f0ebeb;
+  --dashboard-border-color: rgba(18, 39, 73, 0.6);
 
   /* Sidebar button colors - dark mode */
   --sidebar-btn-bg: #101828;
@@ -44,26 +58,13 @@
   --toggle-btn-hover: #171f2f;
   --toggle-btn-text: #cbced3;
 }
-/* Scoped border color fix */
-.dashboard aside {
-  border-color: #e5e9f0; /* Light mode */
-  border-width: 1px;
-}
 
-.dashboard.dark aside {
-  border-color: rgba(18, 39, 73, 0.6); /* dark gray 60% opacity */
+/* Apply dynamic color to any element with .dashboard-border */
+.dashboard-border {
   border-width: 1px;
-}
-
-.dashboard header {
-  border-color: 1px solid #e5e9f0; /* light gray 40% opacity */
-  /* border-color: #e5e9f0; */
-  border-width: 1px;
-}
-
-.dashboard.dark header {
-  border-color: rgba(18, 39, 73, 0.6); /* dark gray 60% opacity */
-  border-width: 1px;
+  border-style: solid;
+  border-color: var(--dashboard-border-color);
+  /* transition: border-color 0.3s ease; */
 }
 
 /* Body & Background */
@@ -129,7 +130,7 @@ html {
   /* background-color: var(--sidebar-btn-bg); */
 }
 
-.sidebar-btn:hover {
+.dash-border.sidebar-btn:hover {
   background-color: var(--sidebar-btn-hover);
   color: #183136;
 }
@@ -162,16 +163,16 @@ html {
 
 /* Toggle button */
 .sidebar-btn.toggle {
-  background-color: var(--toggle-btn-bg);
+  /* background-color: var(--toggle-btn-bg); */
   color: var(--toggle-btn-text);
-  border: 0.5px solid var(--toggle-btn-hover);
-  border-radius: 100%;
+  /* border-bottom: 0.5px solid var(--toggle-btn-hover); */
+  /* border-radius: 100%; */
 }
 
 .toggle {
   width: 55px;
   height: 55px;
-  border: 1px solid gray;
+  /* border: 1px solid gray; */
   border-radius: 100%;
 }
 

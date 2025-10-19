@@ -6,6 +6,64 @@
   --bg-image: url('/assets/bg.jpg.webp');
   --font-primary: var(--font-josefin-sans);
   --font-heading: var(--font-playfair-display);
+
+  /* Dashboard colors - light mode */
+  --dashboard-light-bg: #ffffff;
+  --dashboard-light-text: #183034;
+
+  /* Sidebar button colors - light mode */
+  --sidebar-btn-bg: #ecf3fe;
+  --sidebar-btn-hover: #d6e0fb; /* light hover */
+  --sidebar-btn-active: #ecf3fe;
+  --sidebar-btn-text: #183239;
+  --sidebar-btn-logout-bg: cyan;
+  --sidebar-btn-logout-hover: #059669;
+
+  /* Toggle button colors - light mode */
+  --toggle-btn-bg: #ecf3fe;
+  --toggle-btn-hover: #d6e0fb;
+  --toggle-btn-text: #183239;
+}
+
+/* Dark mode */
+.dark {
+  /* Dashboard colors */
+  --dashboard-dark-bg: #101828;
+  --dashboard-dark-text: #f0ebeb;
+
+  /* Sidebar button colors - dark mode */
+  --sidebar-btn-bg: #101828;
+  --sidebar-btn-hover: #171f2f; /* dark hover */
+  --sidebar-btn-active: #172042;
+  --sidebar-btn-text: #cbced3;
+  --sidebar-btn-logout-bg: gray;
+  --sidebar-btn-logout-hover: #f39e3a;
+
+  /* Toggle button colors - dark mode */
+  --toggle-btn-bg: #172042;
+  --toggle-btn-hover: #171f2f;
+  --toggle-btn-text: #cbced3;
+}
+/* Scoped border color fix */
+.dashboard aside {
+  border-color: #e5e9f0; /* Light mode */
+  border-width: 1px;
+}
+
+.dashboard.dark aside {
+  border-color: rgba(18, 39, 73, 0.6); /* dark gray 60% opacity */
+  border-width: 1px;
+}
+
+.dashboard header {
+  border-bottom: 1px solid #e5e9f0; /* light gray 40% opacity */
+  /* border-color: #e5e9f0; */
+  border-width: 1px;
+}
+
+.dashboard.dark header {
+  border-color: rgba(18, 39, 73, 0.6); /* dark gray 60% opacity */
+  border-width: 1px;
 }
 
 /* Body & Background */
@@ -14,7 +72,7 @@ body {
   background-image: var(--bg-image);
   box-sizing: border-box;
   font-family: var(--font-primary);
-  color: #1a2f33;
+  color: var(--dashboard-light-text);
 }
 
 /* Overlay for dimming background */
@@ -54,34 +112,6 @@ html {
   box-sizing: border-box;
 }
 
-/* Dashboard colors */
-@theme {
-  --dashboard-light-bg: #ffffff;
-  --dashboard-light-text: #183239;
-  --dashboard-dark-bg: #001f3f;
-  --dashboard-dark-text: #ffffff;
-}
-
-/* Sidebar button colors */
-:root {
-  --sidebar-btn-bg: #f3f4f6;
-  --sidebar-btn-hover: #eab308;
-  --sidebar-btn-active: #f59e0b;
-  --sidebar-btn-text: #183239;
-  --sidebar-btn-logout-bg: #10b981;
-  --sidebar-btn-logout-hover: #059669;
-}
-
-/* Dark mode */
-.dark {
-  --sidebar-btn-bg: #1f2937;
-  --sidebar-btn-hover: #f59e0b;
-  --sidebar-btn-active: #f59e0b;
-  --sidebar-btn-text: #f9fafb;
-  --sidebar-btn-logout-bg: #f59e0b;
-  --sidebar-btn-logout-hover: #f59e0b;
-}
-
 /* Dashboard base */
 .dashboard {
   background-color: var(--dashboard-light-bg);
@@ -94,19 +124,30 @@ html {
 
 /* Sidebar buttons */
 .sidebar-btn {
-  @apply w-full flex items-center gap-2 px-4 py-2 rounded transition-colors;
-  background-color: var(--sidebar-btn-bg);
+  @apply w-full flex items-center gap-2 px-4 py-2 rounded transition-colors duration-300;
   color: var(--sidebar-btn-text);
+  /* background-color: var(--sidebar-btn-bg); */
 }
 
 .sidebar-btn:hover {
   background-color: var(--sidebar-btn-hover);
-  color: var(--sidebar-btn-text);
+  color: #183136;
 }
 
 .sidebar-btn.active {
   background-color: var(--sidebar-btn-active);
-  color: var(--sidebar-btn-text);
+  color: #183136;
+  font-weight: 600;
+}
+
+.dashboard.dark .sidebar-btn:hover {
+  background-color: var(--sidebar-btn-hover);
+  color: #f5f5f5;
+}
+
+.dashboard.dark .sidebar-btn.active {
+  background-color: var(--sidebar-btn-active);
+  color: #f5f5f5;
 }
 
 /* Logout button */
@@ -119,12 +160,21 @@ html {
   background-color: var(--sidebar-btn-logout-hover);
 }
 
-/* Dark/light toggle button */
+/* Toggle button */
 .sidebar-btn.toggle {
-  background-color: var(--sidebar-btn-bg);
-  color: var(--sidebar-btn-text);
+  background-color: var(--toggle-btn-bg);
+  color: var(--toggle-btn-text);
+  border: 0.5px solid var(--toggle-btn-hover);
+  border-radius: 100%;
+}
+
+.toggle {
+  width: 55px;
+  height: 55px;
+  border: 1px solid gray;
+  border-radius: 100%;
 }
 
 .sidebar-btn.toggle:hover {
-  background-color: var(--sidebar-btn-hover);
+  background-color: var(--toggle-btn-hover);
 }

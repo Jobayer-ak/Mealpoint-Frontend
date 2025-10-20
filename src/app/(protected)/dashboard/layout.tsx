@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ReactNode, useEffect, useState } from 'react';
+import { FaRegCircleUser } from 'react-icons/fa6';
 import { IoCloseOutline, IoHomeOutline, IoMoonOutline } from 'react-icons/io5';
 import { LuLogOut, LuSun } from 'react-icons/lu';
 import { PiGearSix, PiShoppingCart } from 'react-icons/pi';
@@ -37,6 +38,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   const links = [
     { href: '/dashboard', label: 'Overview', icon: IoHomeOutline },
+    {
+      href: '/dashboard/user-profile',
+      label: 'User Profile',
+      icon: FaRegCircleUser,
+    },
     { href: '/dashboard/cart', label: 'Cart', icon: PiShoppingCart },
     { href: '/dashboard/settings', label: 'Settings', icon: PiGearSix },
   ];
@@ -136,9 +142,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               className="text-[--dashboard-light-text] dark:text-[--dashboard-dark-text] dashboard-border p-2 rounded-sm cursor-pointer"
             >
               {sidebarOpen ? (
-                <IoCloseOutline size={32} />
+                <IoCloseOutline size={32} className="text-[#787f90]" />
               ) : (
-                <RiMenu2Line size={32} />
+                <RiMenu2Line size={32} className="text-[#787f90]" />
               )}
             </button>
 

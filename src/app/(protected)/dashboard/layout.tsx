@@ -10,7 +10,6 @@ import { LuLogOut, LuSun } from 'react-icons/lu';
 import { PiGearSix, PiShoppingCart } from 'react-icons/pi';
 import { RiMenu2Line } from 'react-icons/ri';
 import HorizontalLine from '../../../components/Shared/featuresIcons/HorizontalLine';
-import { ScrollArea } from '../../../components/ui/scroll-area';
 import { cn } from '../../../lib/utils';
 import { useAppSelector } from '../../../redux/hook/hook';
 
@@ -21,20 +20,27 @@ interface DashboardLayoutProps {
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const pathname = usePathname();
   const [darkMode, setDarkMode] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false); // mobile sidebar
-  const [collapsed, setCollapsed] = useState(false); // large screen collapse
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const { profile } = useAppSelector((state) => state.user);
+  // const [isScrolled, setIsScrolled] = useState(false);
 
-  // Load saved theme
+  // Dark mode persistence
   useEffect(() => {
     const saved = localStorage.getItem('dashboard-dark');
     if (saved === 'true') setDarkMode(true);
   }, []);
 
-  // Save theme
   useEffect(() => {
     localStorage.setItem('dashboard-dark', darkMode.toString());
   }, [darkMode]);
+
+  // Detect scroll to add header shadow
+  // useEffect(() => {
+  //   const handleScroll = () => setIsScrolled(window.scrollY > 5);
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, []);
 
   const links = [
     { href: '/dashboard', label: 'Overview', icon: IoHomeOutline },
@@ -50,146 +56,168 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <div
       className={cn(
-        'dashboard dashboard-transition flex min-h-screen flex-col md:flex-row',
+        'flex min-h-screen w-full overflow-hidden transition-colors duration-300',
         darkMode && 'dark'
       )}
     >
-      {/* Overlay for mobile */}
-      {sidebarOpen && (
-        <div
-          className="fixed top-20 inset-0 z-30 bg-black/30 backdrop-blur-sm lg:hidden transition-opacity duration-300"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
-      {/* Sidebar */}
+      {/* ===== Sidebar ===== */}
       <aside
         className={cn(
-          'fixed lg:static top-20 left-0 z-40 min-h-screen p-4 flex flex-col dashboard-border transform transition-all duration-300',
+          'fixed top-11 lg:top-0 left-0 z-40 flex h-screen flex-col p-4 border-r dashboard-border transition-all duration-300 pb-15',
+          darkMode ? 'bg-[#101828]' : 'bg-white',
+
           darkMode
-            ? 'bg-[#101828] text-[--dashboard-dark-text]'
-            : 'bg-white text-[--dashboard-light-text]',
+            ? 'text-[var(--dashboard-dark-text)]'
+            : 'text-[var(--dashboard-light-text)]',
           sidebarOpen
             ? 'translate-x-0 w-64'
             : '-translate-x-full lg:translate-x-0 w-64',
-          collapsed && 'lg:w-24' // collapsed sidebar on large screens
+          collapsed && 'lg:w-24'
         )}
       >
-        <ScrollArea className="flex-1 h-auto">
-          {/* Logo / Title */}
-          <div className="flex justify-between items-center pb-0 lg:pb-7">
-            {!collapsed ? (
-              <h1 className="text-2xl font-bold hidden lg:block">Meal Point</h1>
-            ) : (
-              <h1 className="text-2xl font-bold hidden lg:block">MP</h1>
-            )}
+        <div className="flex flex-col h-full">
+          {/* Logo */}
+          <div className="flex items-center justify-between mb-7">
+            <h1 className="text-2xl font-bold text-center hidden lg:block">
+              MP
+            </h1>
           </div>
 
-          <div className="mb-4 hidden lg:block">
-            <HorizontalLine />
-          </div>
+          {!sidebarOpen && <HorizontalLine />}
 
           {/* Navigation */}
-          <nav className="flex flex-col space-y-2">
+          <nav className="flex flex-col flex-1 space-y-2 overflow-y-auto overflow-x-hidden mt-5">
             {links.map(({ href, label, icon: Icon }) => {
               const isActive = pathname === href;
               return (
-                <Link key={href} href={href} className="w-full">
+                <Link key={href} href={href}>
                   <button
                     onClick={() => setSidebarOpen(false)}
                     className={cn(
-                      'sidebar-btn cursor-pointer flex items-center gap-3 px-4 py-2 rounded transition-colors duration-300 w-full text-left',
+                      'sidebar-btn flex items-center px-4 py-2 rounded transition-all duration-300 w-full cursor-pointer text-left overflow-hidden',
                       isActive && 'active'
-                      // collapsed && 'justify-center'
                     )}
                   >
-                    <Icon size={24} />
-                    {!collapsed && <span>{label}</span>}
+                    <div className="min-w-[24px] flex justify-center">
+                      <Icon size={22} />
+                    </div>
+                    <span
+                      className={cn(
+                        'ml-3 whitespace-nowrap transition-all duration-300',
+                        collapsed
+                          ? 'opacity-0 w-0 overflow-hidden'
+                          : 'opacity-100 w-auto'
+                      )}
+                    >
+                      {label}
+                    </span>
                   </button>
                 </Link>
               );
             })}
           </nav>
 
-          <div className="mt-10">{<HorizontalLine />}</div>
+          {!sidebarOpen && <HorizontalLine />}
 
-          <button
-            className={cn(
-              'sidebar-btn logout mt-4 flex items-center gap-2 bg-[--sidebar-btn-logout-bg] hover:bg-[--sidebar-btn-logout-hover] text-[--sidebar-btn--text] p-2 rounded transition-colors duration-300'
-              // collapsed ? 'justify-center' : 'w-full'
-            )}
-          >
-            <LuLogOut size={24} />
+          {/* Logout */}
+          <button className="flex items-center gap-2 p-2 rounded-md bg-red-500/10 hover:bg-red-500/20 text-red-500 transition-colors duration-300">
+            <LuLogOut size={22} />
             {!collapsed && 'Logout'}
           </button>
-        </ScrollArea>
+        </div>
       </aside>
 
-      {/* Main Area */}
-      <div className="flex-1 flex flex-col">
-        {/* Header */}
-        <header className="h-20 px-4 md:px-6 flex items-center justify-between dashboard-border-bottom bg-[--dashboard-light-bg] dark:bg-[--dashboard-dark-bg] text-[--dashboard-light-text] dark:text-[--dashboard-dark-text] dashboard-transition sticky top-0 z-20">
-          <div className="flex items-center gap-4">
-            {/* Burger menu for all screens */}
-            <button
-              onClick={() => {
-                if (window.innerWidth < 1024) {
-                  setSidebarOpen(!sidebarOpen);
-                } else {
-                  setCollapsed(!collapsed);
-                }
-              }}
-              className="text-[--dashboard-light-text] dark:text-[--dashboard-dark-text] dashboard-border p-2 rounded-sm cursor-pointer"
-            >
-              {sidebarOpen ? (
-                <IoCloseOutline size={32} className="text-[#787f90]" />
-              ) : (
-                <RiMenu2Line size={32} className="text-[#787f90]" />
-              )}
-            </button>
-
-            {/* Brand for mobile */}
-            <h1 className="text-2xl font-bold block lg:hidden">Meal Point</h1>
-          </div>
-
-          {/* Right side */}
-          <div className="flex items-center gap-3 md:gap-4">
-            {/* Dark mode toggle */}
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="sidebar-btn toggle dashboard-border flex items-center justify-center text-[--toggle-btn-text] bg-[--toggle-btn-bg] hover:bg-[--toggle-btn-hover] transition-all duration-300 cursor-pointer w-10 h-10 md:w-12 md:h-12"
-            >
-              {darkMode ? (
-                <LuSun style={{ width: 26, height: 26 }} />
-              ) : (
-                <IoMoonOutline style={{ width: 26, height: 26 }} />
-              )}
-            </button>
-
-            {/* Profile */}
-            {profile?.profileImage ? (
-              <div className="w-14 h-14 relative rounded-full overflow-hidden">
-                <Image
-                  src={profile.profileImage}
-                  alt={profile?.name || 'profile'}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-            ) : (
-              <div className="w-12 h-12 rounded-full bg-yellow-500 flex items-center justify-center text-white font-semibold">
-                {profile?.name?.charAt(0).toUpperCase() || 'U'}
-              </div>
+      {/* ===== Main Section ===== */}
+      <div
+        className={cn(
+          'flex flex-col flex-1 min-h-screen transition-all duration-300',
+          collapsed ? 'lg:ml-24' : 'lg:ml-64'
+        )}
+      >
+        {/* Scrollable container for header + content */}
+        <div className="flex flex-col h-screen overflow-y-auto">
+          {/* ===== Header ===== */}
+          <header
+            className={cn(
+              'sticky top-0 z-40 flex items-center justify-between h-20 px-4 py-6 md:px-6 dashboard-border-bottom backdrop-blur-md transition-all duration-300',
+              darkMode ? 'bg-[#101828]' : 'bg-white'
+              // darkMode
+              //   ? 'bg-[#101828]/70 border-[#1c2333]'
+              //   : 'bg-white/70 border-gray-200',
+              // isScrolled && 'shadow-md'
             )}
-          </div>
-        </header>
+          >
+            <div className="flex items-center gap-4">
+              {/* Sidebar toggle */}
+              <button
+                onClick={() => {
+                  if (window.innerWidth < 1024) setSidebarOpen(!sidebarOpen);
+                  else setCollapsed(!collapsed);
+                }}
+                className="p-2 rounded-md dashboard-border cursor-pointer "
+              >
+                {sidebarOpen ? (
+                  <IoCloseOutline size={28} className="text-gray-500" />
+                ) : (
+                  <RiMenu2Line size={28} className="text-gray-500" />
+                )}
+              </button>
 
-        {/* Main content */}
-        <main className="flex-1 p-4 md:p-6 bg-[--dashboard-light-bg] dark:bg-[--dashboard-dark-bg] text-[--dashboard-light-text] dark:text-[--dashboard-dark-text] dashboard-transition overflow-auto">
-          {children}
-        </main>
+              <h1 className="text-2xl font-bold block lg:hidden">Meal Point</h1>
+            </div>
+
+            {/* Right side */}
+            <div className="flex items-center gap-3 md:gap-4">
+              {/* Dark Mode Toggle */}
+              <button
+                onClick={() => setDarkMode(!darkMode)}
+                className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 dashboard-border rounded-full"
+              >
+                {darkMode ? (
+                  <LuSun className="text-yellow-400" size={22} />
+                ) : (
+                  <IoMoonOutline className="text-gray-600" size={22} />
+                )}
+              </button>
+
+              {/* Profile */}
+              {profile?.profileImage ? (
+                <div className="w-14 h-14 relative dashboard-border rounded-full overflow-hidden">
+                  <Image
+                    src={profile.profileImage}
+                    alt={profile?.name || 'profile'}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+              ) : (
+                <div className="w-12 h-12 rounded-full bg-yellow-500 flex items-center justify-center text-white font-semibold">
+                  {profile?.name?.charAt(0).toUpperCase() || 'U'}
+                </div>
+              )}
+            </div>
+          </header>
+
+          {/* ===== Main Content ===== */}
+          <main
+            className={cn(
+              'flex min-h-screen w-full overflow-hidden transition-colors duration-300 flex-1 p-4 md:p-6 ',
+              darkMode ? 'bg-[#101828]' : 'bg-[#f9fbfc]'
+            )}
+          >
+            {children}
+          </main>
+        </div>
       </div>
+
+      {/* ===== Mobile Overlay ===== */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/40 backdrop-blur-sm lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
     </div>
   );
 }

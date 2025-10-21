@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { MdOutlineModeEdit } from 'react-icons/md';
+import Dashboard_Edit_button from '../../../../../components/Shared/Dashboard_Edit_button';
 import { useAppSelector } from '../../../../../redux/hook/hook';
 
 const UserDetails = () => {
@@ -22,51 +22,73 @@ const UserDetails = () => {
       profile.profileImage.startsWith('/'));
 
   return (
-    <div className="dashboard-border rounded-2xl px-6 py-6 dashboard-surface">
+    <div className="w-full dashboard-border bg-white rounded-2xl px-6 py-6">
       <h2 className=" text-2xl font-semibold tracking-wider mb-4">Profile</h2>
 
       {/* user info */}
-      <div className="dashboard-border rounded-2xl px-7 py-6">
-        <div className="flex items-center gap-6">
-          {/* image */}
-          <div className="relative w-20 h-20 rounded-full overflow-hidden">
-            {validImage ? (
-              <Image
-                src={profile!.profileImage}
-                alt={profile?.name || 'User avatar'}
-                fill
-                className="object-cover"
-                priority
-              />
-            ) : (
-              fallbackAvatar
-            )}
-          </div>
+      <div className="dashboard-border  rounded-2xl px-7 py-6">
+        <div className="flex flex-col gap-6 lg:flex-row lg:justify-between lg:items-end">
+          <div className="flex flex-col justify-center lg:flex-row items-center gap-6">
+            {/* image */}
+            <div className="relative w-20 h-20 rounded-full overflow-hidden">
+              {validImage ? (
+                <Image
+                  src={profile!.profileImage}
+                  alt={profile?.name || 'User avatar'}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              ) : (
+                fallbackAvatar
+              )}
+            </div>
 
-          {/* Image with role*/}
-          <div className="space-y-4 d-text-color ">
-            <h3 className="text-xl font-bold tracking-wider">
-              {profile?.name || 'Unknown User'}
-            </h3>
+            {/* User name and role*/}
+            <div className="space-y-4 d-text-color ">
+              <h3 className="text-xl text-center lg:text-start font-bold tracking-wider">
+                {profile?.name || 'Unknown User'}
+              </h3>
 
-            <div className="flex justify-between tracking-widest items-center gap-4 text-sm text-[#9598a2] font-medium capitalize">
-              <h4 className="">{profile?.role || 'No role assigned'}</h4>
-              <span className="font-extralight"> | </span>
-              <h4 className="">Dhaka, Bangladesh</h4>
+              <div className="flex flex-col justify-center item-start gap-4 lg:flex-row  lg:justify-between tracking-widest items-center lg:gap-4 text-sm text-[#9598a2] font-medium capitalize">
+                <h4 className="">{profile?.role || 'No role assigned'}</h4>
+                <span className="font-extralight hidden lg:block"> | </span>
+                <h4 className="">Dhaka, Bangladesh</h4>
+              </div>
             </div>
           </div>
+
+          {/* edit button */}
+          <Dashboard_Edit_button />
         </div>
       </div>
 
       {/* Personal information */}
-      <div className="dashboard-border d-text-color rounded-2xl dashboard-surface px-7 py-6 my-7 tracking-wider">
-        <div className="flex justify-between items-center ">
+      <div className="dashboard-border d-text-color rounded-2xl bg-white px-7 py-6 my-7 tracking-wider">
+        <div className="flex flex-col lg:flex-row lg:justify-between items-center ">
           <h2 className="text-md font-semibold  mb-4">Personal Information</h2>
 
-          <h2 className="text-sm text-[#9598a2]  font-semibold mb-4 flex justify-between items-center gap-1 dashboard-border rounded-full px-4 py-3 d-edit-btn cursor-pointer">
-            <MdOutlineModeEdit size={25} className="py-1" />
-            Edit
-          </h2>
+          <Dashboard_Edit_button />
+        </div>
+
+        {/* user info */}
+        <div className="grid grid-cols-2 gap-6 mt-6">
+          <div>
+            <p>Name</p>
+            <p>{profile?.name}</p>
+          </div>
+          <div>
+            <p>Email</p>
+            <p>{profile?.email}</p>
+          </div>
+          <div>
+            <p>Phone</p>
+            <p>{profile?.phone}</p>
+          </div>
+          <div>
+            <p>Address</p>
+            <p>{profile?.phone}</p>
+          </div>
         </div>
       </div>
     </div>

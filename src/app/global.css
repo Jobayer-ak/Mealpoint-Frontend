@@ -1,48 +1,83 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+/* Base Layer — shared utilities and resets */
 @layer base {
-  /* All sides border, dynamic */
-  .dashboard-border {
-    border: 1.5px solid var(--dashboard-border-color) !important;
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
   }
 
-  .dashboard-surface {
-    background-color: var(--dashboard-surface-bg);
+  html {
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
   }
 
-  /* Only bottom border, dynamic */
-  .dashboard-border-bottom {
-    border-bottom: 1.5px solid var(--dashboard-border-color) !important;
+  body {
+    @apply min-h-screen bg-fixed bg-cover bg-center;
+    background-image: var(--bg-image);
+    font-family: var(--font-primary);
+    color: var(--dashboard-light-text);
+    box-sizing: border-box;
   }
 
+  /* Background overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
+    z-index: -1;
+  }
+
+  /* Headings */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .font-heading,
+  .font-playfair {
+    font-family: var(--font-playfair-display) !important;
+  }
+
+  /* General text utility */
   .d-text-color {
     color: var(--primary-color-text);
   }
 
-  .d-edit-btn {
-    background-color: var(--dashboard-edit-btn-bg);
-  }
-  .d-edit-btn:hover {
-    color: var(--primary-color-text);
+  /* Scrollbar removal helper */
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
 }
 
-/* Theme Variables */
+/* Theme Variables  */
+
+/* Light Theme (Default) */
 :root {
-  --bg-image: url('/assets/bg.jpg.webp');
+  /* Fonts */
   --font-primary: var(--font-josefin-sans);
   --font-heading: var(--font-playfair-display);
-  --primary-color-text: #183239;
 
-  /* Dashboard colors - light mode */
+  /* Background */
+  --bg-image: url('/assets/bg.jpg.webp');
+
+  /* Text */
+  --primary-color-text: #183239;
+  --edit-btn-text-color-hover: black;
+
+  /* Dashboard Colors */
   --dashboard-light-bg: #ffffff;
   --dashboard-surface-bg: #f9fafb;
   --dashboard-edit-btn-bg: #ffffff;
-  --dashboard-light-text: #183034;
+  --dashboard-edit-btn-bg-hover: #ecf3fe;
+  --dashboard-light-text: #182e35;
   --dashboard-border-color: #e5e9f0;
 
-  /* Sidebar button colors - light mode */
+  /* Sidebar Buttons */
   --sidebar-btn-bg: #ecf3fe;
   --sidebar-btn-hover: #d6e0fb;
   --sidebar-btn-active: #ecf3fe;
@@ -50,129 +85,94 @@
   --sidebar-btn-logout-bg: cyan;
   --sidebar-btn-logout-hover: #059669;
 
-  /* Toggle button colors - light mode */
+  /* Toggle Button */
   --toggle-btn-bg: #ecf3fe;
   --toggle-btn-hover: #d6e0fb;
   --toggle-btn-text: #183239;
 }
 
-/* Dark mode */
+/* Dark Theme */
 .dark {
-  /* Dashboard colors */
+  /* Dashboard */
   --dashboard-dark-bg: #101828;
   --dashboard-surface-bg: #171f2f;
   --dashboard-edit-btn-bg: #1d2a3a;
+  --dashboard-edit-btn-bg-hover: #172042;
   --dashboard-dark-text: #dbcfc7;
   --dashboard-border-color: #1a2536;
   --primary-color-text: #f0ebeb;
 
-  /* Sidebar button colors - dark mode */
+  /* Sidebar Buttons */
   --sidebar-btn-bg: #101828;
-  --sidebar-btn-hover: #171f2f; /* dark hover */
+  --sidebar-btn-hover: #171f2f;
   --sidebar-btn-active: #172042;
   --sidebar-btn-text: #cbced3;
   --sidebar-btn-logout-bg: gray;
   --sidebar-btn-logout-hover: #f39e3a;
 
-  /* Toggle button colors - dark mode */
+  /* Toggle Button */
   --toggle-btn-bg: #172042;
   --toggle-btn-hover: #171f2f;
   --toggle-btn-text: #cbced3;
 }
 
-/* Apply dynamic color to any element with .dashboard-border */
-.dashboard-border {
-  border-width: 1px;
-  border-style: solid;
-  border-color: var(--dashboard-border-color);
-  /* transition: border-color 0.3s ease; */
-}
+/* Dashboard Structure */
 
-/* Body & Background */
-body {
-  @apply min-h-screen bg-fixed bg-cover bg-center;
-  background-image: var(--bg-image);
-  box-sizing: border-box;
-  font-family: var(--font-primary);
-  color: var(--dashboard-light-text);
-}
-
-/* Overlay for dimming background */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
-  z-index: -1;
-}
-
-/* Headings */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.font-heading,
-.font-playfair {
-  font-family: var(--font-playfair-display) !important;
-}
-
-/* Scrollbar */
-html {
-  overflow-y: scroll;
-  scrollbar-gutter: stable;
-}
-.scrollbar-none::-webkit-scrollbar {
-  display: none;
-}
-
-/* Box sizing */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-/* Dashboard base */
 .dashboard {
   background-color: var(--dashboard-light-bg);
   color: var(--dashboard-light-text);
+  transition: background-color 0.3s, color 0.3s;
 }
+
 .dashboard.dark {
   background-color: var(--dashboard-dark-bg);
   color: var(--dashboard-dark-text);
 }
 
-/* Sidebar buttons */
+/* Borders */
+.dashboard-border {
+  border: 1.5px solid var(--dashboard-border-color) !important;
+}
+
+.dashboard-border-bottom {
+  border-bottom: 1.5px solid var(--dashboard-border-color) !important;
+}
+
+/* Surface layer (cards, panels, etc.) */
+.dashboard-surface {
+  background-color: var(--dashboard-surface-bg);
+}
+
+/* Sidebar Button */
 .sidebar-btn {
   @apply w-full flex items-center gap-2 px-4 py-2 rounded transition-colors duration-300;
   color: var(--sidebar-btn-text);
-  /* background-color: var(--sidebar-btn-bg); */
 }
 
-.dash-border.sidebar-btn:hover {
+/* Hover & Active States */
+.sidebar-btn:hover {
   background-color: var(--sidebar-btn-hover);
-  color: #183136;
+  color: var(--primary-color-text);
 }
 
 .sidebar-btn.active {
   background-color: var(--sidebar-btn-active);
-  color: #183136;
   font-weight: 600;
+  color: var(--primary-color-text);
 }
 
-.dashboard.dark .sidebar-btn:hover {
+/* Dark mode hover fix */
+.dashboard.dark.sidebar-btn:hover {
   background-color: var(--sidebar-btn-hover);
   color: #f5f5f5;
 }
 
 .dashboard.dark .sidebar-btn.active {
   background-color: var(--sidebar-btn-active);
-  color: #f5f5f5;
+  color: var(--sidebar-btn-text);
 }
 
-/* Logout button */
+/* Logout Button */
 .sidebar-btn.logout {
   background-color: var(--sidebar-btn-logout-bg);
   color: var(--sidebar-btn-text);
@@ -182,21 +182,34 @@ html {
   background-color: var(--sidebar-btn-logout-hover);
 }
 
-/* Toggle button */
+/* Toggle Button */
 .sidebar-btn.toggle {
-  /* background-color: var(--toggle-btn-bg); */
   color: var(--toggle-btn-text);
-  /* border-bottom: 0.5px solid var(--toggle-btn-hover); */
-  /* border-radius: 100%; */
-}
-
-.toggle {
+  border-radius: 50%;
   width: 55px;
   height: 55px;
-  /* border: 1px solid gray; */
-  border-radius: 100%;
 }
 
 .sidebar-btn.toggle:hover {
   background-color: var(--toggle-btn-hover);
+}
+
+/* Edit Button (Generic UI)*/
+
+.d-edit-btn {
+  background-color: var(--dashboard-edit-btn-bg);
+  color: var(--primary-color-text);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.d-edit-btn:hover {
+  background-color: var(--dashboard-edit-btn-bg-hover);
+  color: var(--edit-btn-text-color-hover);
+}
+
+/* Utility: Layout and helpers */
+
+/* Hide Scrollbar Utility */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }

@@ -2,7 +2,7 @@ import UserDetails from './UserDetails';
 
 const UserProfile = () => {
   return (
-    <div>
+    <div className="w-full">
       <UserDetails />
     </div>
   );

@@ -48,6 +48,10 @@
     color: var(--primary-color-text);
   }
 
+  .d-text-second-color {
+    color: var(--secdary-text-color);
+  }
+
   /* Scrollbar removal helper */
   .scrollbar-none::-webkit-scrollbar {
     display: none;
@@ -62,6 +66,9 @@
   --font-primary: var(--font-josefin-sans);
   --font-heading: var(--font-playfair-display);
 
+  /* secondary font */
+  --second-text-color: #a7a9b6;
+
   /* Background */
   --bg-image: url('/assets/bg.jpg.webp');
 
@@ -71,11 +78,16 @@
 
   /* Dashboard Colors */
   --dashboard-light-bg: #ffffff;
-  --dashboard-surface-bg: #f9fafb;
-  --dashboard-edit-btn-bg: #ffffff;
-  --dashboard-edit-btn-bg-hover: #ecf3fe;
+  --dashboard-surface-bg: #ffffff;
   --dashboard-light-text: #182e35;
   --dashboard-border-color: #e5e9f0;
+
+  /* edit button */
+
+  --dashboard-edit-btn-bg: #ffffff;
+  --dashboard-edit-btn-text: #47445a;
+  --dashboard-edit-btn-text-hover: #183239;
+  --dashboard-edit-btn-bg-hover: #ecf3fe;
 
   /* Sidebar Buttons */
   --sidebar-btn-bg: #ecf3fe;
@@ -96,11 +108,18 @@
   /* Dashboard */
   --dashboard-dark-bg: #101828;
   --dashboard-surface-bg: #171f2f;
-  --dashboard-edit-btn-bg: #1d2a3a;
-  --dashboard-edit-btn-bg-hover: #172042;
+
   --dashboard-dark-text: #dbcfc7;
   --dashboard-border-color: #1a2536;
+
+  /* edit button  */
+  --dashboard-edit-btn-bg: #1d2a3a;
+  --dashboard-edit-btn-text: #9aa3b2;
+  --dashboard-edit-btn-bg-hover: #172042;
+  --dashboard-edit-btn-text-hover: #ffffff;
+  /* text color */
   --primary-color-text: #f0ebeb;
+  --secondary-text-color: #919aad;
 
   /* Sidebar Buttons */
   --sidebar-btn-bg: #101828;
@@ -195,16 +214,15 @@
 }
 
 /* Edit Button (Generic UI)*/
-
 .d-edit-btn {
   background-color: var(--dashboard-edit-btn-bg);
-  color: var(--primary-color-text);
+  color: var(--dashboard-edit-btn-text);
   transition: background-color 0.3s, color 0.3s;
 }
 
 .d-edit-btn:hover {
   background-color: var(--dashboard-edit-btn-bg-hover);
-  color: var(--edit-btn-text-color-hover);
+  color: var(--dashboard-edit-btn-text-hover);
 }
 
 /* Utility: Layout and helpers */

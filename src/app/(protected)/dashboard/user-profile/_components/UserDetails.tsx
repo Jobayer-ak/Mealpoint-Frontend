@@ -22,8 +22,10 @@ const UserDetails = () => {
       profile.profileImage.startsWith('/'));
 
   return (
-    <div className="w-full dashboard-border bg-white rounded-2xl px-6 py-6">
-      <h2 className=" text-2xl font-semibold tracking-wider mb-4">Profile</h2>
+    <div className="w-full dashboard-border dashboard-surface rounded-2xl px-6 py-6">
+      <h2 className=" text-2xl d-text-color font-semibold tracking-wider mb-4">
+        Profile
+      </h2>
 
       {/* user info */}
       <div className="dashboard-border  rounded-2xl px-7 py-6">
@@ -50,10 +52,10 @@ const UserDetails = () => {
                 {profile?.name || 'Unknown User'}
               </h3>
 
-              <div className="flex flex-col justify-center item-start gap-4 lg:flex-row  lg:justify-between tracking-widest items-center lg:gap-4 text-sm text-[#9598a2] font-medium capitalize">
-                <h4 className="">{profile?.role || 'No role assigned'}</h4>
+              <div className="flex flex-col justify-center item-start gap-4 lg:flex-row  lg:justify-between tracking-wider items-center lg:gap-4 text-sm text-[#687185] font-medium capitalize">
+                <p className="">{profile?.role || 'No role assigned'}</p>
                 <span className="font-extralight hidden lg:block"> | </span>
-                <h4 className="">Dhaka, Bangladesh</h4>
+                <p className="">Dhaka, Bangladesh</p>
               </div>
             </div>
           </div>
@@ -64,30 +66,30 @@ const UserDetails = () => {
       </div>
 
       {/* Personal information */}
-      <div className="dashboard-border d-text-color rounded-2xl bg-white px-7 py-6 my-7 tracking-wider">
+      <div className="dashboard-border d-text-color rounded-2xl px-7 py-4 my-7 tracking-wider">
         <div className="flex flex-col lg:flex-row lg:justify-between items-center ">
-          <h2 className="text-md font-semibold  mb-4">Personal Information</h2>
+          <h3 className="text-md font-semibold">Personal Information</h3>
 
           <Dashboard_Edit_button />
         </div>
 
         {/* user info */}
-        <div className="grid grid-cols-2 gap-6 mt-6">
+        <div className="grid grid-cols-2 gap-6 mt-2">
           <div>
-            <p>Name</p>
+            <p className="text-sm text-[#687185]">Name</p>
             <p>{profile?.name}</p>
           </div>
           <div>
-            <p>Email</p>
+            <p className="text-sm text-[#687185]">Email</p>
             <p>{profile?.email}</p>
           </div>
           <div>
-            <p>Phone</p>
+            <p className="text-sm text-[#687185]">Phone</p>
             <p>{profile?.phone}</p>
           </div>
           <div>
-            <p>Address</p>
-            <p>{profile?.phone}</p>
+            <p className="text-sm text-[#687185]">Address</p>
+            <p>{profile?.address}</p>
           </div>
         </div>
       </div>

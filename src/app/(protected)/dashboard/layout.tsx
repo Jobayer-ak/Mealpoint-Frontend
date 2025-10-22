@@ -4,9 +4,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ReactNode, useEffect, useState } from 'react';
+import { CiLogout } from 'react-icons/ci';
 import { FaRegCircleUser } from 'react-icons/fa6';
 import { IoCloseOutline, IoHomeOutline, IoMoonOutline } from 'react-icons/io5';
-import { LuLogOut, LuSun } from 'react-icons/lu';
+import { LuSun } from 'react-icons/lu';
 import { PiGearSix, PiShoppingCart } from 'react-icons/pi';
 import { RiMenu2Line } from 'react-icons/ri';
 import HorizontalLine from '../../../components/Shared/featuresIcons/HorizontalLine';
@@ -121,7 +122,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
           {/* Logout */}
           <button className="flex items-center gap-2 p-2 rounded-md bg-red-500/10 hover:bg-red-500/20 text-red-500 transition-colors duration-300">
-            <LuLogOut size={22} />
+            <CiLogout size={22} />
             {!collapsed && 'Logout'}
           </button>
         </div>
@@ -139,12 +140,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           {/* ===== Header ===== */}
           <header
             className={cn(
-              'sticky top-0 z-40 flex items-center justify-between h-20 px-4 py-6 md:px-6 dashboard-border-bottom backdrop-blur-md transition-all duration-300',
+              'sticky top-0 z-40 flex items-center justify-between h-20 px-4 py-6 md:px-6 dashboard-border-bottom backdrop-blur-md transition-all duration-300 ',
               darkMode ? 'bg-[#101828]' : 'bg-white'
-              // darkMode
-              //   ? 'bg-[#101828]/70 border-[#1c2333]'
-              //   : 'bg-white/70 border-gray-200',
-              // isScrolled && 'shadow-md'
             )}
           >
             <div className="flex items-center gap-4">
@@ -171,7 +168,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               {/* Dark Mode Toggle */}
               <button
                 onClick={() => setDarkMode(!darkMode)}
-                className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 dashboard-border rounded-full"
+                className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 dashboard-border rounded-full cursor-pointer"
               >
                 {darkMode ? (
                   <LuSun className="text-yellow-400" size={22} />
@@ -202,7 +199,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           {/* ===== Main Content ===== */}
           <main
             className={cn(
-              'flex min-h-screen w-full overflow-hidden transition-colors duration-300 flex-1 p-4 md:p-6 ',
+              'flex-1 w-full min-h-screen transition-colors duration-300  p-4 md:p-6 ',
               darkMode ? 'bg-[#101828]' : 'bg-[#f9fbfc]'
             )}
           >

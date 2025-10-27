@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { GoArrowLeft } from 'react-icons/go';
 import z from 'zod';
+import { useAppSelector } from '../../redux/hook/hook';
 import Container from '../container/Container';
 import ButtonComp from '../Shared/ButtonComp';
 import HorizontalLine from '../Shared/featuresIcons/HorizontalLine';
@@ -35,6 +36,11 @@ import SummaryItem from './SummaryItem';
 
 const Checkout = () => {
   const [value, setValue] = useState('item-1');
+
+  const { items } = useAppSelector((state) => state.cart);
+
+  console.log('Items: ', items);
+
   const formSchema = z.object({
     search: z
       .string()
@@ -400,9 +406,22 @@ const Checkout = () => {
                       Order Summery
                     </AccordionTrigger>
                     <AccordionContent>
-                      <SummaryItem />
-                      <SummaryItem />
-                      <SummaryItem />
+                      {items?.map((item) => (
+                        <div className="flex flex-col" key={item?.mongoId}>
+                          <SummaryItem
+                            id={item?.id}
+                            _id={item?.mongoId}
+                            name={item?.name}
+                            image={item?.image}
+                            quantity={item?.quantity}
+                            description={item?.description}
+                            hasVariants={item?.hasVariants}
+                            size={item?.size}
+                            price={item?.price}
+                            totalPrice={item?.totalPrice}
+                          />
+                        </div>
+                      ))}
 
                       {/* horizontal line */}
                       <HorizontalLine />
@@ -477,9 +496,25 @@ const Checkout = () => {
                   content="Order Summary"
                 />
 
-                <SummaryItem />
-                <SummaryItem />
-                <SummaryItem />
+                {items?.map((item) => (
+                  <div className="flex flex-col" key={item?.mongoId}>
+                    <SummaryItem
+                      id={item?.id}
+                      _id={item?.mongoId}
+                      name={item?.name}
+                      image={item?.image}
+                      quantity={item?.quantity}
+                      description={item?.description}
+                      hasVariants={item?.hasVariants}
+                      size={item?.size}
+                      price={item?.price}
+                      totalPrice={item?.totalPrice}
+                    />
+                  </div>
+                ))}
+
+                {/* <SummaryItem />
+                <SummaryItem /> */}
 
                 {/* horizontal line */}
                 <HorizontalLine />

@@ -22,6 +22,21 @@
     box-sizing: border-box;
   }
 
+  /* prevent layout shift when dialog is open */
+  body.dialog-open-no-shift {
+    overflow: hidden !important;
+    padding-right: 0 !important;
+  }
+
+  /* extra safety: target Radix attributes too (older/newer versions) */
+  body[data-radix-scroll-lock] {
+    padding-right: 0 !important;
+  }
+  body[data-scroll-locked] {
+    padding-right: 0 !important;
+    margin-right: 0 !important;
+  }
+
   /* Background overlay */
   body::before {
     content: '';

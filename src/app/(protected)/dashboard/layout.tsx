@@ -23,10 +23,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [darkMode, setDarkMode] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
-  const { profile } = useAppSelector((state) => state.user);
-  // const [isScrolled, setIsScrolled] = useState(false);
+  const { profile } = useAppSelector((state) => state?.user);
 
-  // Dark mode persistence
+  // Load dark mode from localStorage
   useEffect(() => {
     const saved = localStorage.getItem('dashboard-dark');
     if (saved === 'true') setDarkMode(true);
@@ -36,13 +35,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     localStorage.setItem('dashboard-dark', darkMode.toString());
   }, [darkMode]);
 
-  // Detect scroll to add header shadow
-  // useEffect(() => {
-  //   const handleScroll = () => setIsScrolled(window.scrollY > 5);
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => window.removeEventListener('scroll', handleScroll);
-  // }, []);
-
   const links = [
     { href: '/dashboard', label: 'Overview', icon: IoHomeOutline },
     {
@@ -50,23 +42,22 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       label: 'User Profile',
       icon: FaRegCircleUser,
     },
-    { href: '/dashboard/cart', label: 'Cart', icon: PiShoppingCart },
+    { href: '/dashboard/orders', label: 'Orders', icon: PiShoppingCart },
     { href: '/dashboard/settings', label: 'Settings', icon: PiGearSix },
   ];
 
   return (
     <div
       className={cn(
-        'flex min-h-screen w-full overflow-hidden transition-colors duration-300',
+        'flex min-h-screen w-full transition-colors duration-300',
         darkMode && 'dark'
       )}
     >
-      {/* ===== Sidebar ===== */}
+      {/*  Sidebar  */}
       <aside
         className={cn(
-          'fixed top-11 lg:top-0 left-0 z-40 flex h-screen flex-col p-4 border-r dashboard-border transition-all duration-300 pb-15',
+          'fixed top-8 lg:top-0 left-0 z-40 flex h-screen flex-col p-4 border-r dashboard-border transition-all duration-300 pb-15',
           darkMode ? 'bg-[#101828]' : 'bg-white',
-
           darkMode
             ? 'text-[var(--dashboard-dark-text)]'
             : 'text-[var(--dashboard-light-text)]',
@@ -87,7 +78,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           {!sidebarOpen && <HorizontalLine />}
 
           {/* Navigation */}
-          <nav className="flex flex-col flex-1 space-y-2 overflow-y-auto overflow-x-hidden mt-5">
+          <nav className="flex flex-col flex-1 space-y-2 overflow-x-hidden mt-5">
             {links.map(({ href, label, icon: Icon }) => {
               const isActive = pathname === href;
               return (
@@ -121,94 +112,93 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           {!sidebarOpen && <HorizontalLine />}
 
           {/* Logout */}
-          <button className="flex items-center gap-2 p-2 rounded-md bg-red-500/10 hover:bg-red-500/20 text-red-500 transition-colors duration-300">
+          <button className="flex items-center gap-2 mt-4 p-2 rounded-md bg-red-500/10 hover:bg-red-500/20 text-red-500 transition-colors duration-300">
             <CiLogout size={22} />
             {!collapsed && 'Logout'}
           </button>
         </div>
       </aside>
 
-      {/* ===== Main Section ===== */}
+      {/* Main Section  */}
       <div
         className={cn(
           'flex flex-col flex-1 min-h-screen transition-all duration-300',
           collapsed ? 'lg:ml-24' : 'lg:ml-64'
         )}
       >
-        {/* Scrollable container for header + content */}
-        <div className="flex flex-col h-screen overflow-y-auto">
-          {/* ===== Header ===== */}
-          <header
-            className={cn(
-              'sticky top-0 z-40 flex items-center justify-between h-20 px-4 py-6 md:px-6 dashboard-border-bottom backdrop-blur-md transition-all duration-300 ',
-              darkMode ? 'bg-[#101828]' : 'bg-white'
-            )}
-          >
-            <div className="flex items-center gap-4">
-              {/* Sidebar toggle */}
-              <button
-                onClick={() => {
-                  if (window.innerWidth < 1024) setSidebarOpen(!sidebarOpen);
-                  else setCollapsed(!collapsed);
-                }}
-                className="p-2 rounded-md dashboard-border cursor-pointer "
-              >
-                {sidebarOpen ? (
-                  <IoCloseOutline size={28} className="text-gray-500" />
-                ) : (
-                  <RiMenu2Line size={28} className="text-gray-500" />
-                )}
-              </button>
-
-              <h1 className="text-2xl font-bold block lg:hidden">Meal Point</h1>
-            </div>
-
-            {/* Right side */}
-            <div className="flex items-center gap-3 md:gap-4">
-              {/* Dark Mode Toggle */}
-              <button
-                onClick={() => setDarkMode(!darkMode)}
-                className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 dashboard-border rounded-full cursor-pointer"
-              >
-                {darkMode ? (
-                  <LuSun className="text-yellow-400" size={22} />
-                ) : (
-                  <IoMoonOutline className="text-gray-600" size={22} />
-                )}
-              </button>
-
-              {/* Profile */}
-              {profile?.profileImage ? (
-                <div className="w-14 h-14 relative dashboard-border rounded-full overflow-hidden">
-                  <Image
-                    src={profile.profileImage}
-                    alt={profile?.name || 'profile'}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                </div>
+        {/*  Header (Sticky)  */}
+        <header
+          className={cn(
+            'sticky top-0 z-50 flex items-center justify-between h-20 px-4 py-6 md:px-6 dashboard-border-bottom backdrop-blur-md transition-all duration-300',
+            darkMode ? 'bg-[#101828]' : 'bg-white'
+          )}
+        >
+          <div className="flex items-center gap-4">
+            {/* Sidebar toggle */}
+            <button
+              onClick={() => {
+                if (window.innerWidth < 1024) setSidebarOpen(!sidebarOpen);
+                else setCollapsed(!collapsed);
+              }}
+              className="p-2 rounded-md dashboard-border cursor-pointer"
+            >
+              {sidebarOpen ? (
+                <IoCloseOutline size={28} className="text-gray-500" />
               ) : (
-                <div className="w-12 h-12 rounded-full bg-yellow-500 flex items-center justify-center text-white font-semibold">
-                  {profile?.name?.charAt(0).toUpperCase() || 'U'}
-                </div>
+                <RiMenu2Line size={28} className="text-gray-500" />
               )}
-            </div>
-          </header>
+            </button>
 
-          {/* ===== Main Content ===== */}
-          <main
-            className={cn(
-              'flex-1 w-full min-h-screen transition-colors duration-300  p-4 md:p-6 ',
-              darkMode ? 'bg-[#101828]' : 'bg-[#f9fbfc]'
+            <h1 className="text-2xl d-text-color font-bold block lg:hidden">
+              Meal Point
+            </h1>
+          </div>
+
+          {/* Right side */}
+          <div className="flex items-center gap-3 md:gap-4">
+            {/* Dark Mode Toggle */}
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 dashboard-border rounded-full cursor-pointer"
+            >
+              {darkMode ? (
+                <LuSun className="text-yellow-400" size={22} />
+              ) : (
+                <IoMoonOutline className="text-gray-600" size={22} />
+              )}
+            </button>
+
+            {/* Profile */}
+            {profile?.profileImage ? (
+              <div className="w-14 h-14 relative dashboard-border rounded-full overflow-hidden">
+                <Image
+                  src={profile.profileImage}
+                  alt={profile?.name || 'profile'}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            ) : (
+              <div className="w-12 h-12 rounded-full bg-yellow-500 flex items-center justify-center text-white font-semibold">
+                {profile?.name?.charAt(0).toUpperCase() || 'U'}
+              </div>
             )}
-          >
-            {children}
-          </main>
-        </div>
+          </div>
+        </header>
+
+        {/*  Scrollable Content  */}
+        <main
+          className={cn(
+            'flex-1 w-full h-[calc(100vh-5rem)] overflow-y-auto transition-colors duration-300 p-4 md:p-6',
+            darkMode ? 'bg-[#101828]' : 'bg-[#f9fbfc]'
+          )}
+        >
+          {children}
+        </main>
       </div>
 
-      {/* ===== Mobile Overlay ===== */}
+      {/*  Mobile Overlay  */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 z-30 bg-black/40 backdrop-blur-sm lg:hidden"

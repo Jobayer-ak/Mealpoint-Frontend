@@ -54,9 +54,12 @@ const SummaryItem = ({
               content={name}
             />
 
-            <div className="flex justify-start gap-3">
+            <div className="flex justify-start items-center gap-3">
               <p className="text-[#183136] text-md  text-left font-semibold">
                 ${price}
+              </p>
+              <p className="text-[#183136] text-sm  text-left font-light">
+                Qyn: {quantity}
               </p>
             </div>
 

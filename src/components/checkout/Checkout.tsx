@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,6 +10,7 @@ import { useAppSelector } from '../../redux/hook/hook';
 import Container from '../container/Container';
 import ButtonComp from '../Shared/ButtonComp';
 import HorizontalLine from '../Shared/featuresIcons/HorizontalLine';
+import LocationSelector from '../Shared/LocationSelector';
 import SecDescription from '../Shared/SecDescription';
 import SecMainHeader from '../Shared/SecMainHeader';
 import TopShadow from '../Shared/TopShadow';
@@ -23,15 +25,6 @@ import { Form, FormControl, FormField, FormItem } from '../ui/form';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select';
 import SummaryItem from './SummaryItem';
 
 const Checkout = () => {
@@ -53,10 +46,16 @@ const Checkout = () => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
   }
+  function setBillingLocation(location: {
+    country: string;
+    city: string;
+    postalCode: string;
+  }): void {
+    throw new Error('Function not implemented.');
+  }
+
   return (
     <div className="mt-28">
       <Container>
@@ -128,81 +127,12 @@ const Checkout = () => {
                                 />
 
                                 {/* select */}
-                                <div className=" relative">
-                                  <Select>
-                                    <SelectTrigger className=" text-[#183136] text-md pl-4 pr-2 py-6 shadow-sm shadow-gray-300/50 rounded-sm border border-gray-100 w-full">
-                                      <SelectValue
-                                        placeholder="Area"
-                                        className="text-md"
-                                      />
-                                    </SelectTrigger>
-                                    <SelectContent
-                                      position="popper"
-                                      className="rounded-sm border-none bg-white w-full sm:w-[350px] md:w-full max-h-60 overflow-y-auto"
-                                    >
-                                      <SelectGroup className="w-full sm:w-[350px] md:w-full">
-                                        <SelectLabel className="text-md font-bold">
-                                          Select your area
-                                        </SelectLabel>
 
-                                        <SelectItem
-                                          value="charpara"
-                                          className="bg-amber-100 mb-1 pl-2"
-                                        >
-                                          Charpara
-                                        </SelectItem>
-                                        <SelectItem
-                                          value="maskanda"
-                                          className="bg-amber-100 mb-1 pl-2"
-                                        >
-                                          Maskanda
-                                        </SelectItem>
-                                        <SelectItem
-                                          value="shankipara"
-                                          className="bg-amber-100 mb-1 pl-2"
-                                        >
-                                          Shankipara
-                                        </SelectItem>
-                                        <SelectItem
-                                          value="cantonment"
-                                          className="bg-amber-100 mb-1 pl-2"
-                                        >
-                                          Cantonment
-                                        </SelectItem>
-                                        <SelectItem
-                                          value="akua"
-                                          className="bg-amber-100 mb-1 pl-2"
-                                        >
-                                          Akua
-                                        </SelectItem>
-                                        <SelectItem
-                                          value="nowmohall"
-                                          className="bg-amber-100 mb-1 pl-2"
-                                        >
-                                          Nowmohall
-                                        </SelectItem>
-                                        <SelectItem
-                                          value="panditpara"
-                                          className="bg-amber-100 mb-1 pl-2"
-                                        >
-                                          Panditpara
-                                        </SelectItem>
-                                        <SelectItem
-                                          value="kalibari"
-                                          className="bg-amber-100 mb-1 pl-2"
-                                        >
-                                          Kalibari
-                                        </SelectItem>
-                                        <SelectItem
-                                          value="vatikashor"
-                                          className="bg-amber-100 mb-1 pl-2"
-                                        >
-                                          Vatikashor
-                                        </SelectItem>
-                                      </SelectGroup>
-                                    </SelectContent>
-                                  </Select>
-                                </div>
+                                <LocationSelector
+                                  onChange={(location) =>
+                                    setBillingLocation(location)
+                                  }
+                                />
 
                                 {/* form field */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
@@ -380,8 +310,6 @@ const Checkout = () => {
                                 content="Place Order"
                               />
                             </div>
-
-                            {/* ############################################## */}
                           </div>
                         </FormControl>
                       </FormItem>
@@ -392,7 +320,7 @@ const Checkout = () => {
             </div>
 
             {/* right content */}
-            <div className="w-full lg:w-3/8 py-5 pb-2 border-t-1 border-gray-300">
+            <div className="w-full  lg:w-3/8 py-5 pb-2 border-t-1 border-gray-300">
               {/* Mobile: accordion summary */}
               <div className="shadow-md lg:hidden">
                 <Accordion
@@ -496,25 +424,24 @@ const Checkout = () => {
                   content="Order Summary"
                 />
 
-                {items?.map((item) => (
-                  <div className="flex flex-col" key={item?.mongoId}>
-                    <SummaryItem
-                      id={item?.id}
-                      _id={item?.mongoId}
-                      name={item?.name}
-                      image={item?.image}
-                      quantity={item?.quantity}
-                      description={item?.description}
-                      hasVariants={item?.hasVariants}
-                      size={item?.size}
-                      price={item?.price}
-                      totalPrice={item?.totalPrice}
-                    />
-                  </div>
-                ))}
-
-                {/* <SummaryItem />
-                <SummaryItem /> */}
+                <div className="max-h-60 overflow-y-auto">
+                  {items?.map((item) => (
+                    <div className="" key={item.mongoId}>
+                      <SummaryItem
+                        id={item?.id}
+                        _id={item?.mongoId}
+                        name={item?.name}
+                        image={item?.image}
+                        quantity={item?.quantity}
+                        description={item?.description}
+                        hasVariants={item?.hasVariants}
+                        size={item?.size}
+                        price={item?.price}
+                        totalPrice={item?.totalPrice}
+                      />
+                    </div>
+                  ))}
+                </div>
 
                 {/* horizontal line */}
                 <HorizontalLine />
@@ -536,10 +463,10 @@ const Checkout = () => {
                           <Input
                             placeholder="Enter Coupon Code"
                             // {...field}
-                            className="mt-2 text-[#183136] text-md md:text-md shadow-sm shadow-gray-300/50 rounded-sm border border-gray-300 py-7 tracking-wider w-full sm:w-auto"
+                            className="mt-2 text-[#183136] text-md md:text-md shadow-sm shadow-gray-300/50 rounded-sm border border-gray-300 py-5 tracking-wider w-full sm:w-auto"
                           />
 
-                          <button className="w-full sm:w-[200px] px-4 py-[15px] bg-[#f29e38] text-xl text-[#183136] rounded-sm tracking-widest cursor-pointer">
+                          <button className="w-full sm:w-[200px] px-4 py-2 bg-[#f29e38] text-lg text-[#183136] rounded-sm tracking-widest cursor-pointer">
                             Apply
                           </button>
                         </div>
@@ -577,6 +504,8 @@ const Checkout = () => {
                     <span className=" text-xl">57.00</span>
                   </p>
                 </div>
+
+                <div></div>
               </div>
             </div>
           </div>

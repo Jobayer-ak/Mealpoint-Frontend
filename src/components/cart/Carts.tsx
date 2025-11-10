@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 import { AnimatePresence, motion } from 'framer-motion';
+import Link from 'next/link';
 import { FaAngleDown } from 'react-icons/fa';
 import { useAppSelector } from '../../redux/hook/hook';
 import Container from '../container/Container';
@@ -111,11 +112,12 @@ const Carts = () => {
               </div>
 
               {/* proceed button */}
-
-              <ButtonComp
-                className="bg-[#f99d3a] text-[#183136] text-md uppercase tracking-widest px-4 py-8 mt-3 w-full cursor-pointer"
-                content="Proceed to checkout "
-              />
+              <Link href="/checkout">
+                <ButtonComp
+                  className="bg-[#f99d3a] text-[#183136] text-md uppercase tracking-widest px-4 py-8 mt-3 w-full cursor-pointer"
+                  content="Proceed to checkout "
+                />
+              </Link>
             </div>
           </div>
 

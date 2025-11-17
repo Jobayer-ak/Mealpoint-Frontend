@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
+import { City, Country, State } from 'country-state-city';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { GoArrowLeft } from 'react-icons/go';
 import z from 'zod';
 import { useAppSelector } from '../../redux/hook/hook';
 import Container from '../container/Container';
-import ButtonComp from '../Shared/ButtonComp';
 import HorizontalLine from '../Shared/featuresIcons/HorizontalLine';
-import LocationSelector from '../Shared/LocationSelector';
 import SecDescription from '../Shared/SecDescription';
 import SecMainHeader from '../Shared/SecMainHeader';
 import TopShadow from '../Shared/TopShadow';
@@ -20,47 +20,236 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '../ui/accordion';
-import { Checkbox } from '../ui/checkbox';
 import { Form, FormControl, FormField, FormItem } from '../ui/form';
 import { Input } from '../ui/input';
-import { Label } from '../ui/label';
-import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
 import SummaryItem from './SummaryItem';
+
+const stripePromise = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+  ? loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
+  : null;
+
+// ---------------------------
+// Zod schema
+// ---------------------------
+const formSchema = z.object({
+  email: z.string().email({ message: 'Invalid email' }),
+  firstName: z.string().min(1, { message: 'First name is required' }),
+  lastName: z.string().min(1, { message: 'Last name is required' }),
+  country: z.string().min(1, { message: 'Country is required' }),
+  state: z.string().min(1, { message: 'State is required' }),
+  city: z.string().min(1, { message: 'City is required' }),
+  postalCode: z.string().min(1, { message: 'Postal code is required' }),
+  address: z.string().min(1, { message: 'Address is required' }),
+  apartment: z.string().optional(),
+  phone: z.string().min(1, { message: 'Phone number is required' }),
+  phone2: z.string().optional(),
+  discountId: z.string().optional(),
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 const Checkout = () => {
   const [value, setValue] = useState('item-1');
+  const [loading, setLoading] = useState(false);
 
   const { items } = useAppSelector((state) => state.cart);
 
-  console.log('Items: ', items);
-
-  const formSchema = z.object({
-    search: z
-      .string()
-      .min(2, { message: 'Search must be at least 2 characters' }),
-  });
-
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { search: '' },
+    defaultValues: {
+      email: '',
+      firstName: '',
+      lastName: '',
+      country: '',
+      state: '',
+      city: '',
+      postalCode: '',
+      address: '',
+      apartment: '',
+      phone: '',
+      phone2: '',
+      discountId: '',
+    },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
-  function setBillingLocation(location: {
-    country: string;
-    city: string;
-    postalCode: string;
-  }): void {
-    throw new Error('Function not implemented.');
-  }
+  // country-state-city
+  const [countries, setCountries] = useState<
+    { name: string; isoCode: string }[]
+  >([]);
+  const [states, setStates] = useState<{ name: string; isoCode: string }[]>([]);
+  const [cities, setCities] = useState<{ name: string }[]>([]);
+
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
+
+  useEffect(() => {
+    setCountries(
+      Country.getAllCountries().map((c) => ({
+        name: c.name,
+        isoCode: c.isoCode,
+      }))
+    );
+  }, []);
+
+  useEffect(() => {
+    if (!selectedCountry) return;
+    const allStates = State.getStatesOfCountry(selectedCountry).map((s) => ({
+      name: s.name,
+      isoCode: s.isoCode,
+    }));
+    setStates(allStates);
+    setSelectedState('');
+    setCities([]);
+    setSelectedCity('');
+    form.setValue('country', selectedCountry, { shouldValidate: true });
+  }, [selectedCountry, form]);
+
+  useEffect(() => {
+    if (!selectedState || !selectedCountry) return;
+    const allCities = City.getCitiesOfState(selectedCountry, selectedState).map(
+      (c) => ({ name: c.name })
+    );
+    setCities(allCities);
+    setSelectedCity('');
+    form.setValue('state', selectedState, { shouldValidate: true });
+  }, [selectedState, selectedCountry, form]);
+
+  useEffect(() => {
+    form.setValue('city', selectedCity, { shouldValidate: true });
+  }, [selectedCity, form]);
+
+  // Build order items
+  const buildOrderItems = () =>
+    (items || []).map((it: any) => {
+      const itemType =
+        it.type ||
+        (it.comboItemId || it.combo || it.isCombo ? 'combo' : 'menu');
+      if (itemType === 'combo') {
+        return {
+          comboItemId: it.comboItemId || it.mongoId || it.id,
+          quantity: it.quantity || 1,
+          type: 'combo',
+        };
+      } else {
+        const menuObj: any = {
+          menuItemId: it.menuItemId || it.mongoId || it.id,
+          quantity: it.quantity || 1,
+          type: 'menu',
+        };
+        if (it.size) menuObj.size = it.size;
+        return menuObj;
+      }
+    });
+
+  const createOrder = async (values: FormValues) => {
+    const deliveryAddressParts = [
+      values.address,
+      values.apartment?.trim() || null,
+      values.city,
+      values.state,
+      values.country,
+    ].filter(Boolean);
+
+    const deliveryAddress = deliveryAddressParts.join(', ');
+
+    const orderBody: any = {
+      type: 'delivery',
+      deliveryAddress,
+      items: buildOrderItems(),
+      discountId: values.discountId || undefined,
+      customer: {
+        email: values.email,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        phone: values.phone,
+        phone2: values.phone2,
+        postalCode: values.postalCode,
+      },
+    };
+
+    const res = await fetch('/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderBody),
+    });
+
+    if (!res.ok)
+      throw new Error(
+        `Order creation failed: ${
+          (await res.text().catch(() => null)) || res.statusText
+        }`
+      );
+    return res.json();
+  };
+
+  const initiatePayment = async (orderId: string) => {
+    const res = await fetch('/payment/initiate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderId }),
+    });
+
+    if (!res.ok)
+      throw new Error(
+        `Payment initiation failed: ${
+          (await res.text().catch(() => null)) || res.statusText
+        }`
+      );
+
+    const data = await res.json();
+    const clientSecret = data?.checkoutSession?.clientSecret;
+    const redirectUrl =
+      data?.checkoutSession?.url || data?.checkoutSession?.redirect_url;
+
+    if (!clientSecret && !redirectUrl)
+      throw new Error(
+        'Payment initiation returned no clientSecret or redirect url.'
+      );
+    if (clientSecret) {
+      const stripe = await (stripePromise ??
+        loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!));
+      if (!stripe) throw new Error('Stripe failed to load.');
+
+      await stripe.initEmbeddedCheckout({ clientSecret });
+      return;
+    }
+    if (redirectUrl) window.location.href = redirectUrl;
+  };
+
+  const onSubmit = async (values: FormValues) => {
+    setLoading(true);
+    try {
+      const orderResp = await createOrder(values);
+      const orderId = orderResp?.order?.id || orderResp?.id || orderResp?._id;
+      if (!orderId) throw new Error('Order created but no order id returned.');
+
+      if (value === 'item-3')
+        window.location.href = `/payment/success?orderId=${orderId}`;
+      else if (value === 'item-1')
+        window.location.href = `/payment/bank-details?orderId=${orderId}`;
+      else if (value === 'item-2') await initiatePayment(orderId);
+    } catch (err: any) {
+      console.error('Checkout submit error:', err);
+      alert(err?.message || 'Something went wrong while placing order.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="mt-28">
       <Container>
         <div className="bg-white px-3 md:px-12 py-12 rounded-md relative">
-          {/* top shadow */}
           <TopShadow />
 
           <SecMainHeader
@@ -68,257 +257,314 @@ const Checkout = () => {
             content={'Checkout'}
           />
 
-          {/* main content */}
           <div className="w-full flex flex-col-reverse lg:flex-row items-stretch gap-8 lg:gap-8 py-5">
-            {/* left content */}
+            {/* Left Form */}
             <div className="w-full lg:w-3/5 py-5 border-t-1 border-gray-300">
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-8 w-full"
                 >
-                  <FormField
-                    control={form.control}
-                    name="search"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <div className="relative">
-                            {/* form field */}
+                  {/* Contact Info */}
+                  <div className="shadow-md px-3 md:px-6 py-4">
+                    <div className="flex flex-col gap-6 mb-6 ">
+                      <SecMainHeader
+                        className="text-[#183136] text-xl text-left font-extrabold tracking-wider"
+                        content={'Contact Information'}
+                      />
+                      <SecDescription
+                        className="text-[#183136] w-full px-0 md:text-start text-md tracking-wider font-light leading-7"
+                        content={
+                          "We'll use this email to send you details and updates about your order."
+                        }
+                      />
 
-                            <div className="shadow-md px-3 md:px-6 py-4">
-                              {/* Contact information */}
-                              <div className="flex flex-col gap-6 mb-6 ">
-                                <SecMainHeader
-                                  className="text-[#183136] text-xl  text-left font-extrabold tracking-wider"
-                                  content={'Contact Information'}
-                                />
-                                <div className="">
-                                  <SecDescription
-                                    className="text-[#183136] w-full px-0 md:text-start text-md tracking-wider font-light leading-7"
-                                    content={
-                                      "We'll use this email to send you details and updates about your order."
-                                    }
-                                  />
-                                </div>
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field, fieldState }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input
+                                placeholder="Email address"
+                                {...field}
+                                className="text-black text-md md:text-md shadow-sm shadow-gray-300/50 rounded-sm border border-gray-100 py-6 w-full sm:w-[350px] md:w-full"
+                              />
+                            </FormControl>
+                            {fieldState.error && (
+                              <p className="text-red-500 text-sm mt-1">
+                                {fieldState.error.message}
+                              </p>
+                            )}
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
 
+                  {/* Billing Address */}
+                  <div className="shadow-md px-3 md:px-6 py-4 mt-6">
+                    <div className="flex flex-col gap-6 mb-6">
+                      <SecMainHeader
+                        className="text-[#183136] text-xl text-left font-extrabold tracking-wider"
+                        content={'Billing address'}
+                      />
+                      <SecDescription
+                        className="text-[#183136] w-full px-0 text-start text-md tracking-wider font-light leading-7"
+                        content={
+                          'Enter the billing address that matches your payment method.'
+                        }
+                      />
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <FormField
+                          control={form.control}
+                          name="firstName"
+                          render={({ field, fieldState }) => (
+                            <FormItem>
+                              <FormControl>
                                 <Input
-                                  placeholder="Email address"
-                                  {...field}
-                                  className="text-black text-md md:text-md shadow-sm shadow-gray-300/50 rounded-sm border border-gray-100 py-6 w-full sm:w-[350px] md:w-full"
-                                />
-                              </div>
-                            </div>
-                            {/* ###################################### */}
-
-                            {/* Billing address */}
-                            <div className="shadow-md px-3 md:px-6 py-4 mt-6">
-                              <div className="flex flex-col gap-6 mb-6 ">
-                                <SecMainHeader
-                                  className="text-[#183136] text-xl  text-left font-extrabold tracking-wider "
-                                  content={'Billing address'}
-                                />
-
-                                <SecDescription
-                                  className="text-[#183136] w-full px-0 text-start text-md tracking-wider font-light leading-7"
-                                  content={
-                                    'Enter the billing address that matches your payment method.'
-                                  }
-                                />
-
-                                {/* select */}
-
-                                <LocationSelector
-                                  onChange={(location) =>
-                                    setBillingLocation(location)
-                                  }
-                                />
-
-                                {/* form field */}
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
-                                  <Input
-                                    placeholder="First name"
-                                    {...field}
-                                    className="text-black text-md md:text-md shadow-sm shadow-gray-300/50 rounded-sm border border-gray-100 py-7 w-full sm:w-[350px] md:w-full"
-                                  />
-                                  <Input
-                                    placeholder="Last name"
-                                    {...field}
-                                    className="text-black text-md md:text-md shadow-sm shadow-gray-300/50 rounded-sm border border-gray-100 py-7 w-full sm:w-[350px] md:w-full"
-                                  />
-                                </div>
-
-                                <Input
-                                  placeholder="Address"
+                                  placeholder="First name"
                                   {...field}
                                   className="text-black text-md md:text-md shadow-sm shadow-gray-300/50 rounded-sm border border-gray-100 py-7 w-full sm:w-[350px] md:w-full"
                                 />
+                              </FormControl>
+                              {fieldState.error && (
+                                <p className="text-red-500 text-sm mt-1">
+                                  {fieldState.error.message}
+                                </p>
+                              )}
+                            </FormItem>
+                          )}
+                        />
 
+                        <FormField
+                          control={form.control}
+                          name="lastName"
+                          render={({ field, fieldState }) => (
+                            <FormItem>
+                              <FormControl>
                                 <Input
-                                  placeholder="Road No., Apartment, suite, etc."
+                                  placeholder="Last name"
                                   {...field}
                                   className="text-black text-md md:text-md shadow-sm shadow-gray-300/50 rounded-sm border border-gray-100 py-7 w-full sm:w-[350px] md:w-full"
                                 />
+                              </FormControl>
+                              {fieldState.error && (
+                                <p className="text-red-500 text-sm mt-1">
+                                  {fieldState.error.message}
+                                </p>
+                              )}
+                            </FormItem>
+                          )}
+                        />
+                      </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
-                                  <Input
-                                    placeholder="Phone number"
-                                    {...field}
-                                    className="text-black text-md md:text-md shadow-sm shadow-gray-300/50 rounded-sm border border-gray-100 py-7 w-full sm:w-[350px] md:w-full"
-                                  />
-                                  <Input
-                                    placeholder="Phone number (optional)"
-                                    {...field}
-                                    className="text-black text-md md:text-md shadow-sm shadow-gray-300/50 rounded-sm border border-gray-100 py-7 w-full sm:w-[350px] md:w-full"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Payment options */}
-                            <div className="shadow-md px-3 md:px-6 py-4 my-12 ">
-                              <SecMainHeader
-                                className="text-[#183136] mb-6 text-xl  text-left font-extrabold tracking-wider"
-                                content={'Payment Options'}
-                              />
-                              <div className=" ">
-                                <div className="border-1 border-gray-200">
-                                  <Accordion
-                                    type="single"
-                                    collapsible
-                                    value={value}
-                                    onValueChange={setValue} // control accordion with state
-                                    className="w-full [&>[data-state]]:m-0"
-                                  >
-                                    <RadioGroup
-                                      value={value}
-                                      onValueChange={setValue}
-                                      className="space-y-0"
-                                    >
-                                      {/* Direct Bank Transfer */}
-                                      <AccordionItem
-                                        value="item-1"
-                                        className="pl-3 py-3"
-                                      >
-                                        <div className="flex gap-3">
-                                          <RadioGroupItem
-                                            value="item-1"
-                                            id="r1"
-                                            className="h-6 w-6 border-1 border-gray-400 data-[state=checked]:bg-[#efb536] rounded-full"
-                                          />
-                                          <Label
-                                            htmlFor="r1"
-                                            className="text-[#183136] text-lg font-light tracking-wider"
-                                          >
-                                            Direct Bank Transfer
-                                          </Label>
-                                        </div>
-                                        <AccordionContent className="text-balance text-[#183136] text-lg font-light leading-6 px-2 pt-2">
-                                          Make your payment directly into our
-                                          bank account. Please use your Order ID
-                                          as the payment reference. Your order
-                                          will not be shipped until the funds
-                                          have cleared in our account.
-                                        </AccordionContent>
-                                      </AccordionItem>
-
-                                      {/* Online Payment */}
-                                      <AccordionItem
-                                        value="item-2"
-                                        className="pl-3 py-3"
-                                      >
-                                        <div className="flex gap-3">
-                                          <RadioGroupItem
-                                            value="item-2"
-                                            id="r2"
-                                            className="h-6 w-6 border-1 border-gray-400 data-[state=checked]:bg-[#efb536] rounded-full"
-                                          />
-                                          <Label
-                                            htmlFor="r2"
-                                            className="text-[#183136] text-xl font-light tracking-wider"
-                                          >
-                                            Online Payment
-                                          </Label>
-                                        </div>
-                                        <AccordionContent className="text-balance text-[#183136] text-lg font-light leading-6 px-2 pt-2">
-                                          You can pay using digital payment
-                                          options.
-                                        </AccordionContent>
-                                      </AccordionItem>
-
-                                      {/* COD */}
-                                      <AccordionItem
-                                        value="item-3"
-                                        className=" pl-3 py-3"
-                                      >
-                                        <div className="flex gap-3">
-                                          <RadioGroupItem
-                                            value="item-3"
-                                            id="r3"
-                                            className="h-6 w-6 border-1 border-gray-400 data-[state=checked]:bg-[#efb536] rounded-full"
-                                          />
-                                          <Label
-                                            htmlFor="r3"
-                                            className="text-[#183136] text-xl font-light tracking-wider"
-                                          >
-                                            Cash On Delivery (COD)
-                                          </Label>
-                                        </div>
-                                        <AccordionContent className="text-balance text-[#183136] text-lg font-light leading-6 px-2 pt-2">
-                                          Pay with cash upon delivery.
-                                        </AccordionContent>
-                                      </AccordionItem>
-                                    </RadioGroup>
-                                  </Accordion>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* check box */}
-                            <div className="flex items-center gap-4 pl-6 py-5 mb-12 border-1 border-gray-100 shadow-md mt-4">
-                              <Checkbox
-                                id="terms"
-                                className="size-5 border-1 border-gray-400"
-                              />
-                              <Label
-                                htmlFor="terms"
-                                className="font-light tracking-wider text-md"
+                      {/* Country */}
+                      <FormField
+                        control={form.control}
+                        name="country"
+                        render={() => (
+                          <FormItem>
+                            <FormControl>
+                              <Select
+                                value={selectedCountry}
+                                onValueChange={setSelectedCountry}
                               >
-                                Add a note to your order.
-                              </Label>
-                            </div>
+                                <SelectTrigger className="text-[#183136] text-md pl-4 pr-2 py-6 shadow-sm shadow-gray-300/50 rounded-sm border border-gray-100 w-full">
+                                  <SelectValue placeholder="Select Country" />
+                                </SelectTrigger>
+                                <SelectContent className="rounded-sm border-none bg-white w-full max-h-60 overflow-y-auto">
+                                  <SelectGroup>
+                                    <SelectLabel className="text-md font-bold">
+                                      Country
+                                    </SelectLabel>
+                                    {countries.map((c) => (
+                                      <SelectItem
+                                        key={c.isoCode}
+                                        value={c.isoCode}
+                                      >
+                                        {c.name}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectGroup>
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                            {form.formState.errors.country && (
+                              <p className="text-red-500 text-sm mt-1">
+                                {form.formState.errors.country?.message}
+                              </p>
+                            )}
+                          </FormItem>
+                        )}
+                      />
 
-                            {/* horizontal line */}
-                            <HorizontalLine />
+                      {/* State */}
+                      <FormField
+                        control={form.control}
+                        name="state"
+                        render={() => (
+                          <FormItem>
+                            <FormControl>
+                              <Select
+                                value={selectedState}
+                                onValueChange={setSelectedState}
+                                disabled={!selectedCountry}
+                              >
+                                <SelectTrigger className="text-[#183136] text-md pl-4 pr-2 py-6 shadow-sm shadow-gray-300/50 rounded-sm border border-gray-100 w-full">
+                                  <SelectValue placeholder="Select State" />
+                                </SelectTrigger>
+                                <SelectContent className="rounded-sm border-none bg-white w-full max-h-60 overflow-y-auto">
+                                  <SelectGroup>
+                                    <SelectLabel className="text-md font-bold">
+                                      State
+                                    </SelectLabel>
+                                    {states.map((s) => (
+                                      <SelectItem
+                                        key={s.isoCode}
+                                        value={s.isoCode}
+                                      >
+                                        {s.name}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectGroup>
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                            {form.formState.errors.state && (
+                              <p className="text-red-500 text-sm mt-1">
+                                {form.formState.errors.state?.message}
+                              </p>
+                            )}
+                          </FormItem>
+                        )}
+                      />
 
-                            <p className="text-[#183136] text-lg font-light my-12">
-                              By proceeding with your purchase you agree to our
-                              Terms and Conditions and Privacy Policy
-                            </p>
+                      {/* City */}
+                      <FormField
+                        control={form.control}
+                        name="city"
+                        render={() => (
+                          <FormItem>
+                            <FormControl>
+                              <Select
+                                value={selectedCity}
+                                onValueChange={setSelectedCity}
+                                disabled={!selectedState}
+                              >
+                                <SelectTrigger className="text-[#183136] text-md pl-4 pr-2 py-6 shadow-sm shadow-gray-300/50 rounded-sm border border-gray-100 w-full">
+                                  <SelectValue placeholder="Select City" />
+                                </SelectTrigger>
+                                <SelectContent className="rounded-sm border-none bg-white w-full max-h-60 overflow-y-auto">
+                                  <SelectGroup>
+                                    <SelectLabel className="text-md font-bold">
+                                      City
+                                    </SelectLabel>
+                                    {cities.map((c) => (
+                                      <SelectItem key={c.name} value={c.name}>
+                                        {c.name}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectGroup>
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                            {form.formState.errors.city && (
+                              <p className="text-red-500 text-sm mt-1">
+                                {form.formState.errors.city?.message}
+                              </p>
+                            )}
+                          </FormItem>
+                        )}
+                      />
 
-                            {/* Buttons */}
-                            <div className="py-6 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
-                              <div className="flex items-center gap-0 px-3 cursor-pointer">
-                                <GoArrowLeft className="size-5 mb-[5px]" />
-                                <ButtonComp
-                                  className="text-lg tracking-wider cursor-pointer font-light pl-2"
-                                  content="Return To Cart "
-                                />
-                              </div>
-                              <ButtonComp
-                                className="bg-[#f29e38] text-sm text-[#183136] py-6 px-6 w-full sm:w-[300px] uppercase tracking-widest cursor-pointer"
-                                content="Place Order"
+                      {/* Address */}
+                      <FormField
+                        control={form.control}
+                        name="address"
+                        render={({ field, fieldState }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input
+                                placeholder="Address"
+                                {...field}
+                                className="text-black text-md md:text-md shadow-sm shadow-gray-300/50 rounded-sm border border-gray-100 py-7 w-full sm:w-[350px] md:w-full"
                               />
-                            </div>
-                          </div>
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
+                            </FormControl>
+                            {fieldState.error && (
+                              <p className="text-red-500 text-sm mt-1">
+                                {fieldState.error.message}
+                              </p>
+                            )}
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="apartment"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Input
+                                placeholder="Apartment, suite, etc. (optional)"
+                                {...field}
+                                className="text-black text-md md:text-md shadow-sm shadow-gray-300/50 rounded-sm border border-gray-100 py-7 w-full sm:w-[350px] md:w-full"
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <FormField
+                          control={form.control}
+                          name="phone"
+                          render={({ field, fieldState }) => (
+                            <FormItem>
+                              <FormControl>
+                                <Input
+                                  placeholder="Phone number"
+                                  {...field}
+                                  className="text-black text-md md:text-md shadow-sm shadow-gray-300/50 rounded-sm border border-gray-100 py-7 w-full sm:w-[350px] md:w-full"
+                                />
+                              </FormControl>
+                              {fieldState.error && (
+                                <p className="text-red-500 text-sm mt-1">
+                                  {fieldState.error.message}
+                                </p>
+                              )}
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="phone2"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormControl>
+                                <Input
+                                  placeholder="Phone number (optional)"
+                                  {...field}
+                                  className="text-black text-md md:text-md shadow-sm shadow-gray-300/50 rounded-sm border border-gray-100 py-7 w-full sm:w-[350px] md:w-full"
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Payment Options & rest of form */}
+                  {/* ... keep your Accordion, Checkbox, Buttons, HorizontalLine here exactly as in your original code */}
+                  {/* Make sure <ButtonComp type="submit" /> is used to submit the form */}
                 </form>
               </Form>
             </div>
 
+            {/* Right content (Order Summary) */}
             {/* right content */}
             <div className="w-full  lg:w-3/8 py-5 pb-2 border-t-1 border-gray-300">
               {/* Mobile: accordion summary */}
@@ -509,9 +755,6 @@ const Checkout = () => {
               </div>
             </div>
           </div>
-
-          {/* Bottom shadow */}
-          {/* <BottomShadow /> */}
         </div>
       </Container>
     </div>

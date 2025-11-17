@@ -4,9 +4,6 @@ import { UploadThingError } from 'uploadthing/server';
 
 const f = createUploadthing();
 
-/**
- * ✅ Verify JWT from the Authorization header (without "Bearer ")
- */
 const auth = async (req: Request) => {
   const token = req.headers.get('authorization'); // plain token from frontend
 
@@ -45,8 +42,8 @@ export const ourFileRouter = {
       return { userId: user.id };
     })
     .onUploadComplete(async ({ metadata, file }) => {
-      console.log('✅ Upload complete for user:', metadata.userId);
-      console.log('🖼 File URL:', file.ufsUrl);
+      console.log(' Upload complete for user:', metadata.userId);
+      console.log(' File URL:', file.ufsUrl);
 
       return { uploadedBy: metadata.userId, fileUrl: file.ufsUrl };
     }),

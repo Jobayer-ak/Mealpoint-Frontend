@@ -1,7 +1,7 @@
-import Login from '../../components/auth/login/Login';
-import Container from '../../components/container/Container';
+import Signup from '../../auth/signup/Signup';
+import Container from '../../container/Container';
 
-const LoginPage = () => {
+const SignupPage = () => {
   return (
     <div className="relative min-h-screen bg-[url(/assets/Login.png)] bg-no-repeat bg-cover bg-bottom py-4">
       {/* Strong Black Overlay */}
@@ -10,11 +10,11 @@ const LoginPage = () => {
       {/* Content */}
       <div className="relative z-10">
         <Container>
-          <Login />
+          <Signup />
         </Container>
       </div>
     </div>
   );
 };
 
-export default LoginPage;
+export default SignupPage;

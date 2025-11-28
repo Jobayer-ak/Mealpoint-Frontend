@@ -1,5 +1,5 @@
-import Checkout from '../../components/checkout/Checkout';
-import Container from '../../components/container/Container';
+import Checkout from '../../checkout/Checkout';
+import Container from '../../container/Container';
 
 const CheckoutPage = () => {
   return (

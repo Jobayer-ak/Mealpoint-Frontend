@@ -1,9 +1,9 @@
-import Container from '../../components/container/Container';
-import AboutSection from '../../components/home/AboutSection';
-import MobileAppSection from '../../components/home/MobileAppSection';
-import NewsLetter from '../../components/home/NewsLetter';
-import Slider from '../../components/home/Slider';
-import Testimonials from '../../components/home/Testimonials';
+import Container from '../../container/Container';
+import AboutSection from '../../home/AboutSection';
+import MobileAppSection from '../../home/MobileAppSection';
+import NewsLetter from '../../home/NewsLetter';
+import Slider from '../../home/Slider';
+import Testimonials from '../../home/Testimonials';
 
 const slides = [
   {

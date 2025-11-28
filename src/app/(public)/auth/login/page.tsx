@@ -1,4 +1,4 @@
-import LoginPage from '../../../../pages/loginPage/LoginPage';
+import LoginPage from '../../../../components/parentsCom/loginPage/LoginPage';
 
 const Login = () => {
   return (

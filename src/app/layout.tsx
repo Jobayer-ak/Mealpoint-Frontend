@@ -1,17 +1,12 @@
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { Josefin_Sans, Josefin_Slab, Playfair_Display } from 'next/font/google';
-// import ClientLayoutWrapper from '../../components/ClientLayoutWrapper';
-// import GlobalLoaderProvider from '../../components/Shared/providers/GlobalLoaderProvider';
-// import { ReduxProvider } from '../../components/Shared/providers/ReduxProvider';
-// import UserSyncProvider from '../../components/Shared/providers/UserSyncProvider';
-// import { Toaster } from '../../components/ui/sonner';
-// import { authOptions } from '../../lib/auth/authOptions';
+
 import { Toaster } from 'sonner';
-import ClientLayoutWrapper from '../components/ClientLayoutWrapper';
 import GlobalLoaderProvider from '../components/Shared/providers/GlobalLoaderProvider';
 import { ReduxProvider } from '../components/Shared/providers/ReduxProvider';
 import UserSyncProvider from '../components/Shared/providers/UserSyncProvider';
+import ClientLayoutWrapper from '../components/wrapper/ClientLayoutWrapper';
 import { authOptions } from '../lib/auth/authOptions';
 import './global.css';
 

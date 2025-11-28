@@ -1,4 +1,4 @@
-import ShopPage from '../../../pages/shopPage/ShopPage';
+import ShopPage from '../../../components/parentsCom/shopPage/ShopPage';
 
 const page = () => {
   return (

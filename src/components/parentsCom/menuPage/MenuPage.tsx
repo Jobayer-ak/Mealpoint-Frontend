@@ -1,9 +1,9 @@
 'use client';
-import Container from '../../components/container/Container';
-import DishTabsMain from '../../components/menu/DishTabsMain';
-import GoodOffer from '../../components/menu/GoodOffer';
-import MenuBanner from '../../components/menu/MenuBanner';
-import SpecialProposal from '../../components/menu/SpecialProposal';
+import Container from '../../container/Container';
+import DishTabsMain from '../../menu/DishTabsMain';
+import GoodOffer from '../../menu/GoodOffer';
+import MenuBanner from '../../menu/MenuBanner';
+import SpecialProposal from '../../menu/SpecialProposal';
 
 const MenuPage = () => {
   return (

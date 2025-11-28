@@ -1,7 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-/* Base Layer — shared utilities and resets */
 @layer base {
   *,
   *::before,

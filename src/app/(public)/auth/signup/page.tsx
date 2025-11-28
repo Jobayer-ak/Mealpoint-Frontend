@@ -1,4 +1,4 @@
-import SignupPage from '../../../../pages/signupPage/SignupPage';
+import SignupPage from '../../../../components/parentsCom/signupPage/SignupPage';
 
 const page = () => {
   return (

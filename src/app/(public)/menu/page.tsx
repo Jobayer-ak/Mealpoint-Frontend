@@ -1,7 +1,7 @@
 import Container from '../../../components/container/Container';
 
 import DarkOverlay from '../../../components/Shared/DarkOverlay';
-import MenuPage from '../../../pages/menuPage/MenuPage';
+import MenuPage from '../../../components/parentsCom/menuPage/MenuPage';
 
 const Menu = () => {
   return (
